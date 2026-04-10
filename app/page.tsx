@@ -1,66 +1,107 @@
-import Image from "next/image";
-import styles from "./page.module.css";
-
 export default function Home() {
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.tsx file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
+    <>
+      {/* Fixed Navigation */}
+      <nav
+        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between bg-slate-50 border-b border-slate-200"
+        style={{ padding: "20px 40px" }}
+      >
+        <span className="text-slate-900 font-medium text-sm tracking-tight">
+          Your Name
+        </span>
+        <ul className="flex items-center gap-8 list-none">
+          <li>
             <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="#work"
+              className="text-sm text-slate-500 hover:text-slate-900 transition-colors"
             >
-              Templates
-            </a>{" "}
-            or the{" "}
+              Work
+            </a>
+          </li>
+          <li>
             <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="#about"
+              className="text-sm text-slate-500 hover:text-slate-900 transition-colors"
             >
-              Learning
-            </a>{" "}
-            center.
+              About
+            </a>
+          </li>
+          <li>
+            <a
+              href="#contact"
+              className="text-sm text-slate-500 hover:text-slate-900 transition-colors"
+            >
+              Contact
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      {/* Hero Section */}
+      <section
+        className="relative flex flex-col justify-end bg-slate-50"
+        style={{ height: "100vh", paddingLeft: "40px", paddingBottom: "80px" }}
+      >
+        <div className="flex flex-col gap-6">
+          {/* Label */}
+          <p className="text-sm font-medium text-slate-500 uppercase tracking-wide">
+            Product &amp; UI Designer
           </p>
-        </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+
+          {/* Heading */}
+          <h1 className="hero-heading font-semibold text-slate-900">
+            Design that
+            <br />
+            moves people
+          </h1>
+
+          {/* Bio */}
+          <p
+            className="text-slate-500"
+            style={{ maxWidth: "340px", lineHeight: "1.6", fontSize: "16px" }}
           >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            I design digital products that are clear, purposeful, and
+            considered. Currently open to new projects and full-time roles.
+          </p>
+
+          {/* Tags */}
+          <div className="flex flex-wrap gap-2 mt-2">
+            {["Product Design", "Design Systems", "Interaction", "Prototyping"].map(
+              (tag) => (
+                <span
+                  key={tag}
+                  className="border border-slate-200 text-slate-900 uppercase"
+                  style={{
+                    padding: "8px 16px",
+                    fontSize: "11px",
+                    letterSpacing: "0.06em",
+                    borderRadius: "100px",
+                  }}
+                >
+                  {tag}
+                </span>
+              )
+            )}
+          </div>
         </div>
-      </main>
-    </div>
+      </section>
+
+      {/* Work Section */}
+      <section
+        id="work"
+        className="bg-white border-t border-slate-200"
+        style={{ padding: "80px 40px" }}
+      >
+        <p
+          className="text-slate-500 uppercase font-medium mb-8"
+          style={{ fontSize: "11px", letterSpacing: "0.06em" }}
+        >
+          Selected Work
+        </p>
+        <p className="text-slate-500" style={{ fontSize: "16px" }}>
+          Coming soon
+        </p>
+      </section>
+    </>
   );
 }
