@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useRef, useEffect, useId } from 'react'
+import Button from '@/components/ui/Button'
 import { flushSync } from 'react-dom'
 import styles from './FormBuilderTile.module.css'
 
@@ -422,8 +423,10 @@ export default function FormBuilderTile() {
       <div className={styles.tileHeader}>
         <span className="tile-label">Question card — Form builder</span>
         <div className={styles.tileHeaderButtons}>
-        <button
-          className={styles.muteBtn}
+        <Button
+          variant="outline"
+          size="sm"
+          icon
           onClick={() => setIsMuted(m => !m)}
           title="Toggle sound"
           disabled={isSaved}
@@ -431,6 +434,7 @@ export default function FormBuilderTile() {
           {/* Sound icon */}
           <svg
             xmlns="http://www.w3.org/2000/svg"
+            width="16" height="16"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -445,6 +449,7 @@ export default function FormBuilderTile() {
           {/* Muted icon */}
           <svg
             xmlns="http://www.w3.org/2000/svg"
+            width="16" height="16"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -457,16 +462,17 @@ export default function FormBuilderTile() {
             <line x1="23" y1="9" x2="17" y2="15" />
             <line x1="17" y1="9" x2="23" y2="15" />
           </svg>
-        </button>
+        </Button>
 
-        <button
-          className={styles.generateBtn}
+        <Button
+          variant="outline"
+          size="sm"
           onClick={generateQuestion}
           disabled={isSaved || isGenerating}
         >
           <i className="fa-solid fa-wand-magic-sparkles" style={{ fontSize: 12 }} />
           Generate question
-        </button>
+        </Button>
         </div>
       </div>
 
