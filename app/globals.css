@@ -9,6 +9,10 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
+  body {
+    font-family: var(--font-inter), sans-serif;
+  }
+
   *,
   *::before,
   *::after {
@@ -24,6 +28,13 @@
 }
 
 @layer utilities {
+  .tile-label {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    color: #64748B;
+  }
+
   .hero-heading {
     font-size: clamp(52px, 6vw, 88px);
     line-height: 0.95;
