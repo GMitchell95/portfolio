@@ -1,4 +1,5 @@
 import FormBuilderTile from '@/components/tiles/FormBuilderTile'
+import MegaMenuTile from '@/components/tiles/MegaMenuTile'
 
 const CONTAINER = { maxWidth: 1100, margin: "0 auto", padding: "0 40px" }
 
@@ -98,6 +99,31 @@ export default function Home() {
             Selected Work
           </p>
           <FormBuilderTile />
+
+          <div className="flex items-center justify-between mt-8 mb-2">
+            <span style={{ fontSize: 12, fontWeight: 500, color: '#71717A', letterSpacing: '0.02em' }}>
+              Mega menu
+            </span>
+            <div className="flex items-center gap-1 text-xs" style={{ color: '#A1A1AA' }}>
+              <span>Click to open or press</span>
+              <kbd style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                background: 'white',
+                border: '1px solid #E4E4E7',
+                borderRadius: 4,
+                padding: '1px 6px',
+                fontSize: 11,
+                fontWeight: 500,
+                color: '#71717A',
+                boxShadow: '0 1px 2px rgba(0,0,0,0.06)',
+                fontFamily: 'inherit',
+              }}>
+                ⌘ K
+              </kbd>
+            </div>
+          </div>
+          <MegaMenuTile />
         </section>
       </div>
     </>

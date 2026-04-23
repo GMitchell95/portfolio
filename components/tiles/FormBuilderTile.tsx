@@ -9,6 +9,8 @@ import styles from './FormBuilderTile.module.css'
 interface Answer {
   id: string
   value: string
+  isEntering?: boolean
+  isExiting?: boolean
 }
 
 interface SavedState {
@@ -288,15 +290,22 @@ export default function FormBuilderTile() {
 
   // ── Add / remove answers ───────────────────────────
   function addAnswer() {
-    setAnswers(prev => [...prev, { id: newId(), value: '' }])
+    const id = newId()
+    setAnswers(prev => [...prev, { id, value: '', isEntering: true }])
+    setTimeout(() => {
+      setAnswers(prev => prev.map(a => a.id === id ? { ...a, isEntering: false } : a))
+    }, 150)
   }
 
   function removeAnswer(id: string) {
     setAnswers(prev => {
       if (prev.length <= 1) return prev
-      return prev.filter(a => a.id !== id)
+      return prev.map(a => a.id === id ? { ...a, isExiting: true } : a)
     })
-    setAnswerErrors(prev => { const n = { ...prev }; delete n[id]; return n })
+    setTimeout(() => {
+      setAnswers(prev => prev.filter(a => a.id !== id))
+      setAnswerErrors(prev => { const n = { ...prev }; delete n[id]; return n })
+    }, 100)
   }
 
   // ── Cancel ─────────────────────────────────────────
@@ -590,6 +599,8 @@ export default function FormBuilderTile() {
                           key={answer.id}
                           className={cx(
                             styles.answerWrap,
+                            answer.isEntering && styles.entering,
+                            answer.isExiting && styles.exiting,
                             dropIndicator?.id === answer.id && dropIndicator.position === 'above' && styles.dropAbove,
                             dropIndicator?.id === answer.id && dropIndicator.position === 'below' && styles.dropBelow,
                           )}
