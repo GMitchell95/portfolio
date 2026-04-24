@@ -99,9 +99,9 @@ export default function VinylTile() {
   const [ejectFlyActive, setEjectFlyActive] = useState(false)
   const [isMounted, setIsMounted]         = useState(false)
 
-  const platterRef    = useRef<HTMLDivElement>(null)
-  const iframeRef     = useRef<HTMLIFrameElement>(null)
-  const albumRefs     = useRef<(HTMLDivElement | null)[]>([])
+  const platterRef = useRef<HTMLDivElement>(null)
+  const audioRef   = useRef<HTMLAudioElement | null>(null)
+  const albumRefs  = useRef<(HTMLDivElement | null)[]>([])
   const imgElRefs     = useRef<(HTMLImageElement | null)[]>([])
   const dragPayload   = useRef<Album | null>(null)
   const dragSrcIdx    = useRef<number | null>(null)
@@ -110,6 +110,15 @@ export default function VinylTile() {
   const ejectFlyRef   = useRef<HTMLDivElement>(null)
 
   useEffect(() => { setIsMounted(true) }, [])
+
+  useEffect(() => {
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause()
+        audioRef.current = null
+      }
+    }
+  }, [])
 
   // onLoad misses already-cached images — check .complete on mount
   useEffect(() => {
@@ -178,6 +187,7 @@ export default function VinylTile() {
       if (platterRef.current && dragPayload.current) {
         const pr = platterRef.current.getBoundingClientRect()
         const dist = Math.hypot(ev.clientX - (pr.left + pr.width / 2), ev.clientY - (pr.top + pr.height / 2))
+        console.log('[vinyl] drop check — dist:', Math.round(dist), 'threshold:', Math.round(pr.width / 2 + 24), 'hit:', dist < pr.width / 2 + 24)
         if (dist < pr.width / 2 + 24) {
           const album = dragPayload.current
           const src = dragSrcIdx.current!
@@ -233,6 +243,7 @@ export default function VinylTile() {
       if (platterRef.current && dragPayload.current) {
         const pr = platterRef.current.getBoundingClientRect()
         const dist = Math.hypot(tt.clientX - (pr.left + pr.width / 2), tt.clientY - (pr.top + pr.height / 2))
+        console.log('[vinyl] touch drop check — dist:', Math.round(dist), 'threshold:', Math.round(pr.width / 2 + 24), 'hit:', dist < pr.width / 2 + 24)
         if (dist < pr.width / 2 + 24) {
           const album = dragPayload.current
           const src = dragSrcIdx.current!
@@ -251,24 +262,48 @@ export default function VinylTile() {
 
   // ── Place on platter ───────────────────────────────────────
   function placeOnPlatter(album: Album, srcIdx: number) {
+    console.log('[vinyl] placeOnPlatter —', album.track, 'srcIdx:', srcIdx)
     stopPlayback(true)
     setPlatterAlbum(album)
     setSourceAlbumIdx(srcIdx)
-    // Set src during mouseup (user gesture) so the embed can autoplay
-    if (iframeRef.current) {
-      iframeRef.current.src = `https://open.spotify.com/embed/track/${album.spotify}?utm_source=generator&theme=0&autoplay=1`
-    }
     setTimeout(() => {
+      console.log('[vinyl] playState → ready')
       setPlayState('ready')
       setInstruction('Click the tonearm to spin')
     }, 320)
   }
 
   // ── Drop needle ────────────────────────────────────────────
-  function dropNeedle() {
+  async function dropNeedle() {
+    console.log('[vinyl] dropNeedle — playState:', playState, 'platterAlbum:', platterAlbum?.track ?? null)
     if (playState !== 'ready' || !platterAlbum) return
     setPlayState('playing')
     setInstruction('Now spinning — click ⏏ to eject')
+
+    const trackId = platterAlbum.spotify
+
+    // Create the Audio node synchronously inside the click handler —
+    // this preserves the user gesture context browsers require for autoplay
+    const audio = new Audio()
+    audio.volume = 1
+    audioRef.current = audio
+
+    try {
+      const res = await fetch(`/api/spotify-preview?trackId=${trackId}`)
+      const { previewUrl } = await res.json() as { previewUrl: string | null }
+
+      // Guard: user may have ejected while the fetch was in flight
+      if (audioRef.current !== audio) return
+
+      if (previewUrl) {
+        audio.src = previewUrl
+        await audio.play()
+      } else {
+        window.open(`https://open.spotify.com/track/${trackId}`, '_blank')
+      }
+    } catch {
+      window.open(`https://open.spotify.com/track/${trackId}`, '_blank')
+    }
   }
 
   // ── Eject ──────────────────────────────────────────────────
@@ -295,12 +330,16 @@ export default function VinylTile() {
   }
 
   function stopPlayback(silent: boolean) {
+    if (audioRef.current) {
+      audioRef.current.pause()
+      audioRef.current.src = ''
+      audioRef.current = null
+    }
     setPlayState(null)
     if (!silent) {
       setPlatterAlbum(null)
       setSourceAlbumIdx(null)
       setInstruction(DEFAULT_INSTRUCTION)
-      if (iframeRef.current) iframeRef.current.src = ''
     }
   }
 
@@ -401,7 +440,7 @@ export default function VinylTile() {
               {/* Tonearm */}
               <div
                 className={`${styles.tonearmWrap} ${isReady ? styles.tonearmWrapReady : ''}`}
-                onClick={() => { if (isReady) dropNeedle() }}
+                onClick={() => { console.log('[vinyl] tonearm clicked — isReady:', isReady, 'playState:', playState); if (isReady) dropNeedle() }}
               >
                 <div className={`${styles.tonearm} ${isPlaying ? styles.tonearmPlaying : ''}`}>
                   {/* Purple outline — shown when ready */}
@@ -448,24 +487,6 @@ export default function VinylTile() {
 
         <div className={styles.instruction}>{instruction}</div>
       </div>
-
-      {/* ── Spotify iframe (hidden off-screen) ───────────── */}
-      <iframe
-        ref={iframeRef}
-        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-        allowFullScreen
-        title="Spotify player"
-        style={{
-          position: 'fixed',
-          bottom: -200,
-          left: -200,
-          width: 1,
-          height: 1,
-          opacity: 0,
-          pointerEvents: 'none',
-          border: 'none',
-        }}
-      />
 
       {/* ── Drag ghost portal ─────────────────────────────── */}
       {isMounted && isDragging && dragPayload.current && createPortal(
