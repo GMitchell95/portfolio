@@ -1,5 +1,6 @@
 import FormBuilderTile from '@/components/tiles/FormBuilderTile'
 import MegaMenuTile from '@/components/tiles/MegaMenuTile'
+import VinylTile from '@/components/tiles/VinylTile'
 
 const CONTAINER = { maxWidth: 1100, margin: "0 auto", padding: "0 40px" }
 
@@ -124,6 +125,10 @@ export default function Home() {
             </div>
           </div>
           <MegaMenuTile />
+
+          <div style={{ marginTop: 32 }}>
+            <VinylTile />
+          </div>
         </section>
       </div>
     </>
