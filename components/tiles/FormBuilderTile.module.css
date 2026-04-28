@@ -68,6 +68,7 @@
 .tile {
   width: 560px;
   overflow: hidden;
+  border-radius: 12px;
   transition: height 300ms ease-out;
 }
 
