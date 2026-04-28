@@ -374,9 +374,23 @@ export default function MegaMenuTile() {
     <div
       ref={tileRef}
       tabIndex={0}
-      className="relative w-full outline-none focus-visible:shadow-[0_0_0_3px_rgba(68,67,180,0.2)]"
-      style={{ height: 560, background: 'white', border: '1px solid #E4E4E7', borderRadius: 16, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}
+      className="w-full outline-none focus-visible:shadow-[0_0_0_3px_rgba(68,67,180,0.2)]"
+      style={{ height: 608, background: '#F4F4F5', borderRadius: 16, padding: 24, display: 'flex', flexDirection: 'column', overflow: 'visible' }}
     >
+
+      {/* ── Inner white card ── */}
+      <div
+        style={{
+          flex: 1,
+          background: 'white',
+          border: '1px solid #E4E4E7',
+          borderRadius: 12,
+          position: 'relative',
+          display: 'flex',
+          flexDirection: 'column',
+          overflow: 'visible',
+        }}
+      >
 
       {/* ── App header ── */}
       <div
@@ -385,7 +399,7 @@ export default function MegaMenuTile() {
           height: 64,
           background: 'white',
           borderBottom: '1px solid #E4E4E7',
-          borderRadius: '16px 16px 0 0',
+          borderRadius: '12px 12px 0 0',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -422,7 +436,7 @@ export default function MegaMenuTile() {
                 background: 'white',
                 boxShadow: '0 1px 4px rgba(0,0,0,0.10), 0 1px 2px rgba(0,0,0,0.06)',
                 outline: '1px solid rgba(0,0,0,0.02)',
-                transition: 'left 0.27s ease-in-out, width 0.27s ease-in-out',
+                transition: 'left 0.31s ease-in-out, width 0.31s ease-in-out',
                 pointerEvents: 'none',
                 zIndex: 0,
               }}
@@ -713,7 +727,7 @@ export default function MegaMenuTile() {
         style={{
           position: 'absolute',
           bottom: 20,
-          left: 24,
+          left: 20,
           display: 'flex',
           alignItems: 'center',
           gap: 12,
@@ -764,6 +778,7 @@ export default function MegaMenuTile() {
         </Breadcrumb>
       </div>
 
+      </div>{/* ── /Inner white card ── */}
     </div>
   )
 }
