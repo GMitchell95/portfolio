@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vinyl Shelf — Glen Mitchell</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: Inter, system-ui, sans-serif;
+    background: #f8fafc;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 40px;
+    overflow-x: hidden;
+  }
+
+  .section-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: #71717a;
+    letter-spacing: 0.02em;
+    margin-bottom: 8px;
+    width: 100%;
+    max-width: 1100px;
+  }
+
+  .stage {
+    width: 100%;
+    max-width: 1100px;
+    background: #f4f4f5;
+    border-radius: 16px;
+    padding: 48px 40px 56px;
+    position: relative;
+    min-height: 340px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* ── Shelf ── */
+  .layout {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    width: 100%;
+    gap: 40px;
+    position: relative;
+  }
+
+  .shelf {
+    display: flex;
+    align-items: flex-end;
+    position: relative;
+    flex: 1;
+    height: 240px;
+  }
+
+  .album {
+    position: relative;
+    width: 148px;
+    height: 148px;
+    flex-shrink: 0;
+    cursor: pointer;
+    margin-right: -28px;
+    transition: transform 0.38s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transform-origin: bottom center;
+    transform: rotate(var(--tilt)) translateY(0px);
+    will-change: transform;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  .album:last-child { margin-right: 0; }
+
+  .album:hover {
+    transform: rotate(calc(var(--tilt) * 0.2)) translateY(-32px) scale(1.07);
+    z-index: 10;
+  }
+
+  .album.open {
+    transform: rotate(var(--tilt)) translateY(-10px);
+    z-index: 200;
+  }
+
+  .album-cover {
+    width: 100%;
+    height: 100%;
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+    box-shadow:
+      0 6px 16px rgba(0,0,0,0.25),
+      0 2px 4px rgba(0,0,0,0.15),
+      inset 0 0 0 1px rgba(255,255,255,0.07);
+    transition: box-shadow 0.3s ease;
+    background: #2a2a2a;
+    z-index: 60;
+  }
+
+  .album:hover .album-cover {
+    box-shadow:
+      0 20px 48px rgba(0,0,0,0.3),
+      0 6px 16px rgba(0,0,0,0.2),
+      inset 0 0 0 1px rgba(255,255,255,0.1);
+  }
+
+  /* Album art image */
+  .cover-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .cover-img.loaded { opacity: 1; }
+
+  /* Skeleton shimmer while loading */
+  .cover-skeleton {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, #2a2a2a 25%, #3a3a3a 50%, #2a2a2a 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s infinite;
+  }
+
+  @keyframes shimmer {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  .cover-img.loaded + .cover-skeleton,
+  .cover-img.loaded ~ .cover-skeleton { display: none; }
+
+  /* Hover info overlay */
+  .album-info {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 24px 8px 8px;
+    background: linear-gradient(to top, rgba(0,0,0,0.72) 0%, transparent 100%);
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 0.2s, transform 0.2s;
+    pointer-events: none;
+  }
+
+  .album:hover .album-info { opacity: 1; transform: translateY(0); }
+
+  .album-info-title {
+    font-size: 10px;
+    font-weight: 600;
+    color: white;
+    line-height: 1.3;
+  }
+
+  .album-info-artist {
+    font-size: 9px;
+    color: rgba(255,255,255,0.65);
+    margin-top: 1px;
+  }
+
+  .click-badge {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #4443B4;
+    color: white;
+    font-size: 10px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 99px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+    z-index: 20;
+  }
+
+  .album:hover .click-badge { opacity: 1; }
+  .album.open .click-badge { opacity: 0 !important; pointer-events: none; }
+
+  /* ── Player ── */
+  .player {
+    position: relative;
+    width: 260px;
+    height: 260px;
+    flex-shrink: 0;
+  }
+
+  .player-base {
+    width: 100%;
+    height: 100%;
+    background: #1c1c1e;
+    border-radius: 16px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow:
+      0 8px 32px rgba(0,0,0,0.35),
+      0 2px 8px rgba(0,0,0,0.2),
+      inset 0 1px 0 rgba(255,255,255,0.05);
+  }
+
+  .platter {
+    width: 172px;
+    height: 172px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #2c2c30 0%, #1a1a1c 100%);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow:
+      0 4px 20px rgba(0,0,0,0.5),
+      inset 0 2px 4px rgba(255,255,255,0.04),
+      0 0 0 2px rgba(255,255,255,0.03);
+    transition: box-shadow 0.25s ease;
+  }
+
+  .platter::before {
+    content: '';
+    position: absolute;
+    inset: 10px;
+    border-radius: 50%;
+    background: repeating-radial-gradient(
+      circle,
+      transparent 0px, transparent 6px,
+      rgba(255,255,255,0.012) 6px, rgba(255,255,255,0.012) 7px
+    );
+    pointer-events: none;
+  }
+
+  .platter.drop-target {
+    box-shadow:
+      0 4px 20px rgba(0,0,0,0.5),
+      0 0 0 3px rgba(68,67,180,0.55),
+      inset 0 2px 4px rgba(255,255,255,0.04);
+  }
+
+  .drop-hint {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 2px dashed rgba(68,67,180,0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s;
+    pointer-events: none;
+    z-index: 3;
+  }
+
+  .drop-hint.active { opacity: 1; }
+
+  .spindle {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #999, #333);
+    position: relative;
+    z-index: 4;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.6);
+    flex-shrink: 0;
+  }
+
+  /* Placed vinyl on platter */
+  .placed-vinyl {
+    position: absolute;
+    width: 164px;
+    height: 164px;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 2;
+    transition: opacity 0.4s ease;
+    overflow: hidden;
+  }
+
+  .placed-vinyl.visible { opacity: 1; }
+  .placed-vinyl.spinning { animation: spin 1.9s linear infinite; }
+
+  @keyframes spin {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to   { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+
+  /* Tonearm */
+  .tonearm-wrap {
+    position: absolute;
+    top: 14px; right: 14px;
+    width: 64px; height: 110px;
+    pointer-events: none;
+    z-index: 5;
+  }
+
+  /* Clickable when vinyl is on platter and not yet playing */
+  .tonearm-wrap.ready {
+    pointer-events: auto;
+    cursor: pointer;
+  }
+
+  .tonearm-wrap.ready:hover .tonearm {
+    transform: rotate(-18deg);
+  }
+
+
+
+  /* Purple outline on arm when ready — using SVG outline layer */
+  .tonearm-outline {
+    position: absolute;
+    top: 0; left: 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Actual arm SVG sits on top of outline */
+  .tonearm > svg:last-child {
+    position: relative;
+    z-index: 1;
+  }
+
+  .tonearm-wrap.ready .tonearm-outline {
+    opacity: 1;
+    animation: outline-pulse 1.8s ease-in-out infinite;
+  }
+
+  .tonearm-wrap.ready:hover .tonearm-outline {
+    opacity: 1;
+    animation: none;
+  }
+
+  @keyframes outline-pulse {
+    0%, 100% { opacity: 0.45; }
+    50%       { opacity: 0.9; }
+  }
+
+  .tonearm {
+    position: absolute;
+    top: 0; right: 0;
+    transform-origin: 13px 13px;
+    transform: rotate(-28deg);
+    transition: transform 1.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .tonearm.playing { transform: rotate(-6deg); }
+
+  /* LED */
+  .led {
+    position: absolute;
+    top: 13px; left: 15px;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #3f3f46;
+    transition: background 0.4s, box-shadow 0.4s;
+    z-index: 10;
+  }
+
+  .led.on {
+    background: #22c55e;
+    box-shadow: 0 0 8px rgba(34,197,94,0.7);
+  }
+
+  /* Eject */
+  .eject-btn {
+    position: absolute;
+    bottom: 11px; right: 13px;
+    width: 28px; height: 28px;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s, background 0.15s;
+    color: rgba(255,255,255,0.5);
+    z-index: 10;
+  }
+
+  .eject-btn:hover { background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.85); }
+  .eject-btn.visible { opacity: 1; pointer-events: auto; }
+
+  /* Spotify badge */
+  .spotify-badge {
+    position: absolute;
+    bottom: 10px; left: 14px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+  }
+
+  .spotify-badge.visible { opacity: 1; }
+  .spotify-badge svg { width: 14px; height: 14px; }
+  .spotify-badge span {
+    font-size: 9px;
+    color: rgba(255,255,255,0.35);
+    font-weight: 500;
+    letter-spacing: 0.03em;
+  }
+
+  /* Now playing */
+  .now-playing {
+    position: absolute;
+    bottom: -52px;
+    left: 0; right: 0;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 0.4s, transform 0.4s;
+  }
+
+  .now-playing.visible { opacity: 1; transform: translateY(0); }
+
+  .now-playing-track {
+    font-size: 13px;
+    font-weight: 500;
+    color: #27272a;
+  }
+
+  .now-playing-meta {
+    font-size: 12px;
+    color: #71717a;
+    margin-top: 4px;
+  }
+
+  /* Hidden Spotify iframe */
+  #spotify-frame {
+    position: fixed;
+    bottom: -200px; left: -200px;
+    width: 1px; height: 1px;
+    opacity: 0; pointer-events: none;
+    border: none;
+  }
+
+  /* Instruction */
+  .instruction {
+    font-size: 12px;
+    color: #71717a;
+    text-align: center;
+    margin-top: 40px;
+    height: 16px;
+  }
+
+  /* Drag ghost */
+  #drag-ghost {
+    position: fixed;
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 99999;
+    opacity: 0;
+    transform: translate(-50%, -50%);
+    will-change: transform;
+    transition: opacity 0.15s;
+    filter: drop-shadow(0 8px 24px rgba(0,0,0,0.45));
+  }
+
+  #drag-ghost.active { opacity: 0.92; }
+</style>
+</head>
+<body>
+
+<div class="section-label">Currently listening</div>
+
+<div class="stage">
+  <div class="layout">
+
+    <!-- Shelf -->
+    <div class="shelf" id="shelf">
+
+      <div class="album" id="album-0" style="--tilt:-9deg" data-index="1"
+           data-track="No Reply" data-artist="Tame Impala" data-album="Deadbeat"
+           data-spotify="5x0zW1JcdON7Zli2umGEJg"
+           data-c1="#f0a500" data-c2="#e05a00">
+        <div class="click-badge">click to open</div>
+        <div class="album-cover">
+          <img class="cover-img" alt="Deadbeat — Tame Impala">
+          <div class="cover-skeleton"></div>
+          <div class="album-info">
+            <div class="album-info-title">No Reply</div>
+            <div class="album-info-artist">Tame Impala · Deadbeat</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="album" id="album-1" style="--tilt:-3deg" data-index="2"
+           data-track="Quik Stop" data-artist="J. Cole" data-album="The Fall-Off"
+           data-spotify="050ECC7Yu78pTJP8PrMo8o"
+           data-c1="#2a1800" data-c2="#8b5e1a">
+        <div class="click-badge">click to open</div>
+        <div class="album-cover">
+          <img class="cover-img" alt="The Fall-Off — J. Cole">
+          <div class="cover-skeleton"></div>
+          <div class="album-info">
+            <div class="album-info-title">Quik Stop</div>
+            <div class="album-info-artist">J. Cole · The Fall-Off</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="album" id="album-2" style="--tilt:1deg" data-index="3"
+           data-track="Real Friends" data-artist="Kanye West" data-album="The Life of Pablo"
+           data-spotify="66Q3fAmSX5eHamgbKa9alP"
+           data-c1="#d4a843" data-c2="#8b5e1a">
+        <div class="click-badge">click to open</div>
+        <div class="album-cover">
+          <img class="cover-img" alt="The Life of Pablo — Kanye West">
+          <div class="cover-skeleton"></div>
+          <div class="album-info">
+            <div class="album-info-title">Real Friends</div>
+            <div class="album-info-artist">Kanye West · The Life of Pablo</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="album" id="album-3" style="--tilt:5deg" data-index="4"
+           data-track="Arabella" data-artist="Arctic Monkeys" data-album="AM"
+           data-spotify="7nzsY8vlnKdvGOEE0rjAXZ"
+           data-c1="#1a0005" data-c2="#cc0033">
+        <div class="click-badge">click to open</div>
+        <div class="album-cover">
+          <img class="cover-img" alt="AM — Arctic Monkeys">
+          <div class="cover-skeleton"></div>
+          <div class="album-info">
+            <div class="album-info-title">Arabella</div>
+            <div class="album-info-artist">Arctic Monkeys · AM</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="album" id="album-4" style="--tilt:9deg" data-index="5"
+           data-track="Bug" data-artist="Fontaines D.C." data-album="Romance"
+           data-spotify="0MXmiqd7zoXxv6Gqn9ahhQ"
+           data-c1="#4a1060" data-c2="#c0408a">
+        <div class="click-badge">click to open</div>
+        <div class="album-cover">
+          <img class="cover-img" alt="Romance — Fontaines D.C.">
+          <div class="cover-skeleton"></div>
+          <div class="album-info">
+            <div class="album-info-title">Bug</div>
+            <div class="album-info-artist">Fontaines D.C. · Romance</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /shelf -->
+
+    <!-- Turntable -->
+    <div class="player" id="player">
+      <div class="player-base">
+        <div class="led" id="led"></div>
+
+        <div class="platter" id="platter">
+          <div class="drop-hint" id="drop-hint">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                 stroke="rgba(68,67,180,0.65)" stroke-width="1.5" stroke-linecap="round">
+              <path d="M12 5v14M5 12l7 7 7-7"/>
+            </svg>
+          </div>
+          <div class="placed-vinyl" id="placed-vinyl"></div>
+          <div class="spindle"></div>
+        </div>
+
+        <div class="tonearm-wrap">
+          <div class="tonearm" id="tonearm">
+            <!-- Outline layer — 1px outside the arm shape, sits behind -->
+            <svg class="tonearm-outline" width="52" height="100" viewBox="0 0 52 100" style="position:absolute;top:0;left:0;z-index:0;">
+              <circle cx="22" cy="13" r="12" fill="none" stroke="rgba(68,67,180,1)" stroke-width="1.5"/>
+              <line x1="22" y1="13" x2="9" y2="90" stroke="rgba(68,67,180,1)" stroke-width="6" stroke-linecap="round"/>
+              <rect x="0.5" y="81.5" width="19" height="12" rx="3.5" fill="none" stroke="rgba(68,67,180,1)" stroke-width="1.5"/>
+              <line x1="10" y1="92" x2="10" y2="101" stroke="rgba(68,67,180,1)" stroke-width="3.5" stroke-linecap="round"/>
+            </svg>
+            <!-- Actual arm -->
+            <svg width="52" height="100" viewBox="0 0 52 100">
+              <circle cx="22" cy="13" r="11" fill="#2a2a2e" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+              <circle cx="22" cy="13" r="6" fill="#3a3a3e"/>
+              <circle cx="22" cy="13" r="2.5" fill="#555"/>
+              <line x1="22" y1="13" x2="9" y2="90" stroke="#555" stroke-width="3.5" stroke-linecap="round"/>
+              <rect x="2" y="83" width="16" height="9" rx="2.5" fill="#444"
+                    stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
+              <line x1="10" y1="92" x2="10" y2="100" stroke="#bbb" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+        </div>
+
+        <button class="eject-btn" id="eject-btn" title="Eject">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"
+               stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+            <path d="M2 9h8M2 6.5l4-4 4 4"/>
+          </svg>
+        </button>
+
+        <div class="spotify-badge" id="spotify-badge">
+          <svg viewBox="0 0 24 24" fill="#1DB954">
+            <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
+          </svg>
+          <span>via Spotify</span>
+        </div>
+      </div>
+
+      <div class="now-playing" id="now-playing">
+        <div class="now-playing-track" id="np-track"></div>
+        <div class="now-playing-meta" id="np-meta"></div>
+      </div>
+    </div>
+
+  </div><!-- /layout -->
+
+  <div class="instruction" id="instruction">Click to open album, drag the vinyl to the player</div>
+</div>
+
+<iframe id="spotify-frame" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+<div id="drag-ghost"></div>
+
+<script>
+// ── Album art — hardcoded from Spotify's image CDN ───────────
+// Using i.scdn.co URLs pulled directly from each album page.
+// These are stable permanent URLs — no API key or auth needed.
+const albumArt = {
+  '5x0zW1JcdON7Zli2umGEJg': 'https://i.scdn.co/image/ab67616d00001e02208500450dcd0fd294d7bd3b', // Deadbeat
+  '050ECC7Yu78pTJP8PrMo8o': 'https://i.scdn.co/image/ab67616d00001e0280788f104c780412212e97e3', // The Fall-Off
+  '66Q3fAmSX5eHamgbKa9alP': 'https://i.scdn.co/image/ab67616d00001e022a7db835b912dc5014bd37f4', // TLOP
+  '7nzsY8vlnKdvGOEE0rjAXZ': 'https://i.scdn.co/image/ab67616d00001e024ae1c4c5c45aabe565499163', // AM
+  '0MXmiqd7zoXxv6Gqn9ahhQ': 'https://i.scdn.co/image/ab67616d00001e02f69e28716be1331924f25f2e', // Romance
+};
+
+function loadAlbumArt() {
+  document.querySelectorAll('.album').forEach(album => {
+    const url = albumArt[album.dataset.spotify];
+    if (!url) return;
+    const img = album.querySelector('.cover-img');
+    album.dataset.artUrl = url;
+    img.src = url;
+    img.onload = () => img.classList.add('loaded');
+    img.onerror = () => {
+      album.querySelector('.cover-skeleton').style.display = 'none';
+    };
+  });
+}
+
+// ── Vinyl disc SVG (grooves + label + art) ───────────────────
+function makeVinyl(c1, artUrl, size) {
+  const s = size || 120;
+  const cx = s / 2;
+  const labelR = cx * 0.28;
+
+  const rings = Array.from({ length: 24 }, (_, i) => {
+    const r = 12 + (i / 24) * (cx - 18);
+    const op = 0.03 + (i % 4 === 0 ? 0.055 : 0);
+    return `<circle cx="${cx}" cy="${cx}" r="${r}" fill="none" stroke="rgba(255,255,255,${op})" stroke-width="0.7"/>`;
+  }).join('');
+
+  const labelContent = artUrl
+    ? `<clipPath id="lc${s}"><circle cx="${cx}" cy="${cx}" r="${labelR}"/></clipPath>
+       <image href="${artUrl}" x="${cx - labelR}" y="${cx - labelR}"
+              width="${labelR * 2}" height="${labelR * 2}"
+              clip-path="url(#lc${s})" preserveAspectRatio="xMidYMid slice"/>`
+    : `<circle cx="${cx}" cy="${cx}" r="${labelR}" fill="${c1}" opacity="0.85"/>`;
+
+  return `<svg width="${s}" height="${s}" viewBox="0 0 ${s} ${s}" style="display:block;border-radius:50%">
+    <defs>
+      <radialGradient id="vg${s}" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="${c1}" stop-opacity="0.45"/>
+        <stop offset="60%" stop-color="#111"/>
+        <stop offset="100%" stop-color="#080808"/>
+      </radialGradient>
+      <clipPath id="vc${s}"><circle cx="${cx}" cy="${cx}" r="${cx}"/></clipPath>
+    </defs>
+    <circle cx="${cx}" cy="${cx}" r="${cx}" fill="#111"/>
+    <circle cx="${cx}" cy="${cx}" r="${cx}" fill="url(#vg${s})" opacity="0.6"/>
+    ${rings}
+    ${labelContent}
+    <circle cx="${cx}" cy="${cx}" r="${cx * 0.045}" fill="#111"/>
+    <ellipse cx="${cx * 0.76}" cy="${cx * 0.7}" rx="${cx * 0.12}" ry="${cx * 0.065}"
+      fill="rgba(255,255,255,0.03)" transform="rotate(-35 ${cx} ${cx})"/>
+  </svg>`;
+}
+
+// ── State ────────────────────────────────────────────────────
+let openedAlbum = null;
+let floatingDisc = null;
+let isDragging = false;
+let dragPayload = null;
+let currentlyPlaying = null;
+
+const platter      = document.getElementById('platter');
+const dropHint     = document.getElementById('drop-hint');
+const placedVinyl  = document.getElementById('placed-vinyl');
+const tonearm      = document.getElementById('tonearm');
+const led          = document.getElementById('led');
+const nowPlaying   = document.getElementById('now-playing');
+const npTrack      = document.getElementById('np-track');
+const npMeta       = document.getElementById('np-meta');
+const ejectBtn     = document.getElementById('eject-btn');
+const instruction  = document.getElementById('instruction');
+const dragGhost    = document.getElementById('drag-ghost');
+const spotifyFrame = document.getElementById('spotify-frame');
+const spotifyBadge = document.getElementById('spotify-badge');
+
+// ── Album click: open / close ────────────────────────────────
+document.querySelectorAll('.album').forEach(album => {
+  album.addEventListener('click', () => {
+    if (isDragging) return;
+    if (openedAlbum && openedAlbum !== album) closeAlbum(openedAlbum);
+    album.classList.contains('open') ? closeAlbum(album) : openAlbum(album);
+  });
+});
+
+function openAlbum(album) {
+  album.classList.add('open');
+  openedAlbum = album;
+  if (floatingDisc) { floatingDisc.remove(); floatingDisc = null; }
+
+  const disc = document.createElement('div');
+  Object.assign(disc.style, {
+    position: 'fixed',
+    width: '118px',
+    height: '118px',
+    borderRadius: '50%',
+    cursor: 'grab',
+    userSelect: 'none',
+    webkitUserSelect: 'none',
+    zIndex: '50',
+    transition: 'opacity 0.3s, transform 0.45s cubic-bezier(0.34,1.56,0.64,1)',
+    filter: 'drop-shadow(0 6px 20px rgba(0,0,0,0.45))',
+  });
+
+  disc.innerHTML = makeVinyl(album.dataset.c1, album.dataset.artUrl, 118);
+
+  const rect = album.getBoundingClientRect();
+  disc.style.left = (rect.left + rect.width / 2 - 59) + 'px';
+  disc.style.top  = (rect.top - 20) + 'px';
+  disc.style.opacity = '0';
+  disc.style.transform = 'translateY(16px)';
+  document.body.appendChild(disc);
+  floatingDisc = disc;
+
+  // Album 0 (leftmost) slides up and to the left
+  const albumIndex = parseInt(album.dataset.index);
+  const slideX = albumIndex === 1 ? '-26px' : albumIndex === 2 ? '-9px' : albumIndex === 3 ? '2px' : albumIndex === 4 ? '13px' : albumIndex === 5 ? '24px' : '0px';
+
+  requestAnimationFrame(() => {
+    disc.style.opacity = '1';
+    disc.style.transform = `translateY(-24px) translateX(${slideX})`;
+  });
+
+  disc.addEventListener('mousedown', startDrag);
+  disc.addEventListener('touchstart', startTouchDrag, { passive: false });
+  instruction.textContent = 'Drag the vinyl across to the player →';
+}
+
+function closeAlbum(album) {
+  album.classList.remove('open');
+  if (openedAlbum === album) openedAlbum = null;
+  if (floatingDisc) {
+    const d = floatingDisc;
+    floatingDisc = null;
+    d.style.opacity = '0';
+    d.style.transform = 'translateY(16px)';
+    setTimeout(() => d.remove(), 350);
+  }
+  instruction.textContent = 'Click to open album, drag the vinyl to the player';
+}
+
+// ── Drag ─────────────────────────────────────────────────────
+function startDrag(e) {
+  if (e.button !== 0) return;
+  e.preventDefault(); e.stopPropagation();
+  isDragging = true;
+
+  dragPayload = {
+    track:       openedAlbum?.dataset.track,
+    artist:      openedAlbum?.dataset.artist,
+    album:       openedAlbum?.dataset.album,
+    spotify:     openedAlbum?.dataset.spotify,
+    c1:          openedAlbum?.dataset.c1,
+    artUrl:      openedAlbum?.dataset.artUrl,
+    sourceAlbum: openedAlbum,
+    sourceAlbumId: openedAlbum?.id,
+  };
+
+  dragGhost.innerHTML = makeVinyl(dragPayload.c1, dragPayload.artUrl, 120);
+  dragGhost.style.left = e.clientX + 'px';
+  dragGhost.style.top  = e.clientY + 'px';
+  dragGhost.classList.add('active');
+
+  if (floatingDisc) { floatingDisc.style.opacity = '0'; floatingDisc.style.pointerEvents = 'none'; }
+
+  document.addEventListener('mousemove', onDrag);
+  document.addEventListener('mouseup', endDrag);
+}
+
+function onDrag(e) {
+  if (!isDragging) return;
+  dragGhost.style.left = e.clientX + 'px';
+  dragGhost.style.top  = e.clientY + 'px';
+
+  const pr   = platter.getBoundingClientRect();
+  const dist = Math.hypot(e.clientX - (pr.left + pr.width / 2), e.clientY - (pr.top + pr.height / 2));
+  const over = dist < pr.width / 2 + 24;
+  dropHint.classList.toggle('active', over);
+  platter.classList.toggle('drop-target', over);
+}
+
+function endDrag(e) {
+  if (!isDragging) return;
+  isDragging = false;
+  document.removeEventListener('mousemove', onDrag);
+  document.removeEventListener('mouseup', endDrag);
+
+  const pr   = platter.getBoundingClientRect();
+  const dist = Math.hypot(e.clientX - (pr.left + pr.width / 2), e.clientY - (pr.top + pr.height / 2));
+
+  dragGhost.classList.remove('active');
+  dropHint.classList.remove('active');
+  platter.classList.remove('drop-target');
+
+  if (dist < pr.width / 2 + 24 && dragPayload) {
+    if (dragPayload.sourceAlbum) closeAlbum(dragPayload.sourceAlbum);
+    if (floatingDisc) { floatingDisc.remove(); floatingDisc = null; }
+    placeVinyl(dragPayload);
+  } else {
+    if (floatingDisc) { floatingDisc.style.opacity = '1'; floatingDisc.style.pointerEvents = 'auto'; }
+  }
+  dragPayload = null;
+}
+
+function startTouchDrag(e) {
+  e.preventDefault();
+  const t = e.touches[0];
+  startDrag({ button: 0, clientX: t.clientX, clientY: t.clientY,
+              currentTarget: e.currentTarget, preventDefault:()=>{}, stopPropagation:()=>{} });
+  const mv = ev => { const tt = ev.touches[0]; onDrag({ clientX: tt.clientX, clientY: tt.clientY }); };
+  const up = ev => {
+    const tt = ev.changedTouches[0];
+    endDrag({ clientX: tt.clientX, clientY: tt.clientY });
+    document.removeEventListener('touchmove', mv);
+    document.removeEventListener('touchend', up);
+  };
+  document.addEventListener('touchmove', mv, { passive: false });
+  document.addEventListener('touchend', up);
+}
+
+// ── Place vinyl on platter ───────────────────────────────────
+function placeVinyl(data) {
+  stopPlayback(true);
+
+  placedVinyl.innerHTML = makeVinyl(data.c1, data.artUrl, 164);
+  placedVinyl.classList.add('visible');
+  // Store source album for eject animation
+  placedVinyl.dataset.sourceAlbum = data.sourceAlbum ? data.sourceAlbum.id : '';
+
+  // Show track info and make tonearm clickable — waiting for needle drop
+  setTimeout(() => {
+    npTrack.textContent = data.track;
+    npMeta.textContent  = `${data.artist} · ${data.album}`;
+    nowPlaying.classList.add('visible');
+    ejectBtn.classList.add('visible');
+
+    // Make tonearm clickable
+    const tonearmWrap = document.querySelector('.tonearm-wrap');
+    tonearmWrap.classList.add('ready');
+    instruction.textContent = 'Click the tonearm to play the song';
+
+    currentlyPlaying = data;
+  }, 320);
+}
+
+// ── Drop needle — triggered by tonearm click ──────────────────
+function dropNeedle() {
+  if (!currentlyPlaying) return;
+  const tonearmWrap = document.querySelector('.tonearm-wrap');
+  tonearmWrap.classList.remove('ready');
+  placedVinyl.classList.add('spinning');
+  tonearm.classList.add('playing');
+  led.classList.add('on');
+  spotifyBadge.classList.add('visible');
+  instruction.textContent = 'Now playing — click ⏏ to eject';
+
+  if (currentlyPlaying.spotify) {
+    spotifyFrame.src = `https://open.spotify.com/embed/track/${currentlyPlaying.spotify}?utm_source=generator&theme=0`;
+  }
+}
+
+function stopPlayback(silent) {
+  placedVinyl.classList.remove('spinning');
+  tonearm.classList.remove('playing');
+  led.classList.remove('on');
+  document.querySelector('.tonearm-wrap').classList.remove('ready');
+
+  if (!silent) {
+    nowPlaying.classList.remove('visible');
+    ejectBtn.classList.remove('visible');
+    spotifyBadge.classList.remove('visible');
+    spotifyFrame.src = '';
+    instruction.textContent = 'Click to open album, drag the vinyl to the player';
+
+    // Fly the vinyl back to its source album
+    const sourceId = placedVinyl.dataset.sourceAlbum;
+    const sourceAlbum = sourceId ? document.getElementById(sourceId) : null;
+
+    if (sourceAlbum) {
+      // Get positions
+      const platterRect = platter.getBoundingClientRect();
+      const albumRect   = sourceAlbum.getBoundingClientRect();
+
+      // Create a flying disc clone
+      const flyDisc = document.createElement('div');
+      Object.assign(flyDisc.style, {
+        position:     'fixed',
+        width:        '164px',
+        height:       '164px',
+        borderRadius: '50%',
+        zIndex:       '999',
+        pointerEvents:'none',
+        left:         (platterRect.left + platterRect.width/2  - 82) + 'px',
+        top:          (platterRect.top  + platterRect.height/2 - 82) + 'px',
+        transition:   'none',
+      });
+      flyDisc.innerHTML = placedVinyl.innerHTML;
+      document.body.appendChild(flyDisc);
+
+      // Hide the platter vinyl immediately
+      placedVinyl.classList.remove('visible');
+      placedVinyl.innerHTML = '';
+
+      // Animate to album position
+      requestAnimationFrame(() => {
+        flyDisc.style.transition = 'left 0.55s cubic-bezier(0.4,0,0.2,1), top 0.55s cubic-bezier(0.4,0,0.2,1), opacity 0.3s ease 0.3s, transform 0.55s ease';
+        // Land exactly centred on the album cover
+        const discSize = 148;
+        flyDisc.style.left    = (albumRect.left + albumRect.width/2  - discSize/2) + 'px';
+        flyDisc.style.top     = (albumRect.top  + albumRect.height/2 - discSize/2) + 'px';
+        flyDisc.style.width   = discSize + 'px';
+        flyDisc.style.height  = discSize + 'px';
+        flyDisc.style.opacity = '0';
+        flyDisc.style.transform = 'scale(0.85)';
+        setTimeout(() => flyDisc.remove(), 600);
+      });
+    } else {
+      placedVinyl.classList.remove('visible');
+      placedVinyl.innerHTML = '';
+    }
+  }
+
+  currentlyPlaying = null;
+}
+
+// ── Tonearm click — drop needle ──────────────────────────────
+document.querySelector('.tonearm-wrap').addEventListener('click', () => {
+  if (document.querySelector('.tonearm-wrap').classList.contains('ready')) {
+    dropNeedle();
+  }
+});
+
+ejectBtn.addEventListener('click', () => stopPlayback(false));
+document.addEventListener('dragstart', e => e.preventDefault());
+
+// ── Init ─────────────────────────────────────────────────────
+loadAlbumArt();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Form Builder Tile</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js" defer></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+  padding: 40px;
+  gap: 16px;
+}
+
+.label {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #A1A1AA;
+  font-family: 'Inter', sans-serif;
+}
+
+/* ── GENERATE BUTTON ────────────────────────────────── */
+.tile-header {
+  width: 900px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: -8px;
+}
+.generate-btn {
+  background: none;
+  border: 1px solid #D4D4D8;
+  border-radius: 8px;
+  height: 36px;
+  padding: 0 16px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: #71717A;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.15s ease-out, border-color 0.15s ease-out, color 0.15s ease-out, transform 0.1s ease-out;
+}
+.generate-btn:hover { background: #F4F4F5; border-color: #A1A1AA; color: #3F3F46; }
+.generate-btn:active { transform: scale(0.97); }
+.generate-btn i { font-size: 12px; }
+.generate-btn:disabled { color: #D4D4D8; border-color: #E4E4E7; cursor: default; background: none; transform: none; pointer-events: none; }
+.mute-btn {
+  background: none;
+  border: 1px solid #D4D4D8;
+  border-radius: 8px;
+  padding: 8px;
+  width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  color: #71717A;
+  transition: background 0.15s ease-out, border-color 0.15s ease-out, color 0.15s ease-out, transform 0.1s ease-out;
+  flex-shrink: 0;
+}
+.mute-btn:hover { background: #F4F4F5; border-color: #A1A1AA; color: #3F3F46; }
+.mute-btn:active { transform: scale(0.97); }
+.mute-btn svg { width: 16px; height: 16px; }
+.mute-btn:disabled { color: #D4D4D8; border-color: #E4E4E7; cursor: default; background: none; transform: none; pointer-events: none; }
+
+/* ── TYPING EFFECT ───────────────────────────────────── */
+.typing {
+  border-color: #4443B4 !important;
+  box-shadow: 0 0 0 3px rgba(68,67,180,0.12), 0 0 8px rgba(47,111,237,0.15) !important;
+  transition: border-color 0.15s ease-out, box-shadow 0.15s ease-out;
+}
+
+/* ── TILE CONTAINER ─────────────────────────────────── */
+.tile-container {
+  width: 900px;
+  background: #F4F4F5;
+  border-radius: 16px;
+  padding: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* ── TILE SHELL ─────────────────────────────────────── */
+.tile {
+  width: 560px;
+  overflow: hidden;
+  transition: height 300ms ease-out;
+}
+
+/* ── FORM CARD ──────────────────────────────────────── */
+.form-card {
+  background: #fff;
+  border-radius: 12px;
+  border-left: 4px solid #5A59C5;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+  overflow: hidden;
+  transition: opacity 0.18s ease-out;
+}
+
+.form-header {
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid #E4E4E7;
+}
+
+.form-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #27272A;
+  letter-spacing: -0.01em;
+}
+
+.form-body {
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ── FIELDS ─────────────────────────────────────────── */
+.field { display: flex; flex-direction: column; gap: 8px; }
+
+.field-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #3F3F46;
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  border: 1px solid #D4D4D8;
+  border-radius: 8px;
+  height: 36px;
+  padding: 0 13px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13.5px;
+  color: #27272A;
+  background: #fff;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  resize: none;
+}
+.field input::placeholder,
+.field textarea::placeholder { color: #A1A1AA; }
+.field input:focus,
+.field textarea:focus {
+  border-color: #4443B4;
+  box-shadow: 0 0 0 3px rgba(68,67,180,0.12);
+}
+.field.has-error input { border-color: #F04438; box-shadow: 0 0 0 3px rgba(240,68,56,0.1); }
+.field-error { font-size: 12px; color: #F04438; display: none; align-items: center; gap: 4px; margin-top: -4px; }
+.field.has-error .field-error { display: flex; }
+
+/* ── TABS ───────────────────────────────────────────── */
+.tabs {
+  display: flex;
+  border-bottom: 1px solid #E4E4E7;
+  padding: 0 24px;
+  margin: 0 -24px 0;
+}
+.tab {
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #A1A1AA;
+  padding: 10px 0;
+  margin-right: 20px;
+  border-bottom: 2px solid transparent;
+  cursor: default;
+  user-select: none;
+}
+.tab.active { color: #4443B4; border-bottom-color: #4443B4; }
+
+/* ── EDIT SECTION ───────────────────────────────────── */
+.edit-section {
+  background: #FAFAFA;
+  padding: 20px 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 0 -24px -20px;
+}
+.edit-section-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #3F3F46;
+  margin-bottom: 8px;
+}
+
+/* ── CUSTOM DROPDOWN ────────────────────────────────── */
+.dd-wrap { position: relative; width: 200px; }
+.dd-trigger {
+  width: 100%;
+  height: 36px;
+  border: 1px solid #D4D4D8;
+  border-radius: 8px;
+  padding: 0 12px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13.5px;
+  color: #27272A;
+  background: #fff;
+  outline: none;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: space-between;
+  transition: border-color 0.15s ease-out, box-shadow 0.15s ease-out;
+  user-select: none;
+}
+.dd-trigger:hover { border-color: #A1A1AA; }
+.dd-trigger.open {
+  border-color: #4443B4;
+  box-shadow: 0 0 0 3px rgba(68,67,180,0.12);
+}
+.dd-trigger-label { flex: 1; text-align: left; }
+.dd-chevron {
+  width: 16px; height: 16px; flex-shrink: 0; color: #71717A;
+  transition: transform 0.2s ease-out;
+}
+.dd-trigger.open .dd-chevron { transform: rotate(180deg); }
+
+.dd-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0; right: 0;
+  background: #fff;
+  border: 1px solid #E4E4E7;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.06);
+  overflow: hidden;
+  z-index: 50;
+  opacity: 0;
+  transform: translateY(-4px);
+  pointer-events: none;
+  transition: opacity 0.15s ease-out, transform 0.15s ease-out;
+  padding: 4px;
+}
+.dd-menu.open {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: all;
+}
+
+.dd-option {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 7px 8px;
+  border-radius: 6px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13.5px;
+  color: #27272A;
+  cursor: pointer;
+  transition: background 0.1s ease-out;
+  gap: 8px;
+}
+.dd-option:hover { background: #F4F4F5; }
+.dd-option.selected { font-weight: 500; }
+.dd-check {
+  width: 14px; height: 14px; flex-shrink: 0;
+  color: #4443B4; opacity: 0;
+}
+.dd-option.selected .dd-check { opacity: 1; }
+
+
+/* ── ANSWERS ────────────────────────────────────────── */
+.answers { display: flex; flex-direction: column; gap: 8px; }
+.answer-row {
+  display: flex; align-items: center; gap: 4px;
+  animation: slideIn 0.2s cubic-bezier(0.16,1,0.3,1);
+}
+@keyframes slideIn { from { opacity:0; transform:translateY(-6px); } to { opacity:1; transform:translateY(0); } }
+.drag-handle { color: #D4D4D8; font-size: 14px; cursor: grab; flex-shrink: 0; user-select: none; }
+.answer-row input {
+  flex: 1;
+  border: 1px solid #D4D4D8; border-radius: 8px;
+  height: 36px;
+  padding: 0 13px;
+  margin-left: 8px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13.5px; color: #27272A; background: #fff;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.answer-row input:focus { border-color: #4443B4; box-shadow: 0 0 0 3px rgba(68,67,180,0.12); }
+.remove-btn {
+  background: none; border: none; color: #A1A1AA;
+  width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; flex-shrink: 0;
+  border-radius: 6px;
+  transition: background 0.15s, color 0.15s, transform 0.1s ease-out;
+}
+.remove-btn:hover { background: #F4F4F5; color: #3F3F46; }
+.remove-btn:active { transform: scale(0.97); }
+.remove-btn i { font-size: 13px; }
+.remove-btn:disabled { color: #D4D4D8; cursor: default; background: none; transform: none; pointer-events: none; }
+.answer-row input.error { border-color: #F04438; box-shadow: 0 0 0 3px rgba(240,68,56,0.1); }
+.answer-error {
+  font-size: 12px; color: #F04438;
+  display: none; align-items: center; gap: 4px;
+  margin-left: 28px; margin-top: 4px;
+}
+.answer-error.visible { display: flex; }
+.answer-error i { font-size: 11px; }
+.add-answer-btn {
+  background: none; border: none; color: #4443B4;
+  font-size: 13px; font-family: 'Inter', sans-serif;
+  font-weight: 500; cursor: pointer; padding: 4px 0;
+  display: flex; align-items: center; gap: 5px;
+  transition: opacity 0.15s;
+}
+.add-answer-btn:hover { opacity: 0.75; }
+
+/* ── DRAG AND DROP ──────────────────────────────────── */
+.answer-wrap { position: relative; }
+.answer-row { position: relative; transition: transform 0.15s cubic-bezier(0.16,1,0.3,1), opacity 0.15s; }
+.answer-row.dragging { opacity: 0.4; }
+.answer-wrap.drop-above::before {
+  content: '';
+  position: absolute;
+  top: -4px; left: 0; right: 0;
+  height: 2px;
+  background: #4443B4;
+  border-radius: 2px;
+  pointer-events: none;
+}
+.answer-wrap.drop-below::after {
+  content: '';
+  position: absolute;
+  bottom: -4px; left: 0; right: 0;
+  height: 2px;
+  background: #4443B4;
+  border-radius: 2px;
+  pointer-events: none;
+}
+.drag-handle { cursor: grab; }
+.drag-handle:active { cursor: grabbing; }
+.add-answer-btn::before { content: '+'; font-size: 16px; line-height: 1; }
+
+/* ── FORM FOOTER ────────────────────────────────────── */
+.form-footer {
+  padding: 14px 24px;
+  border-top: 1px solid #E4E4E7;
+  display: flex; align-items: center;
+  justify-content: flex-end; gap: 8px;
+}
+
+/* ── BUTTONS ────────────────────────────────────────── */
+.btn {
+  font-family: 'Inter', sans-serif;
+  font-size: 13.5px; font-weight: 500;
+  border-radius: 8px; padding: 8px 16px;
+  border: none; cursor: pointer;
+  transition: opacity 0.15s, background 0.15s, color 0.15s, box-shadow 0.15s, transform 0.1s ease-out;
+  white-space: nowrap; display: flex; align-items: center; gap: 6px;
+}
+.btn-ghost { background: transparent; color: #71717A; }
+.btn-ghost:not(:disabled):hover { background: #F4F4F5; }
+.btn-ghost:not(:disabled):active { transform: scale(0.97); }
+.btn-ghost:disabled { color: #D4D4D8; cursor: default; }
+.btn-primary { background: #4443B4; color: #fff; box-shadow: 0 1px 2px rgba(68,67,180,0.2); }
+.btn-primary:hover { background: #3332A0; }
+.btn-primary:not(:disabled):active { transform: scale(0.97); }
+.btn-primary.saving { pointer-events: none; }
+.spinner {
+  width: 13px; height: 13px;
+  border: 2px solid rgba(255,255,255,0.35);
+  border-top-color: white; border-radius: 50%;
+  animation: spin 0.6s linear infinite; display: none;
+}
+.btn-primary.saving .spinner { display: block; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── SAVED CARD ─────────────────────────────────────── */
+.saved-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+  overflow: hidden;
+  display: none;
+  transition: opacity 0.18s ease-out;
+}
+.card-body { padding: 22px 24px 18px; }
+.card-number {
+  font-size: 13.5px; font-weight: 600; color: #71717A;
+  letter-spacing: 0; margin-bottom: 12px;
+}
+.card-question {
+  font-size: 15px; font-weight: 500; color: #27272A;
+  letter-spacing: -0.01em; margin-bottom: 12px; line-height: 1.4;
+}
+.card-description {
+  font-size: 14px; font-weight: 400; color: #71717A;
+  line-height: 1.5; margin-top: 8px; margin-bottom: 12px;
+  display: none;
+}
+.card-description.visible { display: block; }
+.card-description.visible { margin-top: 8px; }
+.card-question:has(+ .card-description.visible) { margin-bottom: 0; }
+/* When no description, question body needs spacing to answers */
+
+.card-options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 4px; }
+.card-option { display: flex; align-items: center; gap: 10px; font-size: 13.5px; color: #3F3F46; }
+.radio-circle {
+  width: 16px; height: 16px;
+  border: 1.5px solid #D4D4D8; border-radius: 50%;
+  flex-shrink: 0; cursor: default; position: relative;
+}
+.radio-circle.selected { border-color: #4443B4; background: #4443B4; }
+.radio-circle.selected::after {
+  content: ''; position: absolute;
+  top: 50%; left: 50%; transform: translate(-50%,-50%);
+  width: 5px; height: 5px; background: white; border-radius: 50%;
+}
+.radio-circle.is-checkbox {
+  border-radius: 6px;
+}
+.radio-circle.is-checkbox.selected::after {
+  width: 8px; height: 5px;
+  background: none;
+  border-left: 2px solid white;
+  border-bottom: 2px solid white;
+  border-radius: 0;
+  transform: translate(-50%, -65%) rotate(-45deg);
+}
+.card-footer {
+  padding: 12px 24px 14px;
+  border-top: 1px solid #E4E4E7;
+  display: flex; align-items: center;
+  justify-content: flex-end; gap: 8px;
+}
+.card-action {
+  background: none; border: 1px solid transparent;
+  border-radius: 8px; padding: 8px 8px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13.5px; font-weight: 500; color: #71717A;
+  cursor: pointer; display: flex; align-items: center; gap: 6px;
+  transition: background 0.15s, border-color 0.15s, transform 0.1s ease-out;
+}
+.card-action i { font-size: 12px; }
+.card-action:active { transform: scale(0.97); }
+.card-action:hover { background: #F4F4F5; color: #3F3F46; }
+.card-action.edit-action { border-color: #4443B4; color: #4443B4; padding: 8px 16px; }
+.card-action.edit-action:hover { background: #EBEBF8; color: #3332A0; }
+</style>
+</head>
+<body>
+
+<div class="tile-header">
+  <button class="mute-btn" id="muteBtn" onclick="toggleMute()" title="Toggle sound">
+    <svg id="iconSound" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+    <svg id="iconMuted" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+  </button>
+  <button class="generate-btn" onclick="generateQuestion()">
+    <i class="fa-solid fa-wand-magic-sparkles"></i> Generate question
+  </button>
+</div>
+<div class="tile-container" id="tileContainer">
+<div class="tile" id="tile">
+
+  <!-- FORM STATE -->
+  <div class="form-card" id="formCard">
+    <div class="form-header">
+      <div class="form-title">New question</div>
+    </div>
+    <div class="form-body">
+
+      <div class="field" id="questionField">
+        <label class="field-label">Question</label>
+        <input type="text" id="questionInput" autocomplete="off" value="">
+        <span class="field-error"><i class="fa-solid fa-circle-exclamation"></i> Question is required</span>
+      </div>
+
+      <div class="field">
+        <label class="field-label">Description</label>
+        <textarea id="descInput" style="height:72px;padding:8px 13px"></textarea>
+      </div>
+
+      <div>
+        <div class="tabs">
+          <div class="tab active">Edit</div>
+          <div class="tab">Options</div>
+        </div>
+        <div class="edit-section">
+          <div>
+            <div class="edit-section-label">Question type</div>
+            <div class="dd-wrap" id="ddWrap">
+              <button class="dd-trigger" id="ddTrigger" type="button">
+                <span class="dd-trigger-label" id="ddLabel">Single choice</span>
+                <svg class="dd-chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <div class="dd-menu" id="ddMenu">
+                <div class="dd-option selected" data-value="Single choice">
+                  Single choice
+                  <svg class="dd-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="dd-option" data-value="Multiple choice">
+                  Multiple choice
+                  <svg class="dd-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="dd-option" data-value="Text">
+                  Text
+                  <svg class="dd-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="dd-option" data-value="Rating">
+                  Rating
+                  <svg class="dd-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="edit-section-label">Answer</div>
+            <div class="answers" id="answers">
+              <div class="answer-wrap">
+                <div class="answer-row">
+                  <span class="drag-handle"><svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="16px" fill="#A1A1AA"><path d="M360-160q-33 0-56.5-23.5T280-240q0-33 23.5-56.5T360-320q33 0 56.5 23.5T440-240q0 33-23.5 56.5T360-160Zm240 0q-33 0-56.5-23.5T520-240q0-33 23.5-56.5T600-320q33 0 56.5 23.5T680-240q0 33-23.5 56.5T600-160ZM360-400q-33 0-56.5-23.5T280-480q0-33 23.5-56.5T360-560q33 0 56.5 23.5T440-480q0 33-23.5 56.5T360-400Zm240 0q-33 0-56.5-23.5T520-480q0-33 23.5-56.5T600-560q33 0 56.5 23.5T680-480q0 33-23.5 56.5T600-400ZM360-640q-33 0-56.5-23.5T280-720q0-33 23.5-56.5T360-800q33 0 56.5 23.5T440-720q0 33-23.5 56.5T360-640Zm240 0q-33 0-56.5-23.5T520-720q0-33 23.5-56.5T600-800q33 0 56.5 23.5T680-720q0 33-23.5 56.5T600-640Z"/></svg></span>
+                  <input type="text" class="answer-input" value="">
+                  <button class="remove-btn" onclick="removeAnswer(this)" tabindex="-1"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                <div class="answer-error"><i class="fa-solid fa-circle-exclamation"></i> Answer is required</div>
+              </div>
+              <div class="answer-wrap">
+                <div class="answer-row">
+                  <span class="drag-handle"><svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="16px" fill="#A1A1AA"><path d="M360-160q-33 0-56.5-23.5T280-240q0-33 23.5-56.5T360-320q33 0 56.5 23.5T440-240q0 33-23.5 56.5T360-160Zm240 0q-33 0-56.5-23.5T520-240q0-33 23.5-56.5T600-320q33 0 56.5 23.5T680-240q0 33-23.5 56.5T600-160ZM360-400q-33 0-56.5-23.5T280-480q0-33 23.5-56.5T360-560q33 0 56.5 23.5T440-480q0 33-23.5 56.5T360-400Zm240 0q-33 0-56.5-23.5T520-480q0-33 23.5-56.5T600-560q33 0 56.5 23.5T680-480q0 33-23.5 56.5T600-400ZM360-640q-33 0-56.5-23.5T280-720q0-33 23.5-56.5T360-800q33 0 56.5 23.5T440-720q0 33-23.5 56.5T360-640Zm240 0q-33 0-56.5-23.5T520-720q0-33 23.5-56.5T600-800q33 0 56.5 23.5T680-720q0 33-23.5 56.5T600-640Z"/></svg></span>
+                  <input type="text" class="answer-input" value="">
+                  <button class="remove-btn" onclick="removeAnswer(this)" tabindex="-1"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                <div class="answer-error"><i class="fa-solid fa-circle-exclamation"></i> Answer is required</div>
+              </div>
+            </div>
+            <button class="add-answer-btn" onclick="addAnswer()" style="margin-top:8px">Add answer</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="form-footer">
+      <button class="btn btn-ghost" id="cancelBtn" disabled onclick="handleCancel()">Cancel</button>
+      <button class="btn btn-primary" id="saveBtn" onclick="handleSave()">
+        <span class="spinner"></span>
+        <span class="btn-label">Save question</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- SAVED STATE -->
+  <div class="saved-card" id="savedCard">
+    <div class="card-body">
+      <div class="card-number">Question 1</div>
+      <div class="card-question" id="cardQuestion"></div>
+      <div class="card-description" id="cardDescription"></div>
+      <div class="card-options" id="cardOptions"></div>
+    </div>
+    <div class="card-footer">
+      <button class="card-action" onclick="handleMove()"><svg width="16" height="16" viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.46875 11.7812C1.15625 11.5 1.15625 11.0312 1.46875 10.7188C1.75 10.4375 2.21875 10.4375 2.53125 10.7188L4.25 12.4688V1.75C4.25 1.34375 4.5625 1 5 1C5.40625 1 5.75 1.34375 5.75 1.75V12.4688L7.46875 10.75C7.75 10.4375 8.21875 10.4375 8.5 10.75C8.8125 11.0312 8.8125 11.5 8.5 11.7812L5.5 14.7812C5.21875 15.0938 4.75 15.0938 4.46875 14.7812L1.46875 11.7812ZM12.4688 1.21875C12.75 0.9375 13.2188 0.9375 13.5312 1.21875L16.5 4.21875C16.8125 4.53125 16.8125 5 16.5 5.28125C16.2188 5.59375 15.75 5.59375 15.4688 5.28125L13.75 3.5625V14.25C13.75 14.6875 13.4062 15 13 15C12.5625 15 12.25 14.6875 12.25 14.25L12.2188 3.5625L10.5 5.28125C10.2188 5.59375 9.75 5.59375 9.46875 5.28125C9.15625 5 9.15625 4.53125 9.46875 4.21875L12.4688 1.21875Z" fill="#71717A"/></svg> Move</button>
+      <button class="card-action" onclick="handleDelete()"><i class="fa-regular fa-trash-can"></i> Delete</button>
+      <button class="card-action" onclick="handleCopy()"><i class="fa-regular fa-copy"></i> Copy</button>
+      <button class="card-action edit-action" onclick="handleEdit()"><i class="fa-regular fa-pen-to-square"></i> Edit</button>
+    </div>
+  </div>
+
+</div>
+</div>
+<div class="label">Form Builder · Component</div>
+
+<script>
+let savedState = null;
+let hasInteracted = false;
+
+const formCard   = document.getElementById('formCard');
+const savedCard  = document.getElementById('savedCard');
+const questionInput = document.getElementById('questionInput');
+const descInput  = document.getElementById('descInput');
+const cancelBtn  = document.getElementById('cancelBtn');
+const saveBtn    = document.getElementById('saveBtn');
+const answersEl  = document.getElementById('answers');
+const cardQuestion = document.getElementById('cardQuestion');
+const cardOptions  = document.getElementById('cardOptions');
+
+// ── INTERACTION TRACKING ─────────────────────────────
+function checkInteraction() {
+  const typed = questionInput.value ||
+                descInput.value ||
+                [...answersEl.querySelectorAll('.answer-input')].some(i => i.value);
+  hasInteracted = !!typed;
+  cancelBtn.disabled = !typed;
+  // Clear answer errors on input
+  answersEl.querySelectorAll('.answer-input').forEach(i => {
+    if (i.value.trim()) {
+      i.classList.remove('error');
+      i.closest('.answer-wrap').querySelector('.answer-error').classList.remove('visible');
+    }
+  });
+}
+
+// Lock tile container height after first render
+window.addEventListener('load', () => {
+  requestAnimationFrame(() => {
+    const container = document.getElementById('tileContainer');
+    const h = container.offsetHeight;
+    container.style.height = h + 'px';
+    container.style.alignItems = 'center';
+  });
+});
+
+// ── GENERATE QUESTION ────────────────────────────────
+const questions = [
+  { question: 'Do you agree with the terms?', answers: ['Agree', 'Disagree'] },
+  { question: 'How would you rate your overall experience?', answers: ['Excellent', 'Poor'] },
+  { question: 'Would you like to receive marketing emails?', answers: ['Yes', 'No'] },
+];
+let lastGenIndex = -1;
+
+// ── CUSTOM DROPDOWN ──────────────────────────────────
+let ddOpen = false;
+let ddValue = 'Single choice';
+
+const ddTrigger = document.getElementById('ddTrigger');
+const ddMenu = document.getElementById('ddMenu');
+const ddLabel = document.getElementById('ddLabel');
+
+ddTrigger.addEventListener('click', e => {
+  e.stopPropagation();
+  ddOpen = !ddOpen;
+  ddTrigger.classList.toggle('open', ddOpen);
+  ddMenu.classList.toggle('open', ddOpen);
+});
+
+const selectableOptions = ['Single choice'];
+
+ddMenu.querySelectorAll('.dd-option').forEach(opt => {
+  opt.addEventListener('click', e => {
+    e.stopPropagation();
+    if (selectableOptions.includes(opt.dataset.value)) {
+      ddValue = opt.dataset.value;
+      ddLabel.textContent = ddValue;
+      ddMenu.querySelectorAll('.dd-option').forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+      ddOpen = false;
+      ddTrigger.classList.remove('open');
+      ddMenu.classList.remove('open');
+    }
+    // Non-selectable options — keep menu open
+  });
+});
+
+document.addEventListener('click', () => {
+  if (ddOpen) {
+    ddOpen = false;
+    ddTrigger.classList.remove('open');
+    ddMenu.classList.remove('open');
+  }
+});
+
+function getQuestionType() { return ddValue; }
+function setQuestionType(val) {
+  ddValue = val;
+  ddLabel.textContent = val;
+  ddMenu.querySelectorAll('.dd-option').forEach(o => {
+    o.classList.toggle('selected', o.dataset.value === val);
+  });
+}
+
+// ── MUTE TOGGLE ──────────────────────────────────────
+let isMuted = false;
+
+function toggleMute() {
+  isMuted = !isMuted;
+  document.getElementById('iconSound').style.display = isMuted ? 'none' : 'block';
+  document.getElementById('iconMuted').style.display = isMuted ? 'block' : 'none';
+}
+
+// ── KEYBOARD SOUND ───────────────────────────────────
+let audioCtx = null;
+
+function getAudioCtx() {
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  return audioCtx;
+}
+
+
+
+function playKeyClick() {
+  const audioCtx = getAudioCtx();
+  const now = audioCtx.currentTime;
+
+  // Short noise burst — very tight, like a Mac scissor switch
+  const bufferSize = Math.floor(audioCtx.sampleRate * 0.018);
+  const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+  const data = buffer.getChannelData(0);
+  for (let i = 0; i < bufferSize; i++) {
+    // Fast attack, very quick exponential decay
+    const env = Math.pow(1 - i / bufferSize, 14);
+    data[i] = (Math.random() * 2 - 1) * env;
+  }
+
+  const source = audioCtx.createBufferSource();
+  source.buffer = buffer;
+
+  // Softer bandpass — Mac Magic Keyboard has a muted, padded feel
+  const highpass = audioCtx.createBiquadFilter();
+  highpass.type = 'highpass';
+  highpass.frequency.value = 2000 + Math.random() * 400;
+
+  const lowpass = audioCtx.createBiquadFilter();
+  lowpass.type = 'lowpass';
+  lowpass.frequency.value = 6000;
+  lowpass.Q.value = 0.5;
+
+  // Subtle peak — softer than before
+  const peak = audioCtx.createBiquadFilter();
+  peak.type = 'peaking';
+  peak.frequency.value = 4000;
+  peak.gain.value = 3;
+  peak.Q.value = 0.8;
+
+  const gain = audioCtx.createGain();
+  gain.gain.setValueAtTime(0.05, now);
+  gain.gain.exponentialRampToValueAtTime(0.001, now + 0.025);
+
+  source.connect(highpass);
+  highpass.connect(lowpass);
+  lowpass.connect(peak);
+  peak.connect(gain);
+  gain.connect(audioCtx.destination);
+  source.start(now);
+}
+
+function typeInto(input, text, speed, onDone) {
+  input.value = '';
+  input.classList.add('typing');
+  let i = 0;
+  const interval = setInterval(() => {
+    input.value += text[i];
+    if (!isMuted) playKeyClick();
+    i++;
+    if (i >= text.length) {
+      clearInterval(interval);
+      input.classList.remove('typing');
+      if (onDone) setTimeout(onDone, 80);
+    }
+  }, speed);
+}
+
+function generateQuestion() {
+  // Pick a different question each time
+  let idx;
+  do { idx = Math.floor(Math.random() * questions.length); } while (idx === lastGenIndex && questions.length > 1);
+  lastGenIndex = idx;
+  const q = questions[idx];
+
+  // Clear fields and errors
+  questionInput.value = '';
+  document.getElementById('questionField').classList.remove('has-error');
+  answersEl.innerHTML = '';
+  addAnswer();
+  addAnswer();
+
+  const answerInputs = answersEl.querySelectorAll('.answer-input');
+  answersEl.querySelectorAll('.answer-wrap').forEach(wrap => {
+    wrap.querySelector('.answer-input').classList.remove('error');
+    wrap.querySelector('.answer-error').classList.remove('visible');
+  });
+
+  // Enable cancel and interaction
+  cancelBtn.disabled = false;
+  hasInteracted = true;
+
+  // Disable generate while typing
+  const genBtn = document.querySelector('.generate-btn');
+  genBtn.disabled = true;
+
+  // Ensure audio context is ready
+  getAudioCtx();
+
+  // Type question first, then answers in sequence
+  typeInto(questionInput, q.question, 45, () => {
+    typeInto(answerInputs[0], q.answers[0], 55, () => {
+      typeInto(answerInputs[1], q.answers[1], 55, () => {
+        genBtn.disabled = false;
+        checkInteraction();
+      });
+    });
+  });
+}
+
+// Fields start empty — cancel disabled until interaction
+cancelBtn.disabled = true;
+hasInteracted = false;
+
+// Init drag on existing rows
+document.querySelectorAll('.answer-row').forEach(initDrag);
+updateRemoveBtns();
+
+questionInput.addEventListener('input', checkInteraction);
+questionInput.addEventListener('keydown', e => { if (e.key === 'Enter') handleSave(); });
+descInput.addEventListener('input', checkInteraction);
+answersEl.addEventListener('input', checkInteraction);
+answersEl.addEventListener('keydown', e => { if (e.key === 'Enter') handleSave(); });
+
+// ── DRAG AND DROP ────────────────────────────────────
+let dragSrc = null;
+let dragClone = null;
+let dragOffsetY = 0;
+
+function clearDropIndicators() {
+  document.querySelectorAll('.answer-wrap').forEach(r => r.classList.remove('drop-above', 'drop-below'));
+}
+
+function initDrag(row) {
+  const handle = row.querySelector('.drag-handle');
+  const wrap = row.closest('.answer-wrap');
+
+  handle.addEventListener('mousedown', e => {
+    e.preventDefault();
+    dragSrc = wrap;
+    const rect = wrap.getBoundingClientRect();
+    dragOffsetY = e.clientY - rect.top;
+
+    // Create floating clone of the row only (not error message)
+    dragClone = row.cloneNode(true);
+    dragClone.style.cssText = `
+      position: fixed;
+      left: ${rect.left + 20}px;
+      top: ${rect.top}px;
+      width: ${rect.width - 20}px;
+      opacity: 0.5;
+      pointer-events: none;
+      z-index: 1000;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+      transition: none;
+      display: flex;
+      align-items: center;
+      padding: 0 8px;
+      height: 36px;
+    `;
+    document.body.appendChild(dragClone);
+    wrap.style.opacity = '0.5';
+
+    document.addEventListener('mousemove', onDragMove);
+    document.addEventListener('mouseup', onDragEnd);
+  });
+}
+
+function onDragMove(e) {
+  if (!dragSrc || !dragClone) return;
+
+  dragClone.style.top = (e.clientY - dragOffsetY) + 'px';
+
+  clearDropIndicators();
+  const wraps = [...answersEl.querySelectorAll('.answer-wrap')].filter(w => w !== dragSrc);
+  for (const wrap of wraps) {
+    const r = wrap.getBoundingClientRect();
+    const midY = r.top + r.height / 2;
+    if (e.clientY < midY) {
+      wrap.classList.add('drop-above');
+      break;
+    } else {
+      wrap.classList.remove('drop-above');
+      wrap.classList.add('drop-below');
+    }
+  }
+}
+
+function onDragEnd(e) {
+  if (!dragSrc) return;
+
+  const above = answersEl.querySelector('.drop-above');
+  const below = answersEl.querySelector('.drop-below');
+
+  if (above) {
+    answersEl.insertBefore(dragSrc, above);
+  } else if (below) {
+    answersEl.insertBefore(dragSrc, below.nextSibling);
+  }
+
+  dragSrc.style.opacity = '';
+  if (dragClone) { dragClone.remove(); dragClone = null; }
+  clearDropIndicators();
+  dragSrc = null;
+
+  document.removeEventListener('mousemove', onDragMove);
+  document.removeEventListener('mouseup', onDragEnd);
+}
+
+// ── ADD / REMOVE ANSWERS ─────────────────────────────
+const DRAG_SVG = `<svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="16px" fill="#A1A1AA"><path d="M360-160q-33 0-56.5-23.5T280-240q0-33 23.5-56.5T360-320q33 0 56.5 23.5T440-240q0 33-23.5 56.5T360-160Zm240 0q-33 0-56.5-23.5T520-240q0-33 23.5-56.5T600-320q33 0 56.5 23.5T680-240q0 33-23.5 56.5T600-160ZM360-400q-33 0-56.5-23.5T280-480q0-33 23.5-56.5T360-560q33 0 56.5 23.5T440-480q0 33-23.5 56.5T360-400Zm240 0q-33 0-56.5-23.5T520-480q0-33 23.5-56.5T600-560q33 0 56.5 23.5T680-480q0 33-23.5 56.5T600-400ZM360-640q-33 0-56.5-23.5T280-720q0-33 23.5-56.5T360-800q33 0 56.5 23.5T440-720q0 33-23.5 56.5T360-640Zm240 0q-33 0-56.5-23.5T520-720q0-33 23.5-56.5T600-800q33 0 56.5 23.5T680-720q0 33-23.5 56.5T600-640Z"/></svg>`;
+
+function updateRemoveBtns() {
+  const wraps = answersEl.querySelectorAll('.answer-wrap');
+  wraps.forEach(w => {
+    const btn = w.querySelector('.remove-btn');
+    btn.disabled = wraps.length <= 1;
+  });
+}
+
+function addAnswer(val = '') {
+  const wrap = document.createElement('div');
+  wrap.className = 'answer-wrap';
+  wrap.innerHTML = `
+    <div class="answer-row">
+      <span class="drag-handle">${DRAG_SVG}</span>
+      <input type="text" class="answer-input" value="${val}">
+      <button class="remove-btn" onclick="removeAnswer(this)" tabindex="-1"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="answer-error"><i class="fa-solid fa-circle-exclamation"></i> Answer is required</div>
+  `;
+  answersEl.appendChild(wrap);
+  initDrag(wrap.querySelector('.answer-row'));
+  updateRemoveBtns();
+  checkInteraction();
+}
+
+function removeAnswer(btn) {
+  const wraps = answersEl.querySelectorAll('.answer-wrap');
+  if (wraps.length <= 1) return;
+  btn.closest('.answer-wrap').remove();
+  updateRemoveBtns();
+  checkInteraction();
+}
+
+// ── CANCEL ───────────────────────────────────────────
+function handleCancel() {
+  if (cancelBtn.disabled) return;
+  if (savedState) {
+    populateForm(savedState);
+  } else {
+    questionInput.value = '';
+    descInput.value = '';
+    answersEl.innerHTML = '';
+    addAnswer(); addAnswer();
+    hasInteracted = false;
+    cancelBtn.disabled = true;
+  }
+  document.getElementById('questionField').classList.remove('has-error');
+}
+
+// ── POPULATE FORM ────────────────────────────────────
+function populateForm(state) {
+  questionInput.value = state.question;
+  descInput.value = state.description;
+  setQuestionType(state.type);
+  answersEl.innerHTML = '';
+  if (state.answers.length) {
+    state.answers.forEach(a => addAnswer(a));
+  } else {
+    addAnswer(); addAnswer();
+  }
+  cancelBtn.disabled = false;
+  hasInteracted = true;
+}
+
+// ── SAVE ─────────────────────────────────────────────
+function handleSave() {
+  const question = questionInput.value.trim();
+  let hasErrors = false;
+
+  // Validate question
+  if (!question) {
+    document.getElementById('questionField').classList.add('has-error');
+    hasErrors = true;
+  } else {
+    document.getElementById('questionField').classList.remove('has-error');
+  }
+
+  // Validate answers
+  answersEl.querySelectorAll('.answer-wrap').forEach(wrap => {
+    const input = wrap.querySelector('.answer-input');
+    const error = wrap.querySelector('.answer-error');
+    if (!input.value.trim()) {
+      input.classList.add('error');
+      error.classList.add('visible');
+      hasErrors = true;
+    }
+  });
+
+  if (hasErrors) return;
+
+  const state = {
+    question,
+    description: descInput.value.trim(),
+    type: getQuestionType(),
+    answers: [...answersEl.querySelectorAll('.answer-input')].map(i => i.value.trim()).filter(Boolean)
+  };
+
+  // Saving state
+  saveBtn.classList.add('saving');
+  saveBtn.querySelector('.btn-label').textContent = 'Saving...';
+  cancelBtn.disabled = true;
+
+  setTimeout(() => {
+    savedState = state;
+
+    // Populate card
+    cardQuestion.textContent = state.question;
+    const cardDesc = document.getElementById('cardDescription');
+    if (state.description) {
+      cardDesc.textContent = state.description;
+      cardDesc.classList.add('visible');
+    } else {
+      cardDesc.textContent = '';
+      cardDesc.classList.remove('visible');
+    }
+    cardOptions.innerHTML = '';
+    const isMultiple = state.type === 'Multiple choice';
+    state.answers.forEach(a => {
+      const opt = document.createElement('div');
+      opt.className = 'card-option';
+      opt.innerHTML = `<div class="radio-circle${isMultiple ? ' is-checkbox' : ''}"></div><span>${a}</span>`;
+      cardOptions.appendChild(opt);
+    });
+
+    // Disable generate and mute buttons in saved state
+    document.querySelector('.generate-btn').disabled = true;
+    document.getElementById('muteBtn').disabled = true;
+
+    // Switch to saved card with height animation
+    const tile = document.getElementById('tile');
+    tile.style.height = tile.offsetHeight + 'px';
+
+    formCard.style.display = 'none';
+    savedCard.style.display = 'block';
+    savedCard.style.opacity = '0';
+
+    const targetHeight = savedCard.offsetHeight;
+    tile.style.height = targetHeight + 'px';
+
+    requestAnimationFrame(() => {
+      savedCard.style.transition = 'opacity 0.2s ease-out';
+      savedCard.style.opacity = '1';
+    });
+
+    // Clean up fixed height after transition
+    setTimeout(() => { tile.style.height = ''; }, 340);
+
+    // Reset save button
+    saveBtn.classList.remove('saving');
+    saveBtn.querySelector('.btn-label').textContent = 'Save question';
+
+  }, 1100);
+}
+
+// ── EDIT ─────────────────────────────────────────────
+function handleEdit() {
+  document.querySelector('.generate-btn').disabled = false;
+  document.getElementById('muteBtn').disabled = false;
+  const tile = document.getElementById('tile');
+  tile.style.height = tile.offsetHeight + 'px';
+
+  savedCard.style.opacity = '0';
+  setTimeout(() => {
+    savedCard.style.display = 'none';
+    populateForm(savedState);
+    formCard.style.display = 'block';
+    formCard.style.opacity = '0';
+
+    const targetHeight = formCard.offsetHeight;
+    tile.style.height = targetHeight + 'px';
+
+    requestAnimationFrame(() => {
+      formCard.style.transition = 'opacity 0.2s ease-out';
+      formCard.style.opacity = '1';
+    });
+
+    setTimeout(() => { tile.style.height = ''; }, 340);
+  }, 180);
+}
+
+// ── CARD ACTIONS ─────────────────────────────────────
+function handleCopy() {}
+function handleMove() {}
+function handleDelete() {}
+
+
+</script>
+</body>
+</html>
