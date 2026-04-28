@@ -701,6 +701,7 @@ export default function MegaMenuTile() {
           flexDirection: 'column',
           gap: 12,
           overflow: 'hidden',
+          borderRadius: '0 0 12px 12px',
           background: 'linear-gradient(to bottom, #ffffff 0%, rgba(167,139,250,0.05) 100%)',
         }}
       >
