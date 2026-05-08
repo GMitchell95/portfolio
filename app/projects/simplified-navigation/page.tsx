@@ -326,6 +326,7 @@ function IterationSwitcher({
   onOpenLightbox: (slides: Slide[], index: number) => void;
 }) {
   const [current, setCurrent] = useState(0);
+  const [displayTitle, setDisplayTitle] = useState(slides[0].title);
   const total = slides.length;
 
   const titleRef = useRef<HTMLSpanElement>(null);
@@ -349,10 +350,13 @@ function IterationSwitcher({
 
     titleTimer1.current = setTimeout(() => {
       el.classList.remove('sw-title-exiting');
-      el.textContent = newText;
-      void el.offsetHeight;
-      el.classList.add('sw-title-entering');
-      titleTimer2.current = setTimeout(() => el.classList.remove('sw-title-entering'), 150);
+      setDisplayTitle(newText);
+      // rAF lets React commit the new text before we trigger the enter animation
+      requestAnimationFrame(() => {
+        void el.offsetHeight;
+        el.classList.add('sw-title-entering');
+        titleTimer2.current = setTimeout(() => el.classList.remove('sw-title-entering'), 150);
+      });
     }, 80);
   }, []);
 
@@ -376,25 +380,23 @@ function IterationSwitcher({
     }, 120);
   }, []);
 
+  // Animations are called directly (not inside the state updater) so they never
+  // run as side effects during React's render phase.
   const navigate = useCallback((dir: number) => {
-    setCurrent(prev => {
-      const next = Math.max(0, Math.min(total - 1, prev + dir));
-      if (next === prev) return prev;
-      animateTitle(slides[next].title, dir);
-      animateImg(dir);
-      return next;
-    });
-  }, [total, slides, animateTitle, animateImg]);
+    const next = Math.max(0, Math.min(total - 1, current + dir));
+    if (next === current) return;
+    animateTitle(slides[next].title, dir);
+    animateImg(dir);
+    setCurrent(next);
+  }, [current, total, slides, animateTitle, animateImg]);
 
   const goTo = useCallback((i: number) => {
-    setCurrent(prev => {
-      if (i === prev) return prev;
-      const dir = i > prev ? 1 : -1;
-      animateTitle(slides[i].title, dir);
-      animateImg(dir);
-      return i;
-    });
-  }, [slides, animateTitle, animateImg]);
+    if (i === current) return;
+    const dir = i > current ? 1 : -1;
+    animateTitle(slides[i].title, dir);
+    animateImg(dir);
+    setCurrent(i);
+  }, [current, slides, animateTitle, animateImg]);
 
   return (
     <div style={{ marginTop: 40 }}>
@@ -404,7 +406,7 @@ function IterationSwitcher({
           ref={titleRef}
           style={{ fontSize: 15, fontWeight: 600, color: '#27272A', display: 'inline-block', willChange: 'transform, opacity' }}
         >
-          {slides[0].title}
+          {displayTitle}
         </span>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
@@ -781,11 +783,11 @@ export default function SimplifiedNavigationPage() {
           </div>
           <h1
             ref={heroTitleRef}
-            style={{ fontSize: 56, fontWeight: 600, color: '#18181B', lineHeight: 1.05, letterSpacing: '-0.025em', marginBottom: 24 }}
+            style={{ fontSize: 36, fontWeight: 600, color: '#18181B', lineHeight: 1.05, letterSpacing: '-0.025em', marginBottom: 24 }}
           >
             Simplified navigation
           </h1>
-          <p style={{ fontSize: 17, color: '#71717A', lineHeight: 1.65, marginBottom: 40 }}>
+          <p style={{ fontSize: 15, color: '#71717A', lineHeight: 1.65, marginBottom: 40 }}>
             Redesigning the navigation for a complex procurement sourcing platform — reducing a seven-step flow down to three, without losing access to any of the functionality underneath.
           </p>
           <div style={{ display: 'flex', gap: 40, paddingTop: 40, borderTop: '1px solid rgba(228,228,231,0.5)' }}>
