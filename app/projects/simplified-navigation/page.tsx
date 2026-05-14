@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState, useCallback } from 'react';
+import Image from 'next/image';
 
 // ── Types ───────────────────────────────────────────────────────────────────
 
@@ -8,6 +9,7 @@ interface Slide {
   title: string;
   body: string;
   label: string;
+  src?: string;
 }
 
 interface LightboxState {
@@ -123,6 +125,24 @@ const GLOBAL_STYLES = `
     display: flex;
     align-items: center;
     justify-content: space-between;
+  }
+  @media (max-width: 1199px) {
+    .cs-header-inner {
+      justify-content: flex-start;
+    }
+  }
+
+  /* Vertical divider between Back and title — narrow only */
+  .cs-header-divider {
+    display: none;
+    width: 1px;
+    align-self: stretch;
+    background: #E4E4E7;
+    margin: 0 16px;
+    flex-shrink: 0;
+  }
+  @media (max-width: 1199px) {
+    .cs-header-divider { display: block; }
   }
 
   /* Back button visible only on narrow */
@@ -292,11 +312,13 @@ function ImagePlaceholder({ label, tall = false }: { label: string; tall?: boole
 
 function ClickableImage({
   label,
+  src,
   tall = false,
   constrained = false,
   onClick,
 }: {
   label: string;
+  src?: string;
   tall?: boolean;
   constrained?: boolean;
   onClick: () => void;
@@ -307,7 +329,13 @@ function ClickableImage({
       onClick={onClick}
       style={{ maxHeight: constrained ? 480 : undefined }}
     >
-      <ImagePlaceholder label={label} tall={tall} />
+      {src ? (
+        <div style={{ position: 'relative', width: '100%', aspectRatio: '1760/1060', borderRadius: 8, overflow: 'hidden' }}>
+          <Image src={src} fill style={{ objectFit: 'cover' }} alt={label} />
+        </div>
+      ) : (
+        <ImagePlaceholder label={label} tall={tall} />
+      )}
       <div className="cs-zoom-hint">
         <ZoomIcon />
         View full size
@@ -485,6 +513,7 @@ function IterationSwitcher({
       <div ref={imgWrapRef} style={{ willChange: 'transform, opacity' }}>
         <ClickableImage
           label={slides[current].label}
+          src={slides[current].src}
           onClick={() => onOpenLightbox(slides, current)}
         />
       </div>
@@ -579,20 +608,34 @@ function Lightbox({
             </button>
           )}
 
-          {/* Placeholder image */}
-          <div style={{
-            width: 800, maxWidth: '80vw',
-            height: 450, maxHeight: '72vh',
-            background: '#2a2a2a',
-            borderRadius: 8,
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            flexDirection: 'column', gap: 12,
-          }}>
-            <svg width={32} height={32} fill="none" viewBox="0 0 24 24" stroke="#555" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909" />
-            </svg>
-            <span style={{ fontSize: 14, color: '#666' }}>{slide.label}</span>
-          </div>
+          {/* Image or placeholder */}
+          {slide.src ? (
+            <img
+              src={slide.src}
+              alt={slide.label}
+              style={{
+                maxWidth: '80vw',
+                maxHeight: '72vh',
+                borderRadius: 8,
+                display: 'block',
+                objectFit: 'contain',
+              }}
+            />
+          ) : (
+            <div style={{
+              width: 800, maxWidth: '80vw',
+              height: 450, maxHeight: '72vh',
+              background: '#2a2a2a',
+              borderRadius: 8,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              flexDirection: 'column', gap: 12,
+            }}>
+              <svg width={32} height={32} fill="none" viewBox="0 0 24 24" stroke="#555" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909" />
+              </svg>
+              <span style={{ fontSize: 14, color: '#666' }}>{slide.label}</span>
+            </div>
+          )}
 
           {/* Next */}
           {hasMultiple && (
@@ -638,11 +681,13 @@ const EARLY_SLIDES: Slide[] = [
   {
     title: 'Simple dropdown list',
     label: 'Iteration 1',
+    src: '/images/case-studies/simplified-navigation/Iteration-top-nav.png',
     body: 'The starting point — a basic vertical list. Familiar and low-friction, but quickly ran into problems once category lists grew longer than a dozen items.',
   },
   {
     title: 'Flyout panel — left anchored',
     label: 'Iteration 2',
+    src: '/images/case-studies/simplified-navigation/iteration-breadcrumb.png',
     body: 'Hovering a category revealed sub-items in a panel anchored to the left. Felt clunky on wide viewports and created awkward mouse travel paths.',
   },
   {
@@ -701,6 +746,10 @@ export default function SimplifiedNavigationPage() {
       if (heroTitleRef.current) {
         setHeaderVisible(heroTitleRef.current.getBoundingClientRect().bottom < 0);
       }
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
+        setActiveSection(SECTIONS[SECTIONS.length - 1].id);
+        return;
+      }
       const scrollY = window.scrollY + 120;
       let current = SECTIONS[0].id;
       SECTIONS.forEach(s => {
@@ -748,6 +797,7 @@ export default function SimplifiedNavigationPage() {
             <ChevronLeft size={14} />
             Back
           </a>
+          <span className="cs-header-divider" />
           <span style={{ fontSize: 15, fontWeight: 500, color: '#27272A' }}>Simplified navigation</span>
         </div>
       </header>
