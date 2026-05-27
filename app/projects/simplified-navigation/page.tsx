@@ -1,21 +1,28 @@
 'use client';
 
-import { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import Image from 'next/image';
 
 // ── Types ───────────────────────────────────────────────────────────────────
+
+interface SlideState {
+  label: string;
+  src: string;
+}
 
 interface Slide {
   title: string;
   body: string;
   label: string;
   src?: string;
+  states?: SlideState[];
 }
 
 interface LightboxState {
   open: boolean;
   slides: Slide[];
   index: number;
+  stateIndices: Record<number, number>;
 }
 
 // ── SVG icons ───────────────────────────────────────────────────────────────
@@ -84,6 +91,10 @@ const GLOBAL_STYLES = `
     to   { opacity: 1; filter: blur(0px); transform: translateX(0); }
   }
   @keyframes lbFadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  @keyframes cs-fade-in {
     from { opacity: 0; }
     to   { opacity: 1; }
   }
@@ -308,30 +319,185 @@ function ImagePlaceholder({ label, tall = false }: { label: string; tall?: boole
   );
 }
 
+// ── StateSwitcher ────────────────────────────────────────────────────────────
+
+function StateSwitcher({
+  states,
+  active,
+  onChange,
+}: {
+  states: SlideState[];
+  active: number;
+  onChange: (i: number) => void;
+}) {
+  const btnRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const sliderRef = useRef<HTMLDivElement>(null);
+  const initialized = useRef(false);
+
+  useEffect(() => {
+    const slider = sliderRef.current;
+    const btn = btnRefs.current[active];
+    if (!slider || !btn) return;
+
+    const parent = btn.offsetParent as HTMLElement | null;
+    if (!parent) return;
+    const btnRect = btn.getBoundingClientRect();
+    const parentRect = parent.getBoundingClientRect();
+    const left = btnRect.left - parentRect.left;
+
+    if (!initialized.current) {
+      // First paint — snap with no transition
+      slider.style.transition = 'none';
+      slider.style.width = `${btnRect.width}px`;
+      slider.style.transform = `translateX(${left}px)`;
+      // Force reflow then re-enable transition for future moves
+      void slider.offsetHeight;
+      slider.style.transition = 'transform 0.22s cubic-bezier(0.4,0,0.2,1), width 0.22s cubic-bezier(0.4,0,0.2,1)';
+      initialized.current = true;
+    } else {
+      slider.style.width = `${btnRect.width}px`;
+      slider.style.transform = `translateX(${left}px)`;
+    }
+  }, [active]);
+
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        bottom: 14,
+        left: '50%',
+        transform: 'translateX(-50%)',
+        background: 'rgba(255,255,255,0.92)',
+        backdropFilter: 'blur(8px)',
+        border: '1px solid rgba(228,228,231,0.8)',
+        borderRadius: 12,
+        padding: 4,
+        boxShadow: '0 2px 12px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.06)',
+        zIndex: 10,
+      }}
+      onClick={e => e.stopPropagation()}
+    >
+      <div style={{ position: 'relative', display: 'flex', gap: 4 }}>
+        {/* Sliding indicator */}
+        <div
+          ref={sliderRef}
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            height: 28,
+            borderRadius: 8,
+            background: '#D4D4D8',
+            pointerEvents: 'none',
+            zIndex: 0,
+          }}
+        />
+        {/* Buttons */}
+        {states.map((s, i) => (
+          <button
+            key={i}
+            ref={el => { btnRefs.current[i] = el; }}
+            onClick={() => onChange(i)}
+            style={{
+              height: 28,
+              padding: '0 12px',
+              borderRadius: 8,
+              fontSize: 12,
+              fontWeight: 500,
+              color: i === active ? '#3F3F46' : '#71717A',
+              background: 'transparent',
+              border: 'none',
+              cursor: 'pointer',
+              position: 'relative',
+              zIndex: 1,
+              whiteSpace: 'nowrap',
+            }}
+          >
+            {s.label}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 // ── ClickableImage ───────────────────────────────────────────────────────────
 
 function ClickableImage({
   label,
   src,
+  prevSrc,
   tall = false,
   constrained = false,
+  aspectRatio = '1760/1060',
+  overlay,
   onClick,
 }: {
   label: string;
   src?: string;
+  prevSrc?: string;
   tall?: boolean;
   constrained?: boolean;
+  aspectRatio?: string;
+  overlay?: React.ReactNode;
   onClick: () => void;
 }) {
+  // Track a fade key so we can crossfade when src changes
+  const [displayed, setDisplayed] = useState<{ src: string; key: number } | null>(
+    src ? { src, key: 0 } : null
+  );
+  const [incoming, setIncoming] = useState<{ src: string; key: number } | null>(null);
+  const fadeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const keyCounter = useRef(1);
+
+  useEffect(() => {
+    if (!src) { setDisplayed(null); setIncoming(null); return; }
+    // First render or same src — no crossfade needed
+    if (!displayed || displayed.src === src) {
+      setDisplayed({ src, key: displayed?.key ?? 0 });
+      return;
+    }
+    // New src — crossfade
+    if (fadeTimer.current) clearTimeout(fadeTimer.current);
+    const k = keyCounter.current++;
+    setIncoming({ src, key: k });
+    fadeTimer.current = setTimeout(() => {
+      setDisplayed({ src, key: k });
+      setIncoming(null);
+    }, 200);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [src]);
+
   return (
     <div
       className="cs-img-wrap"
       onClick={onClick}
       style={{ maxHeight: constrained ? 480 : undefined }}
     >
-      {src ? (
-        <div style={{ position: 'relative', width: '100%', aspectRatio: '1760/1060', borderRadius: 8, overflow: 'hidden' }}>
-          <Image src={src} fill style={{ objectFit: 'cover' }} alt={label} />
+      {displayed || src ? (
+        <div style={{ position: 'relative', width: '100%', aspectRatio, borderRadius: 8, overflow: 'hidden' }}>
+          {/* Base layer */}
+          {displayed && (
+            <Image
+              key={displayed.key}
+              src={displayed.src}
+              fill
+              style={{ objectFit: 'cover', opacity: incoming ? 0 : 1, transition: incoming ? 'opacity 200ms ease' : 'none' }}
+              alt={label}
+            />
+          )}
+          {/* Incoming crossfade layer */}
+          {incoming && (
+            <Image
+              key={incoming.key}
+              src={incoming.src}
+              fill
+              style={{ objectFit: 'cover', opacity: 1, animation: 'cs-fade-in 200ms ease forwards' }}
+              alt={label}
+            />
+          )}
+          {/* Overlay (e.g. state switcher pill) */}
+          {overlay}
         </div>
       ) : (
         <ImagePlaceholder label={label} tall={tall} />
@@ -351,10 +517,12 @@ function IterationSwitcher({
   onOpenLightbox,
 }: {
   slides: Slide[];
-  onOpenLightbox: (slides: Slide[], index: number) => void;
+  onOpenLightbox: (slides: Slide[], index: number, stateIndices?: Record<number, number>) => void;
 }) {
   const [current, setCurrent] = useState(0);
   const [displayTitle, setDisplayTitle] = useState(slides[0].title);
+  // Per-slide active state index; keyed by slide index
+  const [stateIndices, setStateIndices] = useState<Record<number, number>>({});
   const total = slides.length;
 
   const titleRef = useRef<HTMLSpanElement>(null);
@@ -511,11 +679,26 @@ function IterationSwitcher({
 
       {/* Image */}
       <div ref={imgWrapRef} style={{ willChange: 'transform, opacity' }}>
-        <ClickableImage
-          label={slides[current].label}
-          src={slides[current].src}
-          onClick={() => onOpenLightbox(slides, current)}
-        />
+        {(() => {
+          const slide = slides[current];
+          const hasStates = slide.states && slide.states.length > 1;
+          const activeStateIdx = stateIndices[current] ?? 0;
+          const activeSrc = hasStates ? slide.states![activeStateIdx].src : slide.src;
+          return (
+            <ClickableImage
+              label={slide.label}
+              src={activeSrc}
+              onClick={() => onOpenLightbox(slides, current, stateIndices)}
+              overlay={hasStates ? (
+                <StateSwitcher
+                  states={slide.states!}
+                  active={activeStateIdx}
+                  onChange={i => setStateIndices(prev => ({ ...prev, [current]: i }))}
+                />
+              ) : undefined}
+            />
+          );
+        })()}
       </div>
 
       {/* Caption */}
@@ -537,6 +720,13 @@ function Lightbox({
   onClose: () => void;
   onNavigate: (dir: number) => void;
 }) {
+  // Local state indices — seeded from the opener's active states when lightbox opens
+  const [activeStateIndices, setActiveStateIndices] = useState<Record<number, number>>({});
+
+  useEffect(() => {
+    if (state.open) setActiveStateIndices(state.stateIndices);
+  }, [state.open]); // eslint-disable-line react-hooks/exhaustive-deps
+
   useEffect(() => {
     if (!state.open) return;
     const handler = (e: KeyboardEvent) => {
@@ -556,6 +746,9 @@ function Lightbox({
 
   const slide = state.slides[state.index];
   const hasMultiple = state.slides.length > 1;
+  const hasStates = !!(slide.states && slide.states.length > 1);
+  const activeStateIdx = activeStateIndices[state.index] ?? 0;
+  const activeSrc = hasStates ? slide.states![activeStateIdx].src : slide.src;
 
   return (
     <div
@@ -608,19 +801,28 @@ function Lightbox({
             </button>
           )}
 
-          {/* Image or placeholder */}
-          {slide.src ? (
-            <img
-              src={slide.src}
-              alt={slide.label}
-              style={{
-                maxWidth: '80vw',
-                maxHeight: '72vh',
-                borderRadius: 8,
-                display: 'block',
-                objectFit: 'contain',
-              }}
-            />
+          {/* Image (or placeholder), with optional state switcher overlaid */}
+          {activeSrc ? (
+            <div style={{ position: 'relative', display: 'inline-block' }}>
+              <img
+                src={activeSrc}
+                alt={slide.label}
+                style={{
+                  maxWidth: '80vw',
+                  maxHeight: '72vh',
+                  borderRadius: 8,
+                  display: 'block',
+                  objectFit: 'contain',
+                }}
+              />
+              {hasStates && (
+                <StateSwitcher
+                  states={slide.states!}
+                  active={activeStateIdx}
+                  onChange={i => setActiveStateIndices(prev => ({ ...prev, [state.index]: i }))}
+                />
+              )}
+            </div>
           ) : (
             <div style={{
               width: 800, maxWidth: '80vw',
@@ -681,23 +883,29 @@ const EARLY_SLIDES: Slide[] = [
   {
     title: 'Simple dropdown list',
     label: 'Iteration 1',
-    src: '/images/case-studies/simplified-navigation/Iteration-top-nav.png',
+    src: '/images/case-studies/simplified-navigation/iteration-top-nav (grey).png',
     body: 'The starting point — a basic vertical list. Familiar and low-friction, but quickly ran into problems once category lists grew longer than a dozen items.',
   },
   {
     title: 'Flyout panel — left anchored',
     label: 'Iteration 2',
-    src: '/images/case-studies/simplified-navigation/iteration-breadcrumb.png',
+    states: [
+      { label: 'Default', src: '/images/case-studies/simplified-navigation/iteration-breadcrumb1.png' },
+      { label: 'Open',    src: '/images/case-studies/simplified-navigation/iteration-breadcrumb2.png' },
+      { label: 'Subpage', src: '/images/case-studies/simplified-navigation/iteration-breadcrumb3.png' },
+    ],
     body: 'Hovering a category revealed sub-items in a panel anchored to the left. Felt clunky on wide viewports and created awkward mouse travel paths.',
   },
   {
     title: 'Tab-based mega panel',
     label: 'Iteration 3',
+    src: '/images/case-studies/simplified-navigation/iteration-top-second.png',
     body: 'A full-width panel with top-level tabs. Showed a lot of content at once but the visual weight created cognitive overload in early feedback sessions.',
   },
   {
     title: 'Icon-led category grid',
     label: 'Iteration 4',
+    src: '/images/case-studies/simplified-navigation/iteration-steps-dropdown.png',
     body: 'Pairing category names with icons improved recognition speed, but maintaining a consistent icon style across 50+ categories added unsustainable design overhead.',
   },
   {
@@ -737,7 +945,7 @@ const SECTIONS = [
 export default function SimplifiedNavigationPage() {
   const [headerVisible, setHeaderVisible] = useState(false);
   const [activeSection, setActiveSection] = useState('section-brief');
-  const [lightbox, setLightbox] = useState<LightboxState>({ open: false, slides: [], index: 0 });
+  const [lightbox, setLightbox] = useState<LightboxState>({ open: false, slides: [], index: 0, stateIndices: {} });
   const heroTitleRef = useRef<HTMLHeadingElement>(null);
 
   // Scroll listener
@@ -769,8 +977,8 @@ export default function SimplifiedNavigationPage() {
     window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 56, behavior: 'smooth' });
   }, []);
 
-  const openLightbox = useCallback((slides: Slide[], index: number) => {
-    setLightbox({ open: true, slides, index });
+  const openLightbox = useCallback((slides: Slide[], index: number, stateIndices: Record<number, number> = {}) => {
+    setLightbox({ open: true, slides, index, stateIndices });
   }, []);
 
   const closeLightbox = useCallback(() => setLightbox(prev => ({ ...prev, open: false })), []);
@@ -782,8 +990,8 @@ export default function SimplifiedNavigationPage() {
     }));
   }, []);
 
-  const openSingleImage = useCallback((title: string, body: string, label: string) => {
-    setLightbox({ open: true, slides: [{ title, body, label }], index: 0 });
+  const openSingleImage = useCallback((title: string, body: string, label: string, src?: string) => {
+    setLightbox({ open: true, slides: [{ title, body, label, src }], index: 0, stateIndices: {} });
   }, []);
 
   return (
@@ -876,12 +1084,13 @@ export default function SimplifiedNavigationPage() {
             </p>
             <ClickableImage
               label="Page break up diagram"
-              tall
-              constrained
+              src="/images/case-studies/simplified-navigation/Nav breakdown.png"
+              aspectRatio="1760/1546"
               onClick={() => openSingleImage(
                 'Current state analysis',
                 'The original seven-step nav broken down by event stage and steps, showing where consolidation was possible.',
                 'Page break up diagram',
+                '/images/case-studies/simplified-navigation/Nav breakdown.png',
               )}
             />
           </div>
