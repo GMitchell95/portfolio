@@ -32,6 +32,11 @@
   }
 }
 
+::selection {
+  background: rgba(253, 224, 71, 0.2);
+  color: inherit;
+}
+
 @layer utilities {
   .tile-label {
     font-size: 12px;
