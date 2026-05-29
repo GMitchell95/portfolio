@@ -61,3 +61,7 @@ Fully self-contained `'use client'` file — all sub-components are defined inli
 - Tailwind utilities for colour/spacing/typography.
 - Inline styles for pixel-precise layout in case study sections.
 - `globals.css` adds `.tile-label` and `.hero-heading` utilities and a yellow text-selection highlight.
+
+## Prototyping
+
+HTML prototype files must never be placed in the project root directory. Turbopack will attempt to compile them and cause memory crashes. Keep all prototype HTML files on the Desktop or outside the project folder entirely.
