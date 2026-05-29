@@ -61,7 +61,7 @@ const GLOBAL_STYLES = `
     height: 56px;
     background: rgba(255,255,255,0.92);
     backdrop-filter: blur(12px);
-    border-bottom: 1px solid #E4E4E7;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
     display: flex;
     align-items: center;
     transform: translateY(-100%);
@@ -284,8 +284,9 @@ const EARLY_SLIDES: Slide[] = [
 
 const REFINED_SLIDES: Slide[] = [
   {
-    title: 'Two-column panel with featured item',
+    title: '3-step nav',
     label: 'Concept A',
+    src: '/images/case-studies/simplified-navigation/Refined-concept.png',
     body: 'Categories left, sub-items right, with a featured slot at the bottom. Good hierarchy but required editorial maintenance to keep the featured area relevant.',
   },
   {
@@ -361,9 +362,7 @@ export default function SimplifiedNavigationPage() {
   }, []);
 
   const scrollToSection = useCallback((id: string) => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 56, behavior: 'smooth' });
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }, []);
 
   const openLightbox = useCallback((slides: Slide[], index: number, stateIndices: Record<number, number> = {}) => {
@@ -424,9 +423,9 @@ export default function SimplifiedNavigationPage() {
       <div style={{ maxWidth: 680, margin: '0 auto', padding: '0 40px', background: 'white' }}>
 
         {/* HERO */}
-        <section style={{ paddingTop: 80 }}>
+        <section style={{ paddingTop: 80, paddingBottom: 40 }}>
           <div style={{ fontSize: 12, fontWeight: 500, color: '#4443B4', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 20 }}>
-            Case study
+            Project
           </div>
           <h1
             ref={heroTitleRef}
@@ -435,12 +434,12 @@ export default function SimplifiedNavigationPage() {
             Simplified navigation
           </h1>
           <p style={{ fontSize: 15, color: '#71717A', lineHeight: 1.65, marginBottom: 40 }}>
-            Redesigning the navigation for a complex procurement sourcing platform — reducing a seven-step flow down to three, without losing access to any of the functionality underneath.
+            Redesigning the navigation for a complex procurement sourcing platform, condensing a 7-step flow without losing access to any of the core functionality.
           </p>
           <div style={{ display: 'flex', gap: 40, paddingTop: 40, borderTop: '1px solid rgba(228,228,231,0.5)' }}>
             {[
-              { label: 'Role', value: 'Product designer' },
-              { label: 'Timeline', value: '1–2 weeks' },
+              { label: 'Role', value: 'Senior product designer' },
+              { label: 'Timeline', value: '1-2 weeks' },
               { label: 'Date', value: 'February 2026' },
             ].map(item => (
               <div key={item.label} style={{ flex: 1 }}>
@@ -452,15 +451,15 @@ export default function SimplifiedNavigationPage() {
         </section>
 
         {/* THE BRIEF */}
-        <section id="section-brief" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)' }}>
+        <section id="section-brief" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '55px' }}>
           <h2 style={{ fontSize: 20, fontWeight: 600, color: '#18181B', marginBottom: 16 }}>The brief</h2>
           <p style={{ fontSize: 15, fontWeight: 400, color: '#71717A', lineHeight: 1.7 }}>
-            The navigation for Keelvar&#39;s sourcing platform was overwhelming users. The existing side nav used an accordion to reveal pages across seven steps — and when users created a new event, there was no clear starting point or sense of what to do next. We needed to simplify the navigation and give users a clear path forward at every stage. We had roughly a week to get from problem to a concept ready for build.
+            The navigation for Keelvar&#39;s sourcing platform was overwhelming users. The existing side nav used an accordion to reveal pages across 7 different steps, and when users created a new event, there was no clear starting point or sense of what to do next. We needed to simplify the navigation and give users a clear idea of what they needed to do next.
           </p>
         </section>
 
         {/* EXPLORATIONS */}
-        <section id="section-explorations" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)' }}>
+        <section id="section-explorations" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '55px' }}>
           <h2 style={{ fontSize: 20, fontWeight: 600, color: '#18181B', marginBottom: 16 }}>Explorations</h2>
           <p style={{ fontSize: 15, fontWeight: 400, color: '#71717A', lineHeight: 1.7 }}>
             Before exploring concepts, I mapped the existing nav from an IA perspective — identifying which pages could be logically grouped or consolidated across the seven steps.
@@ -485,6 +484,7 @@ export default function SimplifiedNavigationPage() {
           </div>
 
           <div style={{ marginBottom: 24 }}>
+            <h3 style={{ fontSize: 16, fontWeight: 600, color: '#18181B', marginBottom: 8 }}>Early explorations</h3>
             <p style={{ fontSize: 14, color: '#71717A', lineHeight: 1.7 }}>
               Early ideas exploring different structural approaches before bringing the wider team in.
             </p>
@@ -494,16 +494,28 @@ export default function SimplifiedNavigationPage() {
         </section>
 
         {/* REFINED CONCEPT */}
-        <section id="section-refined" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)' }}>
+        <section id="section-refined" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '55px' }}>
           <h2 style={{ fontSize: 20, fontWeight: 600, color: '#18181B', marginBottom: 16 }}>Refined concept</h2>
           <p style={{ fontSize: 15, fontWeight: 400, color: '#71717A', lineHeight: 1.7 }}>
-            We ran a workshop with the PM, three engineers, and myself — everyone contributed concepts, one engineer built a rough coded version of his idea. Using Figma Make, we prototyped collaboratively, narrowed to one or two directions, then I refined further and brought it back for a follow-up review.
+            We ran a workshop with the PM, engineers, and myself. We shared ideas of concepts from Figma Make to quickly coded prototypes. We narrowed it down to a combination of 2 concepts which I refined further before sending final feedback.
           </p>
           <IterationSwitcher slides={REFINED_SLIDES} onOpenLightbox={openLightbox} />
+          <div style={{ marginTop: 40 }}>
+            <h3 style={{ fontSize: 16, fontWeight: 600, color: '#18181B', marginBottom: 12 }}>Internal feedback</h3>
+            <ul style={{ margin: 0, paddingLeft: 20, listStyleType: 'disc', display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {[
+                "The user should see what step they're on at all times.",
+                "They should quickly be able to access other pages, even when in subpages.",
+                "Reducing the number of steps to make event management feel simpler was important.",
+              ].map((item, i) => (
+                <li key={i} style={{ fontSize: 14, color: '#71717A', lineHeight: 1.7 }}>{item}</li>
+              ))}
+            </ul>
+          </div>
         </section>
 
         {/* ADDITIONAL DETAILS */}
-        <section id="section-additional" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)' }}>
+        <section id="section-additional" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '55px' }}>
           <h2 style={{ fontSize: 20, fontWeight: 600, color: '#18181B', marginBottom: 16 }}>Additional details</h2>
           <p style={{ fontSize: 15, fontWeight: 400, color: '#71717A', lineHeight: 1.7 }}>
             Small improvements surfaced during team review — refinements to the todo section of the UI.
@@ -512,7 +524,7 @@ export default function SimplifiedNavigationPage() {
         </section>
 
         {/* CONCLUSION */}
-        <section id="section-conclusion" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)' }}>
+        <section id="section-conclusion" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '55px' }}>
           <h2 style={{ fontSize: 20, fontWeight: 600, color: '#18181B', marginBottom: 16 }}>Conclusion</h2>
           <p style={{ fontSize: 15, fontWeight: 400, color: '#71717A', lineHeight: 1.7 }}>
             A few of the more significant choices made during the project — and the reasoning behind them.
