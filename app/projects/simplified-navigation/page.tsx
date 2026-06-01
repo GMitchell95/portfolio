@@ -438,7 +438,7 @@ export default function SimplifiedNavigationPage() {
           </p>
           <div style={{ display: 'flex', gap: 40, paddingTop: 40, borderTop: '1px solid rgba(228,228,231,0.5)' }}>
             {[
-              { label: 'Role', value: 'Senior product designer' },
+              { label: 'Role', value: 'Product designer' },
               { label: 'Timeline', value: '1-2 weeks' },
               { label: 'Date', value: 'February 2026' },
             ].map(item => (
@@ -474,6 +474,7 @@ export default function SimplifiedNavigationPage() {
               label="Page break up diagram"
               src="/images/case-studies/simplified-navigation/Nav breakdown.png"
               aspectRatio="1760/1546"
+              loading="eager"
               onClick={() => openSingleImage(
                 'Current state analysis',
                 'The original seven-step nav broken down by event stage and steps, showing where consolidation was possible.',

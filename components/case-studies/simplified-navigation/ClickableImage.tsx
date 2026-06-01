@@ -47,6 +47,7 @@ export default function ClickableImage({
   tall = false,
   constrained = false,
   aspectRatio = '1760/1060',
+  loading,
   onClick,
 }: {
   label: string;
@@ -54,6 +55,7 @@ export default function ClickableImage({
   tall?: boolean;
   constrained?: boolean;
   aspectRatio?: string;
+  loading?: 'eager' | 'lazy';
   onClick: () => void;
 }) {
   // Track a fade key so we can crossfade when src changes
@@ -96,6 +98,7 @@ export default function ClickableImage({
               key={displayed.key}
               src={displayed.src}
               fill
+              loading={loading}
               style={{ objectFit: 'cover', opacity: incoming ? 0 : 1, transition: incoming ? 'opacity 200ms ease' : 'none' }}
               alt={label}
             />
