@@ -375,7 +375,7 @@ export default function MegaMenuTile() {
       ref={tileRef}
       tabIndex={0}
       className="w-full outline-none focus-visible:shadow-[0_0_0_3px_rgba(68,67,180,0.2)]"
-      style={{ height: 608, background: '#F4F4F5', borderRadius: 16, padding: 24, display: 'flex', flexDirection: 'column', overflow: 'visible' }}
+      style={{ height: 565, background: '#F4F4F5', borderRadius: 16, padding: 24, display: 'flex', flexDirection: 'column', overflow: 'visible' }}
     >
 
       {/* ── Inner white card ── */}

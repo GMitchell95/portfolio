@@ -6,6 +6,7 @@ import { ChevronLeft, ChevronRight } from '@/components/case-studies/simplified-
 import ClickableImage from '@/components/case-studies/simplified-navigation/ClickableImage';
 import IterationSwitcher from '@/components/case-studies/simplified-navigation/IterationSwitcher';
 import Lightbox from '@/components/case-studies/simplified-navigation/Lightbox';
+import MegaMenuTile from '@/components/tiles/MegaMenuTile';
 
 // ── Global styles ────────────────────────────────────────────────────────────
 
@@ -248,14 +249,8 @@ const GLOBAL_STYLES = `
 
 const EARLY_SLIDES: Slide[] = [
   {
-    title: 'Simple dropdown list',
-    label: 'Iteration 1',
-    src: '/images/case-studies/simplified-navigation/iteration-top-nav (grey).png',
-    body: 'The starting point — a basic vertical list. Familiar and low-friction, but quickly ran into problems once category lists grew longer than a dozen items.',
-  },
-  {
     title: 'Flyout panel — left anchored',
-    label: 'Iteration 2',
+    label: 'Iteration 1',
     states: [
       { label: 'Default', src: '/images/case-studies/simplified-navigation/iteration-breadcrumb1.png' },
       { label: 'Open',    src: '/images/case-studies/simplified-navigation/iteration-breadcrumb2.png' },
@@ -274,6 +269,12 @@ const EARLY_SLIDES: Slide[] = [
     label: 'Iteration 4',
     src: '/images/case-studies/simplified-navigation/iteration-steps-dropdown.png',
     body: 'Pairing category names with icons improved recognition speed, but maintaining a consistent icon style across 50+ categories added unsustainable design overhead.',
+  },
+  {
+    title: 'Simple dropdown list',
+    label: 'Iteration 1',
+    src: '/images/case-studies/simplified-navigation/iteration-top-nav (grey).png',
+    body: 'The starting point — a basic vertical list. Familiar and low-friction, but quickly ran into problems once category lists grew longer than a dozen items.',
   },
   {
     title: 'Sidebar drawer',
@@ -462,14 +463,11 @@ export default function SimplifiedNavigationPage() {
         <section id="section-explorations" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '55px' }}>
           <h2 style={{ fontSize: 20, fontWeight: 600, color: '#18181B', marginBottom: 16 }}>Explorations</h2>
           <p style={{ fontSize: 15, fontWeight: 400, color: '#71717A', lineHeight: 1.7 }}>
-            Before exploring concepts, I mapped the existing nav from an IA perspective — identifying which pages could be logically grouped or consolidated across the seven steps.
+            Before exploring concepts, I mapped the existing nav from an information architecture perspective to identify which pages could be logically grouped or consolidated across the 7 steps.
           </p>
 
           {/* Analysis block */}
           <div style={{ marginTop: 40, marginBottom: 64 }}>
-            <p style={{ fontSize: 14, color: '#71717A', lineHeight: 1.7, marginBottom: 32 }}>
-              The original seven-step flow broken down by event stage — showing where pages could be consolidated without losing functionality.
-            </p>
             <ClickableImage
               label="Page break up diagram"
               src="/images/case-studies/simplified-navigation/Nav breakdown.png"
@@ -574,6 +572,18 @@ export default function SimplifiedNavigationPage() {
                 </div>
               </div>
             ))}
+          </div>
+
+          <div style={{ marginTop: 40 }}>
+            <h3 style={{ fontSize: 16, fontWeight: 600, color: '#18181B', marginBottom: 4 }}>Interactive prototype</h3>
+            <p style={{ fontSize: 14, color: '#71717A', lineHeight: 1.7, marginBottom: 16 }}>Click on tabs and subpages in the dropdown menu.</p>
+            <div style={{
+              background: '#F4F4F5',
+              borderRadius: 16,
+              padding: 0,
+            }}>
+              <MegaMenuTile />
+            </div>
           </div>
         </section>
 
