@@ -249,6 +249,12 @@ const GLOBAL_STYLES = `
 
 const EARLY_SLIDES: Slide[] = [
   {
+    title: 'Tab-based mega panel',
+    label: 'Iteration 3',
+    src: '/images/case-studies/simplified-navigation/iteration-top-second.png',
+    body: 'A full-width panel with top-level tabs. Showed a lot of content at once but the visual weight created cognitive overload in early feedback sessions.',
+  },
+  {
     title: 'Flyout panel — left anchored',
     label: 'Iteration 1',
     states: [
@@ -257,12 +263,6 @@ const EARLY_SLIDES: Slide[] = [
       { label: 'Subpage', src: '/images/case-studies/simplified-navigation/iteration-breadcrumb3.png' },
     ],
     body: 'Hovering a category revealed sub-items in a panel anchored to the left. Felt clunky on wide viewports and created awkward mouse travel paths.',
-  },
-  {
-    title: 'Tab-based mega panel',
-    label: 'Iteration 3',
-    src: '/images/case-studies/simplified-navigation/iteration-top-second.png',
-    body: 'A full-width panel with top-level tabs. Showed a lot of content at once but the visual weight created cognitive overload in early feedback sessions.',
   },
   {
     title: 'Icon-led category grid',
@@ -470,22 +470,22 @@ export default function SimplifiedNavigationPage() {
           <div style={{ marginTop: 40, marginBottom: 64 }}>
             <ClickableImage
               label="Page break up diagram"
-              src="/images/case-studies/simplified-navigation/Nav breakdown.png"
+              src="/images/case-studies/simplified-navigation/nav-breakdown.png"
               aspectRatio="1760/1546"
               loading="eager"
               onClick={() => openSingleImage(
                 'Current state analysis',
                 'The original seven-step nav broken down by event stage and steps, showing where consolidation was possible.',
                 'Page break up diagram',
-                '/images/case-studies/simplified-navigation/Nav breakdown.png',
+                '/images/case-studies/simplified-navigation/nav-breakdown.png',
               )}
             />
           </div>
 
           <div style={{ marginBottom: 24 }}>
             <h3 style={{ fontSize: 16, fontWeight: 600, color: '#18181B', marginBottom: 8 }}>Early explorations</h3>
-            <p style={{ fontSize: 14, color: '#71717A', lineHeight: 1.7 }}>
-              Early ideas exploring different structural approaches before bringing the wider team in.
+            <p style={{ fontSize: 15, color: '#71717A', lineHeight: 1.7 }}>
+              Exploring various ways we could condense the nav into 3-4 simpler event stages. The main goal was to move away from a vertical side nav to some form of top nav.
             </p>
           </div>
 
@@ -501,7 +501,7 @@ export default function SimplifiedNavigationPage() {
           <IterationSwitcher slides={REFINED_SLIDES} onOpenLightbox={openLightbox} />
           <div style={{ marginTop: 40 }}>
             <h3 style={{ fontSize: 16, fontWeight: 600, color: '#18181B', marginBottom: 12 }}>Internal feedback</h3>
-            <ul style={{ margin: 0, paddingLeft: 20, listStyleType: 'disc', display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <ul style={{ margin: 0, paddingLeft: 20, listStyleType: 'disc', display: 'flex', flexDirection: 'column', gap: 4 }}>
               {[
                 "The user should see what step they're on at all times.",
                 "They should quickly be able to access other pages, even when in subpages.",
@@ -529,7 +529,7 @@ export default function SimplifiedNavigationPage() {
             A few of the more significant choices made during the project — and the reasoning behind them.
           </p>
 
-          <div style={{ marginTop: 40, display: 'flex', flexDirection: 'column', gap: 32 }}>
+          <div style={{ marginTop: 40, display: 'grid', gridTemplateColumns: 'auto 1fr', columnGap: 16, rowGap: 32, alignItems: 'start' }}>
             {[
               {
                 tag: 'Kept',
@@ -556,12 +556,12 @@ export default function SimplifiedNavigationPage() {
                 body: 'Feedback from professional services — the team dealing with customers daily — was broadly positive and gave us enough confidence to move forward.',
               },
             ].map((item, i) => (
-              <div key={i} style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
+              <React.Fragment key={i}>
                 <span style={{
-                  fontSize: 11, fontWeight: 600,
-                  letterSpacing: '0.04em', textTransform: 'uppercase' as const,
+                  fontSize: 12, fontWeight: 600,
                   borderRadius: 4, padding: '3px 7px',
-                  flexShrink: 0, marginTop: 2,
+                  alignSelf: 'start', justifySelf: 'start',
+                  marginTop: 2,
                   ...item.tagStyle,
                 }}>
                   {item.tag}
@@ -570,7 +570,7 @@ export default function SimplifiedNavigationPage() {
                   <div style={{ fontSize: 15, fontWeight: 600, color: '#27272A', marginBottom: 6 }}>{item.title}</div>
                   <div style={{ fontSize: 14, color: '#71717A', lineHeight: 1.7 }}>{item.body}</div>
                 </div>
-              </div>
+              </React.Fragment>
             ))}
           </div>
 
