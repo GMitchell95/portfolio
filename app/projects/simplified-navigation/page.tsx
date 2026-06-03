@@ -98,7 +98,7 @@ const GLOBAL_STYLES = `
     display: none;
     width: 1px;
     align-self: stretch;
-    background: #E4E4E7;
+    background: var(--color-border);
     margin: 0 16px;
     flex-shrink: 0;
   }
@@ -111,13 +111,13 @@ const GLOBAL_STYLES = `
     display: none;
     align-items: center;
     gap: 8px;
-    font-size: 14px;
-    font-weight: 500;
-    color: #71717A;
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-body);
     text-decoration: none;
     transition: color 0.15s ease-out;
   }
-  .cs-header-back:hover { color: #27272A; }
+  .cs-header-back:hover { color: var(--color-primary); }
   @media (max-width: 1199px) {
     .cs-header-back { display: inline-flex; }
   }
@@ -152,27 +152,27 @@ const GLOBAL_STYLES = `
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    font-size: 14px;
-    font-weight: 500;
-    color: #71717A;
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-body);
     margin-bottom: 24px;
     text-decoration: none;
     transition: color 0.15s ease-out;
   }
-  .cs-sidebar-back:hover { color: #27272A; }
+  .cs-sidebar-back:hover { color: var(--color-primary); }
 
   /* Sidebar nav */
   .cs-sidebar-nav {
     display: flex;
     flex-direction: column;
-    border-left: 1px solid #E4E4E7;
+    border-left: 1px solid var(--color-border);
   }
 
   /* Sidebar link */
   .cs-nav-link {
-    font-size: 13px;
-    font-weight: 400;
-    color: #A1A1AA;
+    font-size: var(--font-size-nav);
+    font-weight: var(--font-weight-regular);
+    color: var(--color-muted);
     padding: 8px 0 8px 16px;
     cursor: pointer;
     border: none;
@@ -180,14 +180,14 @@ const GLOBAL_STYLES = `
     margin-left: -1px;
     background: none;
     text-align: left;
-    line-height: 1.4;
+    line-height: var(--line-height-body);
     transition: color 0.15s ease, border-color 0.15s ease;
   }
-  .cs-nav-link:hover { color: #3F3F46; }
+  .cs-nav-link:hover { color: var(--color-secondary); }
   .cs-nav-link.cs-nav-link--active {
-    color: #27272A;
-    font-weight: 500;
-    border-left-color: #27272A;
+    color: var(--color-primary);
+    font-weight: var(--font-weight-medium);
+    border-left-color: var(--color-primary);
   }
 
   /* Zoom hint on image hover */
@@ -199,7 +199,7 @@ const GLOBAL_STYLES = `
     background: rgba(0,0,0,0.55);
     color: white;
     font-size: 12px;
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     padding: 5px 10px;
     border-radius: 6px;
     display: flex;
@@ -213,13 +213,13 @@ const GLOBAL_STYLES = `
 
   /* Switcher button hover */
   .cs-sw-btn:hover:not(:disabled) {
-    background: #FAFAFA !important;
+    background: var(--color-surface-subtle) !important;
     border-color: #D4D4D8 !important;
   }
 
   /* Footer button hover */
   .cs-btn-outline:hover:not(:disabled) {
-    background: #FAFAFA !important;
+    background: var(--color-surface-subtle) !important;
     border-color: #D4D4D8 !important;
   }
 
@@ -395,7 +395,7 @@ export default function SimplifiedNavigationPage() {
             Back
           </a>
           <span className="cs-header-divider" />
-          <span style={{ fontSize: 15, fontWeight: 500, color: '#27272A' }}>Simplified navigation</span>
+          <span style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-primary)' }}>Simplified navigation</span>
         </div>
       </header>
 
@@ -421,20 +421,20 @@ export default function SimplifiedNavigationPage() {
       </nav>
 
       {/* ── PAGE CONTENT ──────────────────────────────────────────────── */}
-      <div style={{ maxWidth: 680, margin: '0 auto', padding: '0 40px', background: 'white' }}>
+      <div style={{ maxWidth: 680, margin: '0 auto', padding: '0 40px', background: 'var(--color-white)' }}>
 
         {/* HERO */}
         <section style={{ paddingTop: 80, paddingBottom: 40 }}>
-          <div style={{ fontSize: 12, fontWeight: 500, color: '#4443B4', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 20 }}>
+          <div style={{ fontSize: 'var(--font-size-label)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-accent)', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 20 }}>
             Project
           </div>
           <h1
             ref={heroTitleRef}
-            style={{ fontSize: 36, fontWeight: 600, color: '#18181B', lineHeight: 1.05, letterSpacing: '-0.025em', marginBottom: 24 }}
+            style={{ fontSize: 'var(--font-size-h1)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', lineHeight: 'var(--line-height-heading)', letterSpacing: '-0.025em', marginBottom: 24 }}
           >
             Simplified navigation
           </h1>
-          <p style={{ fontSize: 15, color: '#71717A', lineHeight: 1.65, marginBottom: 40 }}>
+          <p style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', marginBottom: 40 }}>
             Redesigning the navigation for a complex procurement sourcing platform, condensing a 7-step flow without losing access to any of the core functionality.
           </p>
           <div style={{ display: 'flex', gap: 40, paddingTop: 40, borderTop: '1px solid rgba(228,228,231,0.5)' }}>
@@ -444,8 +444,8 @@ export default function SimplifiedNavigationPage() {
               { label: 'Date', value: 'February 2026' },
             ].map(item => (
               <div key={item.label} style={{ flex: 1 }}>
-                <div style={{ fontSize: 15, fontWeight: 600, color: '#27272A', marginBottom: 4 }}>{item.label}</div>
-                <div style={{ fontSize: 15, fontWeight: 400, color: '#71717A' }}>{item.value}</div>
+                <div style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-primary)', marginBottom: 4 }}>{item.label}</div>
+                <div style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)' }}>{item.value}</div>
               </div>
             ))}
           </div>
@@ -453,16 +453,16 @@ export default function SimplifiedNavigationPage() {
 
         {/* THE BRIEF */}
         <section id="section-brief" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '55px' }}>
-          <h2 style={{ fontSize: 20, fontWeight: 600, color: '#18181B', marginBottom: 16 }}>The brief</h2>
-          <p style={{ fontSize: 15, fontWeight: 400, color: '#71717A', lineHeight: 1.7 }}>
+          <h2 style={{ fontSize: 'var(--font-size-h2)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 16 }}>The brief</h2>
+          <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>
             The navigation for Keelvar&#39;s sourcing platform was overwhelming users. The existing side nav used an accordion to reveal pages across 7 different steps, and when users created a new event, there was no clear starting point or sense of what to do next. We needed to simplify the navigation and give users a clear idea of what they needed to do next.
           </p>
         </section>
 
         {/* EXPLORATIONS */}
         <section id="section-explorations" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '55px' }}>
-          <h2 style={{ fontSize: 20, fontWeight: 600, color: '#18181B', marginBottom: 16 }}>Explorations</h2>
-          <p style={{ fontSize: 15, fontWeight: 400, color: '#71717A', lineHeight: 1.7 }}>
+          <h2 style={{ fontSize: 'var(--font-size-h2)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 16 }}>Explorations</h2>
+          <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>
             Before exploring concepts, I mapped the existing nav from an information architecture perspective to identify which pages could be logically grouped or consolidated across the 7 steps.
           </p>
 
@@ -483,8 +483,8 @@ export default function SimplifiedNavigationPage() {
           </div>
 
           <div style={{ marginBottom: 24 }}>
-            <h3 style={{ fontSize: 16, fontWeight: 600, color: '#18181B', marginBottom: 8 }}>Early explorations</h3>
-            <p style={{ fontSize: 15, color: '#71717A', lineHeight: 1.7 }}>
+            <h3 style={{ fontSize: 'var(--font-size-h3)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 8 }}>Early explorations</h3>
+            <p style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>
               Exploring various ways we could condense the nav into 3-4 simpler event stages. The main goal was to move away from a vertical side nav to some form of top nav.
             </p>
           </div>
@@ -494,29 +494,37 @@ export default function SimplifiedNavigationPage() {
 
         {/* REFINED CONCEPT */}
         <section id="section-refined" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '55px' }}>
-          <h2 style={{ fontSize: 20, fontWeight: 600, color: '#18181B', marginBottom: 16 }}>Refined concept</h2>
-          <p style={{ fontSize: 15, fontWeight: 400, color: '#71717A', lineHeight: 1.7 }}>
+          <h2 style={{ fontSize: 'var(--font-size-h2)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 16 }}>Refined concept</h2>
+          <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>
             We ran a workshop with the PM, engineers, and myself. We shared ideas of concepts from Figma Make to quickly coded prototypes. We narrowed it down to a combination of 2 concepts which I refined further before sending final feedback.
           </p>
           <IterationSwitcher slides={REFINED_SLIDES} onOpenLightbox={openLightbox} />
           <div style={{ marginTop: 40 }}>
-            <h3 style={{ fontSize: 16, fontWeight: 600, color: '#18181B', marginBottom: 12 }}>Internal feedback</h3>
+            <h3 style={{ fontSize: 'var(--font-size-h3)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 12 }}>Internal feedback</h3>
             <ul style={{ margin: 0, paddingLeft: 20, listStyleType: 'disc', display: 'flex', flexDirection: 'column', gap: 4 }}>
               {[
                 "The user should see what step they're on at all times.",
                 "They should quickly be able to access other pages, even when in subpages.",
                 "Reducing the number of steps to make event management feel simpler was important.",
               ].map((item, i) => (
-                <li key={i} style={{ fontSize: 14, color: '#71717A', lineHeight: 1.7 }}>{item}</li>
+                <li key={i} style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>{item}</li>
               ))}
             </ul>
+          </div>
+
+          <div style={{ marginTop: 40 }}>
+            <div style={{ background: 'var(--color-surface)', borderRadius: 16, overflow: 'hidden', clipPath: 'inset(1px 1px 0 0)' }}>
+              <video autoPlay loop muted playsInline style={{ width: '100%', display: 'block' }}>
+                <source src="/videos/old-flow.mp4" type="video/mp4" />
+              </video>
+            </div>
           </div>
         </section>
 
         {/* ADDITIONAL DETAILS */}
         <section id="section-additional" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '55px' }}>
-          <h2 style={{ fontSize: 20, fontWeight: 600, color: '#18181B', marginBottom: 16 }}>Additional details</h2>
-          <p style={{ fontSize: 15, fontWeight: 400, color: '#71717A', lineHeight: 1.7 }}>
+          <h2 style={{ fontSize: 'var(--font-size-h2)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 16 }}>Additional details</h2>
+          <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>
             Small improvements surfaced during team review — refinements to the todo section of the UI.
           </p>
           <IterationSwitcher slides={ADDITIONAL_SLIDES} onOpenLightbox={openLightbox} />
@@ -524,8 +532,8 @@ export default function SimplifiedNavigationPage() {
 
         {/* CONCLUSION */}
         <section id="section-conclusion" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '55px' }}>
-          <h2 style={{ fontSize: 20, fontWeight: 600, color: '#18181B', marginBottom: 16 }}>Conclusion</h2>
-          <p style={{ fontSize: 15, fontWeight: 400, color: '#71717A', lineHeight: 1.7 }}>
+          <h2 style={{ fontSize: 'var(--font-size-h2)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 16 }}>Conclusion</h2>
+          <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>
             A few of the more significant choices made during the project — and the reasoning behind them.
           </p>
 
@@ -558,7 +566,7 @@ export default function SimplifiedNavigationPage() {
             ].map((item, i) => (
               <React.Fragment key={i}>
                 <span style={{
-                  fontSize: 12, fontWeight: 600,
+                  fontSize: 'var(--font-size-label)', fontWeight: 'var(--font-weight-bold)',
                   borderRadius: 4, padding: '3px 7px',
                   alignSelf: 'start', justifySelf: 'start',
                   marginTop: 2,
@@ -567,18 +575,18 @@ export default function SimplifiedNavigationPage() {
                   {item.tag}
                 </span>
                 <div>
-                  <div style={{ fontSize: 15, fontWeight: 600, color: '#27272A', marginBottom: 6 }}>{item.title}</div>
-                  <div style={{ fontSize: 14, color: '#71717A', lineHeight: 1.7 }}>{item.body}</div>
+                  <div style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-primary)', marginBottom: 6 }}>{item.title}</div>
+                  <div style={{ fontSize: 'var(--font-size-small)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>{item.body}</div>
                 </div>
               </React.Fragment>
             ))}
           </div>
 
           <div style={{ marginTop: 40 }}>
-            <h3 style={{ fontSize: 16, fontWeight: 600, color: '#18181B', marginBottom: 4 }}>Interactive prototype</h3>
-            <p style={{ fontSize: 14, color: '#71717A', lineHeight: 1.7, marginBottom: 16 }}>Click on tabs and subpages in the dropdown menu.</p>
+            <h3 style={{ fontSize: 'var(--font-size-h3)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 4 }}>Interactive prototype</h3>
+            <p style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', marginBottom: 16 }}>Click on tabs and subpages in the dropdown menu.</p>
             <div style={{
-              background: '#F4F4F5',
+              background: 'var(--color-surface)',
               borderRadius: 16,
               padding: 0,
             }}>
@@ -594,16 +602,16 @@ export default function SimplifiedNavigationPage() {
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
           marginTop: 24,
         }}>
-          <span style={{ fontSize: 14, color: '#A1A1AA' }}>Glen Mitchell</span>
+          <span style={{ fontSize: 'var(--font-size-small)', color: 'var(--color-muted)' }}>Glen Mitchell</span>
           <div style={{ display: 'flex', gap: 8 }}>
             <button
               disabled
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: 8,
                 height: 36, padding: '0 16px', borderRadius: 8,
-                fontSize: 14, fontWeight: 500,
-                background: 'white', color: '#27272A',
-                border: '1px solid #E4E4E7',
+                fontSize: 'var(--font-size-small)', fontWeight: 'var(--font-weight-medium)',
+                background: 'var(--color-white)', color: 'var(--color-primary)',
+                border: '1px solid var(--color-border)',
                 boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
                 opacity: 0.3, cursor: 'default',
               }}
@@ -616,9 +624,9 @@ export default function SimplifiedNavigationPage() {
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: 8,
                 height: 36, padding: '0 16px', borderRadius: 8,
-                fontSize: 14, fontWeight: 500,
-                background: 'white', color: '#27272A',
-                border: '1px solid #E4E4E7',
+                fontSize: 'var(--font-size-small)', fontWeight: 'var(--font-weight-medium)',
+                background: 'var(--color-white)', color: 'var(--color-primary)',
+                border: '1px solid var(--color-border)',
                 boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
                 cursor: 'pointer',
                 transition: 'all 0.15s ease-out',

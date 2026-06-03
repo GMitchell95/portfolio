@@ -5,7 +5,7 @@ import Image from 'next/image';
 
 function ImageIcon() {
   return (
-    <svg width={26} height={26} fill="none" viewBox="0 0 24 24" stroke="#A1A1AA" strokeWidth={1.5}>
+    <svg width={26} height={26} fill="none" viewBox="0 0 24 24" style={{ stroke: 'var(--color-muted)' }} strokeWidth={1.5}>
       <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909" />
     </svg>
   );
@@ -26,7 +26,7 @@ function ImagePlaceholder({ label, tall = false }: { label: string; tall?: boole
         width: '100%',
         aspectRatio: tall ? '9/14' : '16/9',
         maxHeight: tall ? 480 : undefined,
-        background: '#F4F4F5',
+        background: 'var(--color-surface)',
         borderRadius: 8,
         display: 'flex',
         alignItems: 'center',
@@ -35,7 +35,7 @@ function ImagePlaceholder({ label, tall = false }: { label: string; tall?: boole
     >
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10 }}>
         <ImageIcon />
-        <span style={{ fontSize: 13, color: '#A1A1AA', fontWeight: 500 }}>{label}</span>
+        <span style={{ fontSize: 'var(--font-size-nav)', color: 'var(--color-muted)', fontWeight: 'var(--font-weight-medium)' }}>{label}</span>
       </div>
     </div>
   );

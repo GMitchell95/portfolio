@@ -94,7 +94,7 @@ export default function IterationSwitcher({
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, marginBottom: 12 }}>
         <span
           ref={titleRef}
-          style={{ fontSize: 15, fontWeight: 600, color: '#27272A', display: 'inline-block', willChange: 'transform, opacity' }}
+          style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-primary)', display: 'inline-block', willChange: 'transform, opacity' }}
         >
           {displayTitle}
         </span>
@@ -110,7 +110,7 @@ export default function IterationSwitcher({
                   width: i === current ? 16 : 5,
                   height: 5,
                   borderRadius: i === current ? 3 : '50%',
-                  background: i === current ? '#27272A' : '#D4D4D8',
+                  background: i === current ? 'var(--color-primary)' : 'var(--color-border-strong)',
                   border: 'none',
                   padding: 0,
                   cursor: 'pointer',
@@ -123,7 +123,7 @@ export default function IterationSwitcher({
 
           {/* Counter */}
           <span style={{
-            fontSize: 13, fontWeight: 500, color: '#A1A1AA',
+            fontSize: 'var(--font-size-nav)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-muted)',
             fontVariantNumeric: 'tabular-nums', minWidth: 36, textAlign: 'center',
           }}>
             {current + 1} of {total}
@@ -136,12 +136,12 @@ export default function IterationSwitcher({
             disabled={current === 0}
             style={{
               width: 32, height: 32, borderRadius: 8,
-              border: '1px solid #E4E4E7',
-              background: 'white',
+              border: '1px solid var(--color-border)',
+              background: 'var(--color-white)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               cursor: current === 0 ? 'default' : 'pointer',
               opacity: current === 0 ? 0.3 : 1,
-              color: '#3F3F46',
+              color: 'var(--color-secondary)',
               flexShrink: 0,
               transition: 'all 0.15s ease-out',
             }}
@@ -156,12 +156,12 @@ export default function IterationSwitcher({
             disabled={current === total - 1}
             style={{
               width: 32, height: 32, borderRadius: 8,
-              border: '1px solid #E4E4E7',
-              background: 'white',
+              border: '1px solid var(--color-border)',
+              background: 'var(--color-white)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               cursor: current === total - 1 ? 'default' : 'pointer',
               opacity: current === total - 1 ? 0.3 : 1,
-              color: '#3F3F46',
+              color: 'var(--color-secondary)',
               flexShrink: 0,
               transition: 'all 0.15s ease-out',
             }}
@@ -198,7 +198,7 @@ export default function IterationSwitcher({
       </div>
 
       {/* Caption */}
-      <p style={{ fontSize: 14, color: '#71717A', lineHeight: 1.65, marginTop: 12 }}>
+      <p style={{ fontSize: 'var(--font-size-small)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', marginTop: 12 }}>
         {slides[current].body}
       </p>
     </div>

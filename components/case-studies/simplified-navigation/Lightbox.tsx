@@ -268,7 +268,7 @@ export default function Lightbox({
         <div style={{
           position: 'absolute', bottom: 32, left: '50%', transform: 'translateX(-50%)',
           background: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(8px)',
-          color: 'rgba(255,255,255,0.85)', fontSize: 12, fontWeight: 500,
+          color: 'rgba(255,255,255,0.85)', fontSize: 'var(--font-size-label)', fontWeight: 'var(--font-weight-medium)',
           padding: '5px 14px', borderRadius: 20,
           pointerEvents: 'none', zIndex: 10, whiteSpace: 'nowrap',
           animation: 'cs-lb-badge-out 1800ms ease forwards',
@@ -362,7 +362,7 @@ export default function Lightbox({
               <svg width={32} height={32} fill="none" viewBox="0 0 24 24" stroke="#555" strokeWidth={1.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909" />
               </svg>
-              <span style={{ fontSize: 14, color: '#666' }}>{slide.label}</span>
+              <span style={{ fontSize: 'var(--font-size-small)', color: '#666' }}>{slide.label}</span>
             </div>
           )}
 
@@ -392,10 +392,10 @@ export default function Lightbox({
         {/* Caption — hidden while zoomed */}
         {!zoomed && (
           <div style={{ marginTop: 20, textAlign: 'center', color: 'white' }}>
-            <div style={{ fontSize: 15, fontWeight: 600, marginBottom: 4 }}>{slide.title}</div>
-            <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.55)', maxWidth: 560, lineHeight: 1.6 }}>{slide.body}</div>
+            <div style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-bold)', marginBottom: 4 }}>{slide.title}</div>
+            <div style={{ fontSize: 'var(--font-size-nav)', color: 'rgba(255,255,255,0.55)', maxWidth: 560, lineHeight: 'var(--line-height-body)' }}>{slide.body}</div>
             {hasMultiple && (
-              <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.35)', marginTop: 12 }}>
+              <div style={{ fontSize: 'var(--font-size-label)', color: 'rgba(255,255,255,0.35)', marginTop: 12 }}>
                 {state.index + 1} of {state.slides.length}
               </div>
             )}

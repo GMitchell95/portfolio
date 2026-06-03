@@ -1,3 +1,36 @@
+:root {
+  --color-heading: #18181B;     /* zinc-900 */
+  --color-body: #71717A;        /* zinc-500 */
+  --color-muted: #A1A1AA;       /* zinc-400 */
+  --color-secondary: #3F3F46;   /* zinc-700 */
+  --color-primary: #27272A;     /* zinc-800 */
+  --color-border: #E4E4E7;      /* zinc-200 */
+  --color-border-strong: #D4D4D8; /* zinc-300 */
+  --color-surface: #F4F4F5;     /* zinc-100 */
+  --color-accent: #4443B4;
+  --color-accent-hover: #3332A0;
+  --color-accent-light: #EBEBF8;
+  --color-white: #FFFFFF;           /* pure white */
+  --color-surface-subtle: #FAFAFA;  /* zinc-50, button hover backgrounds */
+
+  /* Typography */
+  --font-size-h1: 36px;
+  --font-size-h2: 20px;
+  --font-size-h3: 16px;
+  --font-size-body: 15px;
+  --font-size-small: 14px;
+  --font-size-label: 12px;
+  --font-size-nav: 13px;    /* sidebar nav, counters, captions */
+
+  --font-weight-bold: 600;
+  --font-weight-medium: 500;
+  --font-weight-regular: 400;
+
+  /* Line heights */
+  --line-height-heading: 1.3;
+  --line-height-body: 1.5;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
