@@ -7,6 +7,48 @@ import 'photoswipe/style.css';
 import type { LightboxState } from './types';
 import StateSwitcher from './StateSwitcher';
 
+const SVG_CLOSE = `<svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>`;
+const SVG_PREV  = `<svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>`;
+const SVG_NEXT  = `<svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>`;
+const SVG_ZOOM_IN  = `<svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M11 8v6M8 11h6"/></svg>`;
+const SVG_ZOOM_OUT = `<svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M8 11h6"/></svg>`;
+
+const ICON_STYLE = 'align-items:center;justify-content:center;position:absolute;top:0;left:0;right:0;bottom:0;pointer-events:none;display:flex;';
+
+function updateArrowVisibility(el: Element, index: number, total: number) {
+  el.querySelector('.pswp__button--arrow--prev')?.classList.toggle('pswp-arrow-hidden', index === 0);
+  el.querySelector('.pswp__button--arrow--next')?.classList.toggle('pswp-arrow-hidden', index === total - 1);
+}
+
+function injectCustomIcons(el: Element) {
+  const addIcon = (selector: string, svg: string) => {
+    const btn = el.querySelector(selector);
+    if (!btn) return;
+    const span = document.createElement('span');
+    span.style.cssText = ICON_STYLE;
+    span.innerHTML = svg;
+    btn.appendChild(span);
+  };
+
+  addIcon('.pswp__button--close',      SVG_CLOSE);
+  addIcon('.pswp__button--arrow--prev', SVG_PREV);
+  addIcon('.pswp__button--arrow--next', SVG_NEXT);
+
+  const zoomBtn = el.querySelector('.pswp__button--zoom');
+  if (zoomBtn) {
+    const zIn  = document.createElement('span');
+    const zOut = document.createElement('span');
+    zIn.className  = 'pswp-custom-zoom-in';
+    zOut.className = 'pswp-custom-zoom-out';
+    zIn.style.cssText  = ICON_STYLE;
+    zOut.style.cssText = ICON_STYLE;
+    zIn.innerHTML  = SVG_ZOOM_IN;
+    zOut.innerHTML = SVG_ZOOM_OUT;
+    zoomBtn.appendChild(zIn);
+    zoomBtn.appendChild(zOut);
+  }
+}
+
 export default function Lightbox({
   state,
   onClose,
@@ -71,11 +113,16 @@ export default function Lightbox({
       prevIdx.current = pswp.currIndex;
       setCurrIndex(pswp.currIndex);
       onNavRef.current(dir);
+      if (pswp.element) updateArrowVisibility(pswp.element, pswp.currIndex, dataSource.length);
     });
 
     pswp.init();
     pswpRef.current = pswp;
-    if (pswp.element) setPswpEl(pswp.element);
+    if (pswp.element) {
+      injectCustomIcons(pswp.element);
+      updateArrowVisibility(pswp.element, state.index, dataSource.length);
+      setPswpEl(pswp.element);
+    }
 
     return () => {
       pswp.destroy();

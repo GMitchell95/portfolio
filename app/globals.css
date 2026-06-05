@@ -84,3 +84,95 @@
     letter-spacing: -0.03em;
   }
 }
+
+/* ── PhotoSwipe UI overrides ─────────────────────────────────────────────── */
+
+.pswp__top-bar {
+  height: auto !important;
+  padding: 16px !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.pswp__preloader {
+  display: none !important;
+}
+
+.pswp__button {
+  width: 40px !important;
+  height: 40px !important;
+  padding: 0 !important;
+  background: rgba(0, 0, 0, 0.6) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  border-radius: 50% !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  color: rgba(255, 255, 255, 0.85) !important;
+  opacity: 1 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: visible !important;
+  transition: background 0.15s ease !important;
+  box-shadow: none !important;
+}
+
+.pswp__button:hover,
+.pswp__button:active,
+.pswp__button:focus {
+  background: rgba(0, 0, 0, 0.8) !important;
+  opacity: 1 !important;
+  transition: background 0.15s ease !important;
+}
+
+.pswp__button .pswp__icn {
+  display: none !important;
+}
+
+.pswp__button--arrow {
+  position: absolute !important;
+  top: 50% !important;
+  width: 40px !important;
+  height: 40px !important;
+  margin-top: -20px !important;
+}
+
+.pswp__button--arrow--prev {
+  left: 16px !important;
+  right: auto !important;
+}
+
+.pswp__button--arrow--next {
+  right: 16px !important;
+  left: auto !important;
+}
+
+.pswp__counter {
+  background: rgba(0, 0, 0, 0.6) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 20px !important;
+  padding: 5px 14px !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  color: rgba(255, 255, 255, 0.85) !important;
+  text-shadow: none !important;
+  height: auto !important;
+  margin: 0 !important;
+  line-height: 1.2 !important;
+  opacity: 1 !important;
+}
+
+.pswp--one-slide .pswp__counter {
+  display: none !important;
+}
+
+/* Arrow visibility — toggled via JS on open and change */
+.pswp-arrow-hidden { display: none !important; }
+
+/* Zoom icon toggle (controlled by PhotoSwipe's pswp--zoomed-in class) */
+.pswp-custom-zoom-in  { display: flex !important; }
+.pswp-custom-zoom-out { display: none !important; }
+.pswp--zoomed-in .pswp-custom-zoom-in  { display: none !important; }
+.pswp--zoomed-in .pswp-custom-zoom-out { display: flex !important; }
