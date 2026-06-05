@@ -5,6 +5,7 @@ import Image from 'next/image';
 import type { Slide, LightboxState } from '@/components/case-studies/simplified-navigation/types';
 import { ChevronLeft, ChevronRight } from '@/components/case-studies/simplified-navigation/icons';
 import ClickableImage from '@/components/case-studies/simplified-navigation/ClickableImage';
+import ClickableVideo from '@/components/case-studies/simplified-navigation/ClickableVideo';
 import IterationSwitcher from '@/components/case-studies/simplified-navigation/IterationSwitcher';
 import Lightbox from '@/components/case-studies/simplified-navigation/Lightbox';
 import MegaMenuTile from '@/components/tiles/MegaMenuTile';
@@ -541,11 +542,7 @@ export default function SimplifiedNavigationPage() {
           </div>
 
           <div style={{ marginTop: 40 }}>
-            <div style={{ background: 'var(--color-surface)', borderRadius: 16, overflow: 'hidden', clipPath: 'inset(1px 1px 0 0)' }}>
-              <video autoPlay loop muted playsInline style={{ width: '100%', display: 'block' }}>
-                <source src="/videos/old-flow.mp4" type="video/mp4" />
-              </video>
-            </div>
+            <ClickableVideo src="/videos/old-flow.mp4" label="Original navigation flow" />
           </div>
         </section>
 
