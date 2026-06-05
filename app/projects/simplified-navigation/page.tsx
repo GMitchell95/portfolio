@@ -480,7 +480,7 @@ export default function SimplifiedNavigationPage() {
         </section>
 
         {/* THE BRIEF */}
-        <section id="section-brief" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '55px' }}>
+        <section id="section-brief" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '39px' }}>
           <h2 style={{ fontSize: 'var(--font-size-h2)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 16 }}>The brief</h2>
           <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>
             The navigation for Keelvar&#39;s sourcing platform was overwhelming users. The existing side nav used an accordion to reveal pages across 7 different steps, and when users created a new event, there was no clear starting point or sense of what to do next. We needed to simplify the navigation and give users a clear idea of what they needed to do next.
@@ -488,7 +488,7 @@ export default function SimplifiedNavigationPage() {
         </section>
 
         {/* EXPLORATIONS */}
-        <section id="section-explorations" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '55px' }}>
+        <section id="section-explorations" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '39px' }}>
           <h2 style={{ fontSize: 'var(--font-size-h2)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 16 }}>Explorations</h2>
           <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>
             Before exploring concepts, I mapped the existing nav from an information architecture perspective to identify which pages could be logically grouped or consolidated across the 7 steps.
@@ -522,7 +522,7 @@ export default function SimplifiedNavigationPage() {
         </section>
 
         {/* REFINED CONCEPT */}
-        <section id="section-refined" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '55px' }}>
+        <section id="section-refined" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '39px' }}>
           <h2 style={{ fontSize: 'var(--font-size-h2)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 16 }}>Refined concept</h2>
           <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>
             We ran a workshop with the PM, engineers, and myself. We shared ideas of concepts from Figma Make to quickly coded prototypes. We narrowed it down to a combination of 2 concepts which I refined further before sending final feedback.
@@ -547,7 +547,7 @@ export default function SimplifiedNavigationPage() {
         </section>
 
         {/* ADDITIONAL DETAILS */}
-        <section id="section-additional" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '55px' }}>
+        <section id="section-additional" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '39px' }}>
           <h2 style={{ fontSize: 'var(--font-size-h2)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 16 }}>Additional details</h2>
           <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>
             Small improvements surfaced during team review — refinements to the todo section of the UI.
@@ -556,7 +556,7 @@ export default function SimplifiedNavigationPage() {
         </section>
 
         {/* CONCLUSION */}
-        <section id="section-conclusion" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '55px' }}>
+        <section id="section-conclusion" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '39px' }}>
           <h2 style={{ fontSize: 'var(--font-size-h2)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 16 }}>Conclusion</h2>
           <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>
             A few of the more significant choices made during the project — and the reasoning behind them.
