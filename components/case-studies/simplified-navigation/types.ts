@@ -8,6 +8,8 @@ export interface Slide {
   body: string;
   label: string;
   src?: string;
+  width?: number;
+  height?: number;
   states?: SlideState[];
 }
 

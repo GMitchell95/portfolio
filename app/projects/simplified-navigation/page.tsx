@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState, useCallback } from 'react';
+import Image from 'next/image';
 import type { Slide, LightboxState } from '@/components/case-studies/simplified-navigation/types';
 import { ChevronLeft, ChevronRight } from '@/components/case-studies/simplified-navigation/icons';
 import ClickableImage from '@/components/case-studies/simplified-navigation/ClickableImage';
@@ -252,11 +253,13 @@ const EARLY_SLIDES: Slide[] = [
     title: 'Tab-based mega panel',
     label: 'Iteration 3',
     src: '/images/case-studies/simplified-navigation/iteration-top-second.png',
+    width: 3520, height: 2120,
     body: 'A full-width panel with top-level tabs. Showed a lot of content at once but the visual weight created cognitive overload in early feedback sessions.',
   },
   {
     title: 'Flyout panel — left anchored',
     label: 'Iteration 1',
+    width: 3520, height: 2120,
     states: [
       { label: 'Default', src: '/images/case-studies/simplified-navigation/iteration-breadcrumb1.png' },
       { label: 'Open',    src: '/images/case-studies/simplified-navigation/iteration-breadcrumb2.png' },
@@ -268,12 +271,14 @@ const EARLY_SLIDES: Slide[] = [
     title: 'Icon-led category grid',
     label: 'Iteration 4',
     src: '/images/case-studies/simplified-navigation/iteration-steps-dropdown.png',
+    width: 3520, height: 2120,
     body: 'Pairing category names with icons improved recognition speed, but maintaining a consistent icon style across 50+ categories added unsustainable design overhead.',
   },
   {
     title: 'Simple dropdown list',
     label: 'Iteration 1',
     src: '/images/case-studies/simplified-navigation/iteration-top-nav (grey).png',
+    width: 3520, height: 2120,
     body: 'The starting point — a basic vertical list. Familiar and low-friction, but quickly ran into problems once category lists grew longer than a dozen items.',
   },
   {
@@ -288,6 +293,7 @@ const REFINED_SLIDES: Slide[] = [
     title: '3-step nav',
     label: 'Concept A',
     src: '/images/case-studies/simplified-navigation/Refined-concept.png',
+    width: 3520, height: 2120,
     body: 'Categories left, sub-items right, with a featured slot at the bottom. Good hierarchy but required editorial maintenance to keep the featured area relevant.',
   },
   {
@@ -308,18 +314,21 @@ const ADDITIONAL_SLIDES: Slide[] = [
     title: 'Coloured icons',
     body: '',
     src: '/images/case-studies/simplified-navigation/1-AD-Coloured-icons.png',
+    width: 3520, height: 2120,
   },
   {
     label: 'Detail 2',
     title: 'Grey icons',
     body: '',
     src: '/images/case-studies/simplified-navigation/2-AD-Grey-icons.png',
+    width: 3520, height: 2120,
   },
   {
     label: 'Detail 3',
     title: 'Status dropdowns',
     body: '',
     src: '/images/case-studies/simplified-navigation/3-AD-Status-dropdowns.png',
+    width: 3520, height: 2120,
   },
 ];
 
@@ -379,8 +388,8 @@ export default function SimplifiedNavigationPage() {
     }));
   }, []);
 
-  const openSingleImage = useCallback((title: string, body: string, label: string, src?: string) => {
-    setLightbox({ open: true, slides: [{ title, body, label, src }], index: 0, stateIndices: {} });
+  const openSingleImage = useCallback((title: string, body: string, label: string, src?: string, width?: number, height?: number) => {
+    setLightbox({ open: true, slides: [{ title, body, label, src, width, height }], index: 0, stateIndices: {} });
   }, []);
 
   return (
@@ -424,7 +433,25 @@ export default function SimplifiedNavigationPage() {
       <div style={{ maxWidth: 680, margin: '0 auto', padding: '0 40px', background: 'var(--color-white)' }}>
 
         {/* HERO */}
-        <section style={{ paddingTop: 80, paddingBottom: 40 }}>
+        <section style={{ paddingBottom: 40 }}>
+          <div style={{
+            marginLeft: 'calc(-50vw + 50%)',
+            marginRight: 'calc(-50vw + 50%)',
+            background: 'var(--color-surface-subtle)',
+            padding: '80px 0 40px',
+            marginBottom: 40,
+          }}>
+            <div style={{ maxWidth: 680, margin: '0 auto', padding: '0 40px' }}>
+              <Image
+                src="/images/case-studies/simplified-navigation/hero-menu.png"
+                width={1166}
+                height={856}
+                priority
+                alt="Simplified navigation hero"
+                style={{ width: '100%', height: 'auto', borderRadius: 8 }}
+              />
+            </div>
+          </div>
           <div style={{ fontSize: 'var(--font-size-label)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-accent)', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 20 }}>
             Project
           </div>
@@ -478,6 +505,7 @@ export default function SimplifiedNavigationPage() {
                 'The original seven-step nav broken down by event stage and steps, showing where consolidation was possible.',
                 'Page break up diagram',
                 '/images/case-studies/simplified-navigation/nav-breakdown.png',
+                3520, 3092,
               )}
             />
           </div>
