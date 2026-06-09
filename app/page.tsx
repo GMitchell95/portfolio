@@ -2,7 +2,7 @@ import FormBuilderTile from '@/components/tiles/FormBuilderTile'
 import MegaMenuTile from '@/components/tiles/MegaMenuTile'
 import VinylTile from '@/components/tiles/VinylTile'
 
-const CONTAINER = { maxWidth: 1100, margin: "0 auto", padding: "0 40px" }
+const CONTAINER = { maxWidth: 1100, margin: "0 auto" }
 
 export default function Home() {
   return (
@@ -10,7 +10,7 @@ export default function Home() {
       {/* Fixed Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-slate-50 border-b border-slate-200">
         <div
-          className="flex items-center justify-between"
+          className="site-container flex items-center justify-between"
           style={{ ...CONTAINER, paddingTop: 20, paddingBottom: 20 }}
         >
           <span className="text-slate-900 font-medium text-sm tracking-tight">
@@ -37,7 +37,7 @@ export default function Home() {
       </nav>
 
       {/* Page content */}
-      <div style={CONTAINER}>
+      <div className="site-container" style={CONTAINER}>
         {/* Hero Section */}
         <section
           className="relative flex flex-col justify-end bg-slate-50"

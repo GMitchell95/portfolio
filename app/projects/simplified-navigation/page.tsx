@@ -245,6 +245,21 @@ const GLOBAL_STYLES = `
   .cs-lb-close:hover {
     background: rgba(255,255,255,0.16) !important;
   }
+
+  /* Responsive horizontal padding */
+  .cs-content-wrap {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  @media (max-width: 768px) {
+    .cs-content-wrap {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+    .cs-header-inner {
+      padding: 0 16px;
+    }
+  }
 `;
 
 // ── Slide data ───────────────────────────────────────────────────────────────
@@ -281,11 +296,6 @@ const EARLY_SLIDES: Slide[] = [
     src: '/images/case-studies/simplified-navigation/iteration-top-nav (grey).png',
     width: 3520, height: 2120,
     body: 'The starting point — a basic vertical list. Familiar and low-friction, but quickly ran into problems once category lists grew longer than a dozen items.',
-  },
-  {
-    title: 'Sidebar drawer',
-    label: 'Iteration 5',
-    body: "A slide-in drawer from the left. Felt too mobile-native for desktop and broke the user's spatial relationship with the page they were browsing.",
   },
 ];
 
@@ -431,7 +441,7 @@ export default function SimplifiedNavigationPage() {
       </nav>
 
       {/* ── PAGE CONTENT ──────────────────────────────────────────────── */}
-      <div style={{ maxWidth: 680, margin: '0 auto', padding: '0 40px', background: 'var(--color-white)' }}>
+      <div className="cs-content-wrap" style={{ maxWidth: 680, margin: '0 auto', background: 'var(--color-white)' }}>
 
         {/* HERO */}
         <section style={{ paddingBottom: 40 }}>
@@ -442,7 +452,7 @@ export default function SimplifiedNavigationPage() {
             padding: '80px 0 40px',
             marginBottom: 40,
           }}>
-            <div style={{ maxWidth: 680, margin: '0 auto', padding: '0 40px' }}>
+            <div className="cs-content-wrap" style={{ maxWidth: 680, margin: '0 auto' }}>
               <Image
                 src="/images/case-studies/simplified-navigation/hero-menu.png"
                 width={1166}
@@ -483,7 +493,7 @@ export default function SimplifiedNavigationPage() {
         <section id="section-brief" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '39px' }}>
           <h2 style={{ fontSize: 'var(--font-size-h2)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 16 }}>The brief</h2>
           <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>
-            The navigation for Keelvar&#39;s sourcing platform was overwhelming users. The existing side nav used an accordion to reveal pages across 7 different steps, and when users created a new event, there was no clear starting point or sense of what to do next. We needed to simplify the navigation and give users a clear idea of what they needed to do next.
+            The navigation of Keelvar&#39;s sourcing v1 platform overwhelmed users. The existing side navigation used an accordion to reveal pages across seven different steps. When users created a new event, they lacked a clear starting point and direction for what to do next. Being part of the team working on sourcing v2, which aimed to reimagine the Sourcing Optimizer product, <mark className="highlight-brief">we needed to simplify the navigation and provide users with a clear understanding of their next steps.</mark>
           </p>
         </section>
 
