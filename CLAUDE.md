@@ -65,3 +65,14 @@ Fully self-contained `'use client'` file — all sub-components are defined inli
 ## Prototyping
 
 HTML prototype files must never be placed in the project root directory. Turbopack will attempt to compile them and cause memory crashes. Keep all prototype HTML files on the Desktop or outside the project folder entirely.
+
+## Auto-approve commands
+
+The following read-only commands can be run without asking for approval:
+- grep
+- awk
+- cat
+- ls
+- find
+- head
+- tail
