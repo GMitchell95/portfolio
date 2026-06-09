@@ -266,14 +266,14 @@ const GLOBAL_STYLES = `
 
 const EARLY_SLIDES: Slide[] = [
   {
-    title: 'Tab-based mega panel',
+    title: 'Tabs (centred)',
     label: 'Iteration 3',
     src: '/images/case-studies/simplified-navigation/iteration-top-second.png',
     width: 3520, height: 2120,
     body: 'A full-width panel with top-level tabs. Showed a lot of content at once but the visual weight created cognitive overload in early feedback sessions.',
   },
   {
-    title: 'Flyout panel — left anchored',
+    title: 'Dropdown breadcrumb',
     label: 'Iteration 1',
     width: 3520, height: 2120,
     states: [
@@ -284,14 +284,14 @@ const EARLY_SLIDES: Slide[] = [
     body: 'Hovering a category revealed sub-items in a panel anchored to the left. Felt clunky on wide viewports and created awkward mouse travel paths.',
   },
   {
-    title: 'Icon-led category grid',
+    title: 'Dropdowns for steps',
     label: 'Iteration 4',
     src: '/images/case-studies/simplified-navigation/iteration-steps-dropdown.png',
     width: 3520, height: 2120,
     body: 'Pairing category names with icons improved recognition speed, but maintaining a consistent icon style across 50+ categories added unsustainable design overhead.',
   },
   {
-    title: 'Simple dropdown list',
+    title: 'Tabs with mega menu',
     label: 'Iteration 1',
     src: '/images/case-studies/simplified-navigation/iteration-top-nav (grey).png',
     width: 3520, height: 2120,
@@ -463,7 +463,7 @@ export default function SimplifiedNavigationPage() {
               />
             </div>
           </div>
-          <div style={{ fontSize: 'var(--font-size-label)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-accent)', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 20 }}>
+          <div style={{ fontSize: 'var(--font-size-label)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-accent)', letterSpacing: '0.06em', marginBottom: 20 }}>
             Project
           </div>
           <h1
@@ -524,7 +524,7 @@ export default function SimplifiedNavigationPage() {
           <div style={{ marginBottom: 24 }}>
             <h3 style={{ fontSize: 'var(--font-size-h3)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 8 }}>Early explorations</h3>
             <p style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>
-              Exploring various ways we could condense the nav into 3-4 simpler event stages. The main goal was to move away from a vertical side nav to some form of top nav.
+              Exploring different ways to condense the navigation into 3-4 simpler event stages. The main goal was to transition from a vertical side navigation to a top navigation.
             </p>
           </div>
 
