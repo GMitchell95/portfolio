@@ -49,7 +49,7 @@ export default function ClickableVideo({
       video.muted = true;
       video.playsInline = true;
       video.style.cssText = 'width:100%;height:100%;object-fit:contain;display:block;';
-      e.content.element = video;
+      e.content.element = video as unknown as HTMLImageElement;
     });
 
     pswp.on('close', () => { pswpRef.current = null; });
