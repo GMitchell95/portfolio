@@ -48,8 +48,8 @@ All colours are defined as CSS custom properties in `app/globals.css` and use Ta
 :root {
   --color-heading: #18181B;     /* zinc-900 */
   --color-primary: #27272A;     /* zinc-800 */
-  --color-body: #71717A;        /* zinc-500 */
-  --color-muted: #A1A1AA;       /* zinc-400 */
+  --color-body: #52525B;        /* zinc-600 */
+  --color-muted: #71717A;       /* zinc-500 */
   --color-secondary: #3F3F46;   /* zinc-700 */
   --color-border: #E4E4E7;      /* zinc-200 */
   --color-border-strong: #D4D4D8; /* zinc-300 */
