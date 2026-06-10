@@ -76,3 +76,17 @@ The following read-only commands can be run without asking for approval:
 - find
 - head
 - tail
+
+## Typography and colour rules
+
+Never use hardcoded font sizes, weights, colours, or line heights. Always use the CSS custom properties defined in `app/globals.css`.
+
+Available font size tokens: `--font-size-h1`, `--font-size-h2`, `--font-size-h3`, `--font-size-body`, `--font-size-small`, `--font-size-label`, `--font-size-nav`
+
+Available font weight tokens: `--font-weight-bold`, `--font-weight-medium`, `--font-weight-regular`
+
+Available line height tokens: `--line-height-heading`, `--line-height-body`
+
+Available colour tokens: `--color-heading`, `--color-primary`, `--color-body`, `--color-muted`, `--color-secondary`, `--color-border`, `--color-border-strong`, `--color-surface`, `--color-surface-subtle`, `--color-white`, `--color-accent`, `--color-accent-hover`, `--color-accent-light`
+
+If a new style is needed that doesn't fit any existing token, stop and ask before proceeding.

@@ -9,9 +9,11 @@ import { ChevronLeft, ChevronRight } from './icons';
 export default function IterationSwitcher({
   slides,
   onOpenLightbox,
+  marginTop = 40,
 }: {
   slides: Slide[];
   onOpenLightbox: (slides: Slide[], index: number, stateIndices?: Record<number, number>) => void;
+  marginTop?: number;
 }) {
   const [current, setCurrent] = useState(0);
   const [displayTitle, setDisplayTitle] = useState(slides[0].title);
@@ -89,7 +91,7 @@ export default function IterationSwitcher({
   }, [current, slides, animateTitle, animateImg]);
 
   return (
-    <div style={{ marginTop: 40 }}>
+    <div style={{ marginTop }}>
       {/* Meta row */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, marginBottom: 12 }}>
         <span
