@@ -347,7 +347,7 @@ const SECTIONS = [
   { id: 'section-brief',            label: 'The brief' },
   { id: 'section-explorations',     label: 'Explorations' },
   { id: 'section-refined',          label: 'Refined concept' },
-  { id: 'section-additional',       label: 'Additional details' },
+  { id: 'section-additional',       label: 'Overview page' },
   { id: 'section-conclusion',       label: 'Conclusion' },
 ];
 
@@ -493,8 +493,12 @@ export default function SimplifiedNavigationPage() {
         <section id="section-brief" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '39px' }}>
           <h2 style={{ fontSize: 'var(--font-size-h2)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 16 }}>The brief</h2>
           <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>
-            The navigation of Keelvar&#39;s sourcing v1 platform overwhelmed users. The existing side navigation used an accordion to reveal pages across seven different steps. When users created a new event, they lacked a clear starting point and direction for what to do next. Being part of the team working on sourcing v2, which aimed to reimagine the Sourcing Optimizer product, <mark className="highlight-brief">we needed to simplify the navigation and provide users with a clear understanding of their next steps.</mark>
+            The navigation of Keelvar&#39;s sourcing v1 platform overwhelmed users. The existing side navigation used an accordion to reveal pages across seven different steps. When users created a new event, they lacked a clear starting point and direction for what to do next. Being part of the team working on sourcing v2, which aimed to reimagine the Sourcing Optimizer product, we had 2 tasks:
           </p>
+          <ol style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', listStyleType: 'decimal', paddingLeft: '1.5rem', marginTop: 8 }}>
+            <li><mark className="highlight-brief">Simplify the navigation</mark></li>
+            <li><mark className="highlight-brief">Provide users with a clear understanding of their next steps post event creation</mark></li>
+          </ol>
         </section>
 
         {/* EXPLORATIONS */}
@@ -522,7 +526,7 @@ export default function SimplifiedNavigationPage() {
           </div>
 
           <div style={{ marginBottom: 24 }}>
-            <h3 style={{ fontSize: 'var(--font-size-h3)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 8 }}>Early explorations</h3>
+            <h3 className="mb-2" style={{ fontSize: 'var(--font-size-h3)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)' }}>Early explorations</h3>
             <p style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>
               Exploring different ways to condense the navigation into 3-4 simpler event stages. The main goal was to transition from a vertical side navigation to a top navigation.
             </p>
@@ -539,7 +543,7 @@ export default function SimplifiedNavigationPage() {
           </p>
           <IterationSwitcher slides={REFINED_SLIDES} onOpenLightbox={openLightbox} />
           <div style={{ marginTop: 40 }}>
-            <h3 style={{ fontSize: 'var(--font-size-h3)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 12 }}>Internal feedback</h3>
+            <h3 className="mb-2" style={{ fontSize: 'var(--font-size-h3)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)' }}>Internal feedback</h3>
             <ul style={{ margin: 0, paddingLeft: 20, listStyleType: 'disc', display: 'flex', flexDirection: 'column', gap: 4 }}>
               {[
                 "The user should see what step they're on at all times.",
@@ -552,13 +556,15 @@ export default function SimplifiedNavigationPage() {
           </div>
 
           <div style={{ marginTop: 40 }}>
+            <h3 className="mb-2" style={{ fontSize: 'var(--font-size-h3)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)' }}>Old navigation flow</h3>
+            <p className="mb-3" style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>Below shows how the user previously navigated to the &apos;Scenario Analysis&apos; page.</p>
             <ClickableVideo src="/videos/old-flow.mp4" label="Original navigation flow" />
           </div>
         </section>
 
         {/* ADDITIONAL DETAILS */}
         <section id="section-additional" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '39px' }}>
-          <h2 style={{ fontSize: 'var(--font-size-h2)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 16 }}>Additional details</h2>
+          <h2 style={{ fontSize: 'var(--font-size-h2)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 16 }}>Overview page</h2>
           <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>
             Small improvements surfaced during team review — refinements to the todo section of the UI.
           </p>
@@ -618,7 +624,7 @@ export default function SimplifiedNavigationPage() {
           </div>
 
           <div style={{ marginTop: 40 }}>
-            <h3 style={{ fontSize: 'var(--font-size-h3)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 4 }}>Interactive prototype</h3>
+            <h3 className="mb-2" style={{ fontSize: 'var(--font-size-h3)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)' }}>Interactive prototype</h3>
             <p style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', marginBottom: 16 }}>Click on tabs and subpages in the dropdown menu.</p>
             <div style={{
               background: 'var(--color-surface)',
