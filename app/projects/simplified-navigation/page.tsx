@@ -382,6 +382,30 @@ export default function SimplifiedNavigationPage() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  useEffect(() => {
+    const mark1 = document.getElementById('brief-mark-1');
+    const mark2 = document.getElementById('brief-mark-2');
+    const list = document.getElementById('brief-task-list');
+    if (!mark1 || !mark2 || !list) return;
+
+    let hasAnimated = false;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !hasAnimated) {
+          hasAnimated = true;
+          mark1.classList.add('highlight-brief--animate');
+          setTimeout(() => {
+            mark2.classList.add('highlight-brief--animate');
+          }, 400);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    observer.observe(list);
+    return () => observer.disconnect();
+  }, []);
+
   const scrollToSection = useCallback((id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }, []);
@@ -495,9 +519,9 @@ export default function SimplifiedNavigationPage() {
           <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>
             The navigation of Keelvar&#39;s sourcing v1 platform overwhelmed users. The existing side navigation used an accordion to reveal pages across seven different steps. When users created a new event, they lacked a clear starting point and direction for what to do next. Being part of the team working on sourcing v2, which aimed to reimagine the Sourcing Optimizer product, we had 2 tasks:
           </p>
-          <ol style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', listStyleType: 'decimal', paddingLeft: '1.5rem', marginTop: 8 }}>
-            <li><mark className="highlight-brief">Simplify the navigation</mark></li>
-            <li><mark className="highlight-brief">Provide users with a clear understanding of their next steps post event creation</mark></li>
+          <ol id="brief-task-list" style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', listStyleType: 'decimal', paddingLeft: '1.5rem', marginTop: 8 }}>
+            <li><mark id="brief-mark-1" className="highlight-brief">Simplify the navigation</mark></li>
+            <li><mark id="brief-mark-2" className="highlight-brief">Provide users with a clear understanding of their next steps post event creation</mark></li>
           </ol>
         </section>
 
