@@ -512,14 +512,14 @@ export default function SimplifiedNavigationPage() {
           <div style={{ marginTop: 40, marginBottom: 64 }}>
             <ClickableImage
               label="Page break up diagram"
-              src="/images/case-studies/simplified-navigation/nav-breakdown.png"
+              src="/images/case-studies/simplified-navigation/Nav-breakdown.png"
               aspectRatio="1760/1546"
               loading="eager"
               onClick={() => openSingleImage(
                 'Current state analysis',
                 'The original seven-step nav broken down by event stage and steps, showing where consolidation was possible.',
                 'Page break up diagram',
-                '/images/case-studies/simplified-navigation/nav-breakdown.png',
+                '/images/case-studies/simplified-navigation/Nav-breakdown.png',
                 3520, 3092,
               )}
             />
