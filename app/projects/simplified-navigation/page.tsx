@@ -566,8 +566,25 @@ export default function SimplifiedNavigationPage() {
         <section id="section-additional" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '39px' }}>
           <h2 style={{ fontSize: 'var(--font-size-h2)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 16 }}>Overview page</h2>
           <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>
-            Small improvements surfaced during team review — refinements to the todo section of the UI.
+            Previously, when a user landed on a newly created event, they were taken to an event information page with no indication of what needed to be completed before publishing. Errors only surfaced at the point of publish, forcing users to fix issues and try again.
           </p>
+          <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>
+            The new overview page front-loads all required tasks, with optional ones clearly marked. Users can work through and check off each task before publishing, reducing errors and giving them a clear path forward.
+          </p>
+          <div style={{ marginTop: 16 }}>
+            <ClickableImage
+              label="Event information page"
+              src="/images/case-studies/simplified-navigation/event-information.png"
+              aspectRatio="1760/1060"
+              onClick={() => openSingleImage(
+                'Overview page',
+                '',
+                'Event information page',
+                '/images/case-studies/simplified-navigation/event-information.png',
+                3520, 2120,
+              )}
+            />
+          </div>
           <IterationSwitcher slides={ADDITIONAL_SLIDES} onOpenLightbox={openLightbox} />
         </section>
 
