@@ -430,7 +430,7 @@ export default function FormBuilderTile() {
     <div>
       {/* Header row: label left, buttons right */}
       <div className={styles.tileHeader}>
-        <span className="tile-label">Question card — Form builder</span>
+        <span style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-heading)' }}>Question card - RFI</span>
         <div className={styles.tileHeaderButtons}>
         <Button
           variant="outline"
@@ -479,7 +479,7 @@ export default function FormBuilderTile() {
           onClick={generateQuestion}
           disabled={isSaved || isGenerating}
         >
-          <i className="fa-solid fa-wand-magic-sparkles" style={{ fontSize: 12 }} />
+          <i className="fa-solid fa-wand-magic-sparkles" style={{ fontSize: 12, color: 'var(--color-muted)' }} />
           Generate question
         </Button>
         </div>

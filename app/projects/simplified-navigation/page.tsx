@@ -476,7 +476,7 @@ export default function SimplifiedNavigationPage() {
             padding: '80px 0 40px',
             marginBottom: 40,
           }}>
-            <div className="cs-content-wrap" style={{ maxWidth: 680, margin: '0 auto' }}>
+            <div className="cs-content-wrap hero-image-enter" style={{ maxWidth: 680, margin: '0 auto' }}>
               <Image
                 src="/images/case-studies/simplified-navigation/hero-menu.png"
                 width={1166}

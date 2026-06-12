@@ -27,7 +27,7 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
       </head>
-      <body className="bg-slate-50 text-slate-900">
+      <body style={{ backgroundColor: '#FDFDFC' }}>
         {children}
         {process.env.NODE_ENV === "development" && <Agentation />}
       </body>

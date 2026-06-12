@@ -350,7 +350,7 @@ export default function VinylTile() {
   return (
     <div>
       {/* Section label */}
-      <div style={{ fontSize: 12, fontWeight: 500, color: '#71717a', letterSpacing: '0.02em', marginBottom: 8 }}>
+      <div style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-heading)', marginBottom: 12 }}>
         Currently listening
       </div>
 

@@ -1,6 +1,10 @@
+'use client'
+
+import Link from 'next/link'
 import FormBuilderTile from '@/components/tiles/FormBuilderTile'
 import MegaMenuTile from '@/components/tiles/MegaMenuTile'
 import VinylTile from '@/components/tiles/VinylTile'
+import Button from '@/components/ui/Button'
 
 const CONTAINER = { maxWidth: 1100, margin: "0 auto" }
 
@@ -8,27 +12,27 @@ export default function Home() {
   return (
     <>
       {/* Fixed Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-slate-50 border-b border-slate-200">
+      <nav className="fixed top-0 left-0 right-0 z-50" style={{ backgroundColor: 'var(--color-surface-subtle)', borderBottom: '1px solid var(--color-border)' }}>
         <div
           className="site-container flex items-center justify-between"
-          style={{ ...CONTAINER, paddingTop: 20, paddingBottom: 20 }}
+          style={{ ...CONTAINER, height: 56 }}
         >
-          <span className="text-slate-900 font-medium text-sm tracking-tight">
-            Your Name
+          <span style={{ color: 'var(--color-heading)', fontWeight: 'var(--font-weight-medium)', fontSize: 'var(--font-size-small)' }}>
+            Glen Mitchell
           </span>
           <ul className="flex items-center gap-8 list-none">
             <li>
-              <a href="#work" className="text-sm text-slate-500 hover:text-slate-900 transition-colors">
+              <a href="#work" className="nav-link" style={{ fontSize: 'var(--font-size-small)' }}>
                 Work
               </a>
             </li>
             <li>
-              <a href="#about" className="text-sm text-slate-500 hover:text-slate-900 transition-colors">
+              <a href="#about" className="nav-link" style={{ fontSize: 'var(--font-size-small)' }}>
                 About
               </a>
             </li>
             <li>
-              <a href="#contact" className="text-sm text-slate-500 hover:text-slate-900 transition-colors">
+              <a href="mailto:glenmitchell95@gmail.com?subject=I%27m%20reaching%20out%20about%20..." className="nav-link" style={{ fontSize: 'var(--font-size-small)' }}>
                 Contact
               </a>
             </li>
@@ -39,50 +43,24 @@ export default function Home() {
       {/* Page content */}
       <div className="site-container" style={CONTAINER}>
         {/* Hero Section */}
-        <section
-          className="relative flex flex-col justify-end bg-slate-50"
-          style={{ height: "100vh", paddingBottom: "80px" }}
-        >
-          <div className="flex flex-col gap-6">
-            {/* Label */}
-            <p className="text-sm font-medium text-slate-500 uppercase tracking-wide">
-              Product &amp; UI Designer
+        <section>
+          <div style={{ maxWidth: 600, padding: '136px 0 80px' }}>
+            <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>
+              I&rsquo;m Glen, an Irish product designer currently based in Barcelona.
             </p>
-
-            {/* Heading */}
-            <h1 className="hero-heading font-semibold text-slate-900">
-              Design that
-              <br />
-              moves people
-            </h1>
-
-            {/* Bio */}
-            <p
-              className="text-slate-500"
-              style={{ maxWidth: "340px", lineHeight: "1.6", fontSize: "16px" }}
-            >
-              I design digital products that are clear, purposeful, and
-              considered. Currently open to new projects and full-time roles.
+            <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', marginTop: 16 }}>
+              I&rsquo;ve spent over 5 years designing a complex B2B product at{' '}
+              <a href="https://www.keelvar.com/" target="_blank" rel="noopener noreferrer" className="hero-link hero-link--purple">Keelvar</a>
+              , an agentic sourcing platform. Recently I rebuilt this portfolio to learn what it&rsquo;s like to prototype and build with Claude. It&rsquo;s still a work in progress, so go easy on any minor mistakes.
             </p>
-
-            {/* Tags */}
-            <div className="flex flex-wrap gap-2 mt-2">
-              {["Product Design", "Design Systems", "Interaction", "Prototyping"].map(
-                (tag) => (
-                  <span
-                    key={tag}
-                    className="border border-slate-200 text-slate-900 uppercase"
-                    style={{
-                      padding: "8px 16px",
-                      fontSize: "11px",
-                      letterSpacing: "0.06em",
-                      borderRadius: "100px",
-                    }}
-                  >
-                    {tag}
-                  </span>
-                )
-              )}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginTop: 32 }}>
+              <a href="https://www.linkedin.com/in/glenmitchell95/" target="_blank" rel="noopener noreferrer" className="hero-link hero-link--zinc" style={{ fontSize: 'var(--font-size-small)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-body)' }}>
+                LinkedIn
+              </a>
+              <div style={{ width: 1, height: 12, backgroundColor: 'var(--color-border)' }} />
+              <a href="mailto:glenmitchelldesign@gmail.com" className="hero-link hero-link--zinc" style={{ fontSize: 'var(--font-size-small)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-body)' }}>
+                Email me
+              </a>
             </div>
           </div>
         </section>
@@ -90,41 +68,51 @@ export default function Home() {
         {/* Work Section */}
         <section
           id="work"
-          className="border-t border-slate-200"
-          style={{ padding: "80px 0" }}
+          className="border-t"
+          style={{ padding: "80px 0", borderColor: 'var(--color-border)' }}
         >
           <p
-            className="text-slate-500 uppercase font-medium mb-8"
-            style={{ fontSize: "11px", letterSpacing: "0.06em" }}
+            className="mb-8"
+            style={{ fontSize: 'var(--font-size-h3)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-heading)' }}
           >
             Selected Work
           </p>
-          <FormBuilderTile />
-
-          <div className="flex items-center justify-between mt-8 mb-2">
-            <span style={{ fontSize: 12, fontWeight: 500, color: '#71717A', letterSpacing: '0.02em' }}>
-              Mega menu
+          <div className="flex items-center justify-between" style={{ marginTop: 32, marginBottom: 12 }}>
+            <span style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-heading)' }}>
+              Simplified navigation
             </span>
-            <div className="flex items-center gap-1 text-xs" style={{ color: '#A1A1AA' }}>
-              <span>Click to open or press</span>
-              <kbd style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                background: 'white',
-                border: '1px solid #E4E4E7',
-                borderRadius: 4,
-                padding: '1px 6px',
-                fontSize: 11,
-                fontWeight: 500,
-                color: '#71717A',
-                boxShadow: '0 1px 2px rgba(0,0,0,0.06)',
-                fontFamily: 'inherit',
-              }}>
-                ⌘ K
-              </kbd>
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-1" style={{ fontSize: 'var(--font-size-label)', color: 'var(--color-muted)' }}>
+                <span>Click to open or press</span>
+                <kbd style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  background: 'var(--color-white)',
+                  border: '1px solid var(--color-border)',
+                  borderRadius: 4,
+                  padding: '1px 6px',
+                  fontSize: 'var(--font-size-label)',
+                  fontWeight: 'var(--font-weight-medium)',
+                  color: 'var(--color-muted)',
+                  boxShadow: '0 1px 2px rgba(0,0,0,0.06)',
+                  fontFamily: 'inherit',
+                }}>
+                  ⌘ K
+                </kbd>
+              </div>
+              <Link href="/projects/simplified-navigation">
+                <Button variant="outline" size="sm">
+                  <i className="fa-solid fa-arrow-right" style={{ fontSize: 12 }} />
+                  View project
+                </Button>
+              </Link>
             </div>
           </div>
           <MegaMenuTile />
+
+          <div style={{ marginTop: 32 }}>
+            <FormBuilderTile />
+          </div>
 
           <div style={{ marginTop: 32 }}>
             <VinylTile />
