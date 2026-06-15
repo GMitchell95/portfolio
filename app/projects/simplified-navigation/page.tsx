@@ -373,25 +373,16 @@ export default function SimplifiedNavigationPage() {
   const [lightbox, setLightbox] = useState<LightboxState>({ open: false, slides: [], index: 0, stateIndices: {} });
   const heroTitleRef = useRef<HTMLHeadingElement>(null);
   const fullscreenRef = useRef<HTMLDivElement>(null);
+  const targetScrollYRef = useRef<number>(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
   const toggleFullscreen = useCallback(() => {
     if (!document.fullscreenElement) {
+      const rect = fullscreenRef.current?.getBoundingClientRect();
+      if (rect) targetScrollYRef.current = window.scrollY + rect.top - 140;
       fullscreenRef.current?.requestFullscreen();
     } else {
-      document.exitFullscreen().then(() => {
-        setTimeout(() => {
-          const rect = fullscreenRef.current?.getBoundingClientRect();
-          if (rect) {
-            const targetY = window.scrollY + rect.top - 24;
-            console.log('rect.top:', rect.top, 'window.scrollY:', window.scrollY, 'targetY:', targetY);
-            window.scrollTo(0, targetY);
-            setTimeout(() => {
-              console.log('window.scrollY 200ms after scrollTo:', window.scrollY, '(expected:', targetY, ')');
-            }, 200);
-          }
-        }, 400);
-      });
+      document.exitFullscreen();
     }
   }, []);
 
@@ -443,7 +434,15 @@ export default function SimplifiedNavigationPage() {
   }, []);
 
   useEffect(() => {
-    const onFullscreenChange = () => setIsFullscreen(!!document.fullscreenElement);
+    const onFullscreenChange = () => {
+      const isNowFullscreen = !!document.fullscreenElement;
+      setIsFullscreen(isNowFullscreen);
+      if (!isNowFullscreen) {
+        setTimeout(() => {
+          window.scrollTo({ top: targetScrollYRef.current, behavior: 'instant' });
+        }, 50);
+      }
+    };
     document.addEventListener('fullscreenchange', onFullscreenChange);
     return () => document.removeEventListener('fullscreenchange', onFullscreenChange);
   }, []);
@@ -710,13 +709,15 @@ export default function SimplifiedNavigationPage() {
           </div>
 
           <div style={{ marginTop: 40 }}>
-            <div className="mb-2" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <h3 style={{ fontSize: 'var(--font-size-h3)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)' }}>Interactive prototype</h3>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                <h3 style={{ fontSize: 'var(--font-size-h3)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)' }}>Interactive prototype</h3>
+                <p style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>Click on tabs and subpages in the dropdown menu.</p>
+              </div>
               <Button variant="outline" size="sm" icon={<i className="fa-solid fa-expand" style={{ fontSize: 12 }} />} onClick={toggleFullscreen}>
                 Fullscreen
               </Button>
             </div>
-            <p style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', marginBottom: 16 }}>Click on tabs and subpages in the dropdown menu.</p>
             <div
               ref={fullscreenRef}
               className="cs-interactive-fullscreen"
