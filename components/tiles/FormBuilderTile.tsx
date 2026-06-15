@@ -476,10 +476,10 @@ export default function FormBuilderTile() {
         <Button
           variant="outline"
           size="sm"
+          icon={<i className="fa-solid fa-wand-magic-sparkles" style={{ fontSize: 12 }} />}
           onClick={generateQuestion}
           disabled={isSaved || isGenerating}
         >
-          <i className="fa-solid fa-wand-magic-sparkles" style={{ fontSize: 12, color: 'var(--color-muted)' }} />
           Generate question
         </Button>
         </div>

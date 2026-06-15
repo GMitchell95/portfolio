@@ -44,7 +44,7 @@ export default function Home() {
       <div className="site-container" style={CONTAINER}>
         {/* Hero Section */}
         <section>
-          <div style={{ maxWidth: 600, padding: '136px 0 80px' }}>
+          <div style={{ maxWidth: 510, padding: '136px 0 80px' }}>
             <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>
               I&rsquo;m Glen, an Irish product designer currently based in Barcelona.
             </p>
@@ -75,7 +75,7 @@ export default function Home() {
             className="mb-8"
             style={{ fontSize: 'var(--font-size-h3)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-heading)' }}
           >
-            Selected Work
+            Selected work
           </p>
           <div className="flex items-center justify-between" style={{ marginTop: 32, marginBottom: 12 }}>
             <span style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-heading)' }}>
@@ -101,8 +101,7 @@ export default function Home() {
                 </kbd>
               </div>
               <Link href="/projects/simplified-navigation">
-                <Button variant="outline" size="sm">
-                  <i className="fa-solid fa-arrow-right" style={{ fontSize: 12 }} />
+                <Button variant="outline" size="sm" icon={<i className="fa-solid fa-arrow-right" style={{ fontSize: 12 }} />}>
                   View project
                 </Button>
               </Link>

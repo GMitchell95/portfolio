@@ -8,7 +8,7 @@ type Size = 'sm' | 'md' | 'lg'
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: Variant
   size?: Size
-  icon?: boolean
+  icon?: ReactNode  // true = icon-only square button; element = text button with leading icon
   loading?: boolean
   children?: ReactNode
   className?: string
@@ -54,14 +54,16 @@ const BASE = [
 export default function Button({
   variant = 'primary',
   size = 'md',
-  icon = false,
+  icon,
   loading = false,
   disabled,
   children,
   className = '',
   ...props
 }: ButtonProps) {
-  const sizeClass = icon ? ICON_SIZE[size] : SIZE[size]
+  const isIconOnly = icon === true
+  const sizeClass = isIconOnly ? ICON_SIZE[size] : SIZE[size]
+  const iconColor = variant !== 'primary' ? 'var(--color-muted)' : 'inherit'
 
   return (
     <button
@@ -74,6 +76,11 @@ export default function Button({
           aria-hidden
           className="shrink-0 w-[13px] h-[13px] rounded-full border-2 border-current border-t-transparent animate-spin"
         />
+      )}
+      {!isIconOnly && icon && (
+        <span aria-hidden style={{ color: iconColor, display: 'inline-flex', alignItems: 'center' }}>
+          {icon}
+        </span>
       )}
       {children}
     </button>
