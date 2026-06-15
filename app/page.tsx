@@ -75,37 +75,17 @@ export default function Home() {
             className="mb-8"
             style={{ fontSize: 'var(--font-size-h3)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-heading)' }}
           >
-            Selected work
+            Interactive playground
           </p>
           <div className="flex items-center justify-between" style={{ marginTop: 32, marginBottom: 12 }}>
             <span style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-heading)' }}>
               Simplified navigation
             </span>
-            <div className="flex items-center gap-3">
-              <div className="flex items-center gap-1" style={{ fontSize: 'var(--font-size-label)', color: 'var(--color-muted)' }}>
-                <span>Click to open or press</span>
-                <kbd style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  background: 'var(--color-white)',
-                  border: '1px solid var(--color-border)',
-                  borderRadius: 4,
-                  padding: '1px 6px',
-                  fontSize: 'var(--font-size-label)',
-                  fontWeight: 'var(--font-weight-medium)',
-                  color: 'var(--color-muted)',
-                  boxShadow: '0 1px 2px rgba(0,0,0,0.06)',
-                  fontFamily: 'inherit',
-                }}>
-                  ⌘ K
-                </kbd>
-              </div>
-              <Link href="/projects/simplified-navigation">
-                <Button variant="outline" size="sm" icon={<i className="fa-solid fa-arrow-right" style={{ fontSize: 12 }} />}>
-                  View project
-                </Button>
-              </Link>
-            </div>
+            <Link href="/projects/simplified-navigation">
+              <Button variant="outline" size="sm" icon={<i className="fa-solid fa-arrow-right" style={{ fontSize: 12 }} />}>
+                View project
+              </Button>
+            </Link>
           </div>
           <MegaMenuTile />
 

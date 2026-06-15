@@ -723,6 +723,32 @@ export default function MegaMenuTile() {
         </div>
       </div>
 
+      {/* ── ⌘ K hint ── */}
+      <div className="flex items-center gap-1" style={{
+        position: 'absolute',
+        bottom: 20,
+        right: 20,
+        fontSize: 'var(--font-size-label)',
+        color: 'var(--color-muted)',
+      }}>
+        <span>Click to open or press</span>
+        <kbd style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          background: 'var(--color-white)',
+          border: '1px solid var(--color-border)',
+          borderRadius: 4,
+          padding: '1px 6px',
+          fontSize: 'var(--font-size-label)',
+          fontWeight: 'var(--font-weight-medium)',
+          color: 'var(--color-muted)',
+          boxShadow: '0 1px 2px rgba(0,0,0,0.06)',
+          fontFamily: 'inherit',
+        }}>
+          ⌘ K
+        </kbd>
+      </div>
+
       {/* ── Breadcrumb ── */}
       <div
         style={{
