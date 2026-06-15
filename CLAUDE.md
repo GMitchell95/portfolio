@@ -90,3 +90,9 @@ Available line height tokens: `--line-height-heading`, `--line-height-body`
 Available colour tokens: `--color-heading`, `--color-primary`, `--color-body`, `--color-muted`, `--color-secondary`, `--color-border`, `--color-border-strong`, `--color-surface`, `--color-surface-subtle`, `--color-white`, `--color-accent`, `--color-accent-hover`, `--color-accent-light`
 
 If a new style is needed that doesn't fit any existing token, stop and ask before proceeding.
+
+## TODO
+
+- Revisit accent colour — currently using old company's accent colour, needs updating
+- Resolve --color-border-strong usage — currently used for inactive pill state in IterationSwitcher, naming could be clearer
+- Create a shared Header/Nav component used by both the homepage and case study pages, to keep styling (background, blur, divider, opacity) consistent across all pages as new case studies are added

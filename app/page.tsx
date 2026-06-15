@@ -1,18 +1,31 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import FormBuilderTile from '@/components/tiles/FormBuilderTile'
 import MegaMenuTile from '@/components/tiles/MegaMenuTile'
 import VinylTile from '@/components/tiles/VinylTile'
 import Button from '@/components/ui/Button'
+import { SlotText } from 'slot-text/react'
+import 'slot-text/style.css'
 
 const CONTAINER = { maxWidth: 1100, margin: "0 auto" }
+const WORDS = ['playground', 'elements', 'designs']
 
 export default function Home() {
+  const [wordIndex, setWordIndex] = useState(0)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setWordIndex((prev) => (prev + 1) % WORDS.length)
+    }, 2500)
+    return () => clearInterval(interval)
+  }, [])
+
   return (
     <>
       {/* Fixed Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50" style={{ backgroundColor: 'var(--color-surface-subtle)', borderBottom: '1px solid var(--color-border)' }}>
+      <nav className="fixed top-0 left-0 right-0 z-50 divider-line-header" style={{ backgroundColor: 'rgba(253, 253, 252, 0.8)', backdropFilter: 'blur(12px)', borderBottomWidth: 1, borderBottomStyle: 'solid' }}>
         <div
           className="site-container flex items-center justify-between"
           style={{ ...CONTAINER, height: 56 }}
@@ -69,14 +82,14 @@ export default function Home() {
         <section
           id="work"
           className="border-t"
-          style={{ padding: "80px 0", borderColor: 'var(--color-border)' }}
+          style={{ padding: "80px 0", borderColor: 'var(--color-surface)' }}
         >
-          <p
+          <h2
             className="mb-8"
             style={{ fontSize: 'var(--font-size-h3)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-heading)' }}
           >
-            Interactive playground
-          </p>
+            Interactive <SlotText text={WORDS[wordIndex]} />
+          </h2>
           <div className="flex items-center justify-between" style={{ marginTop: 32, marginBottom: 12 }}>
             <span style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-heading)' }}>
               Simplified navigation

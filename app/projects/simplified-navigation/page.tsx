@@ -9,6 +9,7 @@ import ClickableVideo from '@/components/case-studies/simplified-navigation/Clic
 import IterationSwitcher from '@/components/case-studies/simplified-navigation/IterationSwitcher';
 import Lightbox from '@/components/case-studies/simplified-navigation/Lightbox';
 import MegaMenuTile from '@/components/tiles/MegaMenuTile';
+import Button from '@/components/ui/Button';
 
 // ── Global styles ────────────────────────────────────────────────────────────
 
@@ -62,7 +63,7 @@ const GLOBAL_STYLES = `
     top: 0; left: 0; right: 0;
     z-index: 200;
     height: 56px;
-    background: rgba(255,255,255,0.92);
+    background: rgba(253,253,252,0.8);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid rgba(0,0,0,0.06);
     display: flex;
@@ -246,6 +247,19 @@ const GLOBAL_STYLES = `
     background: rgba(255,255,255,0.16) !important;
   }
 
+  /* Interactive prototype fullscreen */
+  .cs-interactive-fullscreen { position: relative; }
+  .cs-interactive-fullscreen:fullscreen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-surface);
+  }
+  .cs-interactive-fullscreen:fullscreen .cs-interactive-content {
+    max-width: 1100px;
+    width: 100%;
+  }
+
   /* Responsive horizontal padding */
   .cs-content-wrap {
     padding-left: 40px;
@@ -358,6 +372,28 @@ export default function SimplifiedNavigationPage() {
   const [activeSection, setActiveSection] = useState('section-brief');
   const [lightbox, setLightbox] = useState<LightboxState>({ open: false, slides: [], index: 0, stateIndices: {} });
   const heroTitleRef = useRef<HTMLHeadingElement>(null);
+  const fullscreenRef = useRef<HTMLDivElement>(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  const toggleFullscreen = useCallback(() => {
+    if (!document.fullscreenElement) {
+      fullscreenRef.current?.requestFullscreen();
+    } else {
+      document.exitFullscreen().then(() => {
+        setTimeout(() => {
+          const rect = fullscreenRef.current?.getBoundingClientRect();
+          if (rect) {
+            const targetY = window.scrollY + rect.top - 24;
+            console.log('rect.top:', rect.top, 'window.scrollY:', window.scrollY, 'targetY:', targetY);
+            window.scrollTo(0, targetY);
+            setTimeout(() => {
+              console.log('window.scrollY 200ms after scrollTo:', window.scrollY, '(expected:', targetY, ')');
+            }, 200);
+          }
+        }, 400);
+      });
+    }
+  }, []);
 
   // Scroll listener
   useEffect(() => {
@@ -404,6 +440,12 @@ export default function SimplifiedNavigationPage() {
 
     observer.observe(list);
     return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const onFullscreenChange = () => setIsFullscreen(!!document.fullscreenElement);
+    document.addEventListener('fullscreenchange', onFullscreenChange);
+    return () => document.removeEventListener('fullscreenchange', onFullscreenChange);
   }, []);
 
   const scrollToSection = useCallback((id: string) => {
@@ -668,14 +710,53 @@ export default function SimplifiedNavigationPage() {
           </div>
 
           <div style={{ marginTop: 40 }}>
-            <h3 className="mb-2" style={{ fontSize: 'var(--font-size-h3)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)' }}>Interactive prototype</h3>
+            <div className="mb-2" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <h3 style={{ fontSize: 'var(--font-size-h3)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)' }}>Interactive prototype</h3>
+              <Button variant="outline" size="sm" icon={<i className="fa-solid fa-expand" style={{ fontSize: 12 }} />} onClick={toggleFullscreen}>
+                Fullscreen
+              </Button>
+            </div>
             <p style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', marginBottom: 16 }}>Click on tabs and subpages in the dropdown menu.</p>
-            <div style={{
-              background: 'var(--color-surface)',
-              borderRadius: 16,
-              padding: 0,
-            }}>
-              <MegaMenuTile />
+            <div
+              ref={fullscreenRef}
+              className="cs-interactive-fullscreen"
+              style={{
+                background: 'var(--color-surface)',
+                borderRadius: 16,
+                padding: 0,
+                position: 'relative',
+              }}
+            >
+              {isFullscreen && (
+                <button
+                  onClick={toggleFullscreen}
+                  style={{
+                    position: 'absolute',
+                    top: 16,
+                    right: 16,
+                    zIndex: 10,
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 6,
+                    height: 32,
+                    padding: '0 12px',
+                    borderRadius: 8,
+                    fontSize: 'var(--font-size-small)',
+                    fontWeight: 'var(--font-weight-medium)',
+                    background: 'var(--color-white)',
+                    color: 'var(--color-primary)',
+                    border: '1px solid var(--color-border)',
+                    boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
+                    cursor: 'pointer',
+                  }}
+                >
+                  <i className="fa-solid fa-compress" style={{ fontSize: 11 }} />
+                  Exit fullscreen
+                </button>
+              )}
+              <div className="cs-interactive-content">
+                <MegaMenuTile />
+              </div>
             </div>
           </div>
         </section>

@@ -238,7 +238,7 @@ export default function MegaMenuTile() {
   // ── Filtered items (flat list for keyboard nav) ──────────────────────────
   const filteredCols = MENU_COLS.map(col =>
     col.filter(item =>
-      !searchQuery || item.label.toLowerCase().startsWith(searchQuery.toLowerCase())
+      !searchQuery || item.label.toLowerCase().includes(searchQuery.toLowerCase())
     )
   )
 
@@ -581,6 +581,11 @@ export default function MegaMenuTile() {
                 </div>
 
                 {/* 3-column grid */}
+                {flatFiltered.length === 0 ? (
+                  <div style={{ height: 68, width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <span style={{ fontSize: 'var(--font-size-small)', color: 'var(--color-muted)' }}>No results found.</span>
+                  </div>
+                ) : (
                 <div
                   style={{
                     display: 'grid',
@@ -653,6 +658,7 @@ export default function MegaMenuTile() {
                       : [colEl]
                   })}
                 </div>
+                )}
               </div>
             </div>
           </div>
@@ -724,29 +730,47 @@ export default function MegaMenuTile() {
       </div>
 
       {/* ── ⌘ K hint ── */}
-      <div className="flex items-center gap-1" style={{
+      <div className="flex items-center" style={{
         position: 'absolute',
         bottom: 20,
         right: 20,
+        gap: 8,
         fontSize: 'var(--font-size-label)',
         color: 'var(--color-muted)',
       }}>
-        <span>Click to open or press</span>
-        <kbd style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          background: 'var(--color-white)',
-          border: '1px solid var(--color-border)',
-          borderRadius: 4,
-          padding: '1px 6px',
-          fontSize: 'var(--font-size-label)',
-          fontWeight: 'var(--font-weight-medium)',
-          color: 'var(--color-muted)',
-          boxShadow: '0 1px 2px rgba(0,0,0,0.06)',
-          fontFamily: 'inherit',
-        }}>
-          ⌘ K
-        </kbd>
+        <span>Dropdown shortcut</span>
+        <div className="flex items-center" style={{ gap: 4 }}>
+          <kbd style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            background: 'var(--color-white)',
+            border: '1px solid var(--color-border)',
+            borderRadius: 4,
+            padding: '1px 6px',
+            fontSize: 'var(--font-size-label)',
+            fontWeight: 'var(--font-weight-medium)',
+            color: 'var(--color-muted)',
+            boxShadow: '0 1px 2px rgba(0,0,0,0.06)',
+            fontFamily: 'inherit',
+          }}>
+            ⌘
+          </kbd>
+          <kbd style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            background: 'var(--color-white)',
+            border: '1px solid var(--color-border)',
+            borderRadius: 4,
+            padding: '1px 6px',
+            fontSize: 'var(--font-size-label)',
+            fontWeight: 'var(--font-weight-medium)',
+            color: 'var(--color-muted)',
+            boxShadow: '0 1px 2px rgba(0,0,0,0.06)',
+            fontFamily: 'inherit',
+          }}>
+            K
+          </kbd>
+        </div>
       </div>
 
       {/* ── Breadcrumb ── */}
