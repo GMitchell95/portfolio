@@ -39,6 +39,8 @@ export default function ClickableVideo({
       bgOpacity: 0.88,
       bgClickAction: 'close',
       loop: false,
+      arrowPrev: false,
+      arrowNext: false,
     });
 
     pswp.on('contentLoad', (e) => {
