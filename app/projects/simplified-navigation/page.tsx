@@ -623,7 +623,7 @@ export default function SimplifiedNavigationPage() {
           <div style={{ marginTop: 40 }}>
             <h3 className="mb-2" style={{ fontSize: 'var(--font-size-h3)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)' }}>Old navigation flow</h3>
             <p className="mb-3" style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>Below shows how the user previously navigated to the &apos;Scenario Analysis&apos; page.</p>
-            <ClickableVideo src="/videos/old-flow.mp4" label="Original navigation flow" />
+            <ClickableVideo src="/videos/simplified-navigation/old-flow.mp4" label="Original navigation flow" />
           </div>
         </section>
 

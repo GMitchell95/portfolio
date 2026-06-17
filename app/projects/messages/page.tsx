@@ -285,7 +285,7 @@ const OVERVIEW_SLIDES = [
 
 const SECTIONS = [
   { id: 'section-overview',  label: 'Overview' },
-  { id: 'section-details',   label: 'Details' },
+  { id: 'section-final-design',   label: 'Final design' },
   { id: 'section-learnings', label: 'Learnings' },
 ];
 
@@ -417,7 +417,7 @@ export default function MessagesPage() {
           <div style={{ display: 'flex', gap: 40, paddingTop: 40, borderTop: '1px solid rgba(228,228,231,0.5)' }}>
             {[
               { label: 'Role', value: 'Product designer' },
-              { label: 'Timeline', value: '2 weeks' },
+              { label: 'Timeline', value: '2-3 weeks' },
               { label: 'Date', value: 'October 2025' },
             ].map(item => (
               <div key={item.label} style={{ flex: 1 }}>
@@ -456,11 +456,42 @@ export default function MessagesPage() {
         </section>
 
         {/* DETAILS */}
-        <section id="section-details" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '39px', minHeight: 400 }}>
-          <h2 style={{ fontSize: 'var(--font-size-h2)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 16 }}>Details</h2>
+        <section id="section-final-design" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '39px', minHeight: 400 }}>
+          <h2 style={{ fontSize: 'var(--font-size-h2)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 16 }}>Final design</h2>
           <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>
-            Placeholder details. Walk through the design process, key decisions, explorations, and iterations here.
+            Below is the final design we landed on. Further down you'll find a closer look at some of the key details and improvements.
           </p>
+          <div style={{ marginTop: 16 }}>
+            <ClickableImage
+              label="Final design"
+              src="/images/case-studies/messages/final-design.png"
+              aspectRatio="1760/1060"
+              onClick={() => openSingleImage(
+                'Final design',
+                '',
+                'Final design',
+                '/images/case-studies/messages/final-design.png',
+                3520, 2120
+              )}
+            />
+          </div>
+          <div style={{ marginTop: 40 }}>
+            <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', marginBottom: 16 }}>
+              Placeholder text. A short description of what this video demonstrates.
+            </p>
+            <div style={{
+              background: '#F1F1F1',
+              borderRadius: 8,
+              padding: 24,
+              overflow: 'hidden',
+            }}>
+              <ClickableVideo
+                src="/videos/messages/send-message-preview.mp4"
+                lightboxSrc="/videos/messages/send-message-hq.mp4"
+                label="Send message"
+              />
+            </div>
+          </div>
         </section>
 
         {/* LEARNINGS */}

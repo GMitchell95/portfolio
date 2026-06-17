@@ -17,10 +17,12 @@ function ZoomIcon() {
 
 export default function ClickableVideo({
   src,
+  lightboxSrc,
   label,
   onClick,
 }: {
   src: string;
+  lightboxSrc?: string;
   label: string;
   onClick?: () => void;
 }) {
@@ -30,8 +32,9 @@ export default function ClickableVideo({
     if (onClick) { onClick(); return; }
     if (pswpRef.current) return;
 
+    const videoSrc = lightboxSrc ?? src;
     const pswp = new PhotoSwipe({
-      dataSource: [{ type: 'video', src, width: 1920, height: 1080 }],
+      dataSource: [{ type: 'video', src: videoSrc, width: 1920, height: 1080 }],
       index: 0,
       bgOpacity: 0.88,
       bgClickAction: 'close',
@@ -43,7 +46,7 @@ export default function ClickableVideo({
       e.preventDefault();
 
       const video = document.createElement('video');
-      video.src = e.content.data.src as string;
+      video.src = videoSrc;
       video.autoplay = true;
       video.loop = true;
       video.muted = true;
