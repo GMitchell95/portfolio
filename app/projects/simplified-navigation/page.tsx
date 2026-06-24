@@ -564,6 +564,19 @@ export default function SimplifiedNavigationPage() {
             <li><mark id="brief-mark-1" className="highlight-brief">Simplify the navigation</mark></li>
             <li><mark id="brief-mark-2" className="highlight-brief">Provide users with a clear understanding of their next steps post event creation</mark></li>
           </ol>
+          <div style={{ marginTop: 24 }}>
+            <div style={{
+              background: 'var(--color-surface)',
+              borderRadius: 8,
+              overflow: 'hidden',
+            }}>
+              <ClickableVideo
+                src="/videos/simplified-navigation/old-nav-sections-preview.mp4"
+                lightboxSrc="/videos/simplified-navigation/old-nav-sections-hq.mp4"
+                label="Old navigation flow"
+              />
+            </div>
+          </div>
         </section>
 
         {/* EXPLORATIONS */}

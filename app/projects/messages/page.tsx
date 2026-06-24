@@ -476,8 +476,8 @@ export default function MessagesPage() {
             />
           </div>
           <div style={{ marginTop: 40 }}>
-            <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', marginBottom: 16 }}>
-              Placeholder text. A short description of what this video demonstrates.
+            <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', marginBottom: 12 }}>
+              Sending a message to a new supplier.
             </p>
             <div style={{
               background: '#F1F1F1',
@@ -486,9 +486,94 @@ export default function MessagesPage() {
               overflow: 'hidden',
             }}>
               <ClickableVideo
-                src="/videos/messages/send-message-preview.mp4"
-                lightboxSrc="/videos/messages/send-message-hq.mp4"
+                src="/videos/messages/send-message-first-message-preview.mp4"
+                lightboxSrc="/videos/messages/send-message-first-message-hq.mp4"
                 label="Send message"
+              />
+            </div>
+          </div>
+          <div style={{ marginTop: 40 }}>
+            <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', marginBottom: 12 }}>
+              Sending a message to a supplier when a chat already exists.
+            </p>
+            <div style={{
+              background: '#F1F1F1',
+              borderRadius: 8,
+              padding: 24,
+              overflow: 'hidden',
+            }}>
+              <ClickableVideo
+                src="/videos/messages/send-message-chat-exists-preview.mp4"
+                lightboxSrc="/videos/messages/send-message-chat-exists-hq.mp4"
+                label="Send message — existing chat"
+              />
+            </div>
+          </div>
+          <div style={{ marginTop: 40 }}>
+            <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', marginBottom: 12 }}>
+              Sending a message to a supplier when a chat already exists and was unread.
+            </p>
+            <div style={{
+              background: '#F1F1F1',
+              borderRadius: 8,
+              padding: 24,
+              overflow: 'hidden',
+            }}>
+              <ClickableVideo
+                src="/videos/messages/send-message-chat-exists-unread-preview.mp4"
+                lightboxSrc="/videos/messages/send-message-chat-exists-unread-hq.mp4"
+                label="Send message — existing unread chat"
+              />
+            </div>
+          </div>
+          <div style={{ marginTop: 40 }}>
+            <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', marginBottom: 12 }}>
+              Marking messages as unread.
+            </p>
+            <div style={{
+              background: '#F1F1F1',
+              borderRadius: 8,
+              padding: 24,
+              overflow: 'hidden',
+            }}>
+              <ClickableVideo
+                src="/videos/messages/mark-single-message-as-unread-preview.mp4"
+                lightboxSrc="/videos/messages/mark-single-message-as-unread-hq.mp4"
+                label="Mark message as unread"
+              />
+            </div>
+          </div>
+          <div style={{ marginTop: 40 }}>
+            <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', marginBottom: 12 }}>
+              Scrolling the user to the last unread message.
+            </p>
+            <div style={{
+              background: '#F1F1F1',
+              borderRadius: 8,
+              padding: 24,
+              overflow: 'hidden',
+            }}>
+              <ClickableVideo
+                src="/videos/messages/scroll-to-unread-preview.mp4"
+                lightboxSrc="/videos/messages/scroll-to-unread-hq.mp4"
+                label="Scroll to last unread message"
+              />
+            </div>
+          </div>
+          <div style={{ marginTop: 40 }}>
+            <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', marginBottom: 12 }}>
+              Sending an announcement to all suppliers, followed by a direct message.
+            </p>
+            <div style={{
+              background: '#F1F1F1',
+              borderRadius: 8,
+              padding: 24,
+              overflow: 'hidden',
+            }}>
+              <ClickableVideo
+                src="/videos/messages/announcement-to-all-preview.mp4"
+                lightboxSrc="/videos/messages/announcement-to-all-hq.mp4"
+                label="Announcement to all suppliers"
               />
             </div>
           </div>
