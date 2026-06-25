@@ -475,7 +475,18 @@ export default function MessagesPage() {
               )}
             />
           </div>
-          <div style={{ marginTop: 40 }}>
+          <ul style={{ margin: '16px 0', paddingLeft: 20, display: 'flex', flexDirection: 'column', gap: 4, listStyleType: 'disc' }}>
+            <li style={{ fontSize: 'var(--font-size-small)', color: 'var(--color-muted)', lineHeight: 'var(--line-height-body)' }}>Improved the flow for messaging a supplier</li>
+            <li style={{ fontSize: 'var(--font-size-small)', color: 'var(--color-muted)', lineHeight: 'var(--line-height-body)' }}>Refreshed the look and feel of the messaging window</li>
+            <li style={{ fontSize: 'var(--font-size-small)', color: 'var(--color-muted)', lineHeight: 'var(--line-height-body)' }}>Simplified the side panel to align with familiar messaging conventions</li>
+            <li style={{ fontSize: 'var(--font-size-small)', color: 'var(--color-muted)', lineHeight: 'var(--line-height-body)' }}>Added the ability to mark a specific message as unread</li>
+            <li style={{ fontSize: 'var(--font-size-small)', color: 'var(--color-muted)', lineHeight: 'var(--line-height-body)' }}>Auto-scroll the user to their last unread message</li>
+            <li style={{ fontSize: 'var(--font-size-small)', color: 'var(--color-muted)', lineHeight: 'var(--line-height-body)' }}>Improved readability by capping message bubble widths</li>
+          </ul>
+          <h3 style={{ fontSize: 'var(--font-size-h3)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-heading)', marginBottom: 16, marginTop: 40 }}>
+            Flows
+          </h3>
+          <div style={{ marginTop: 16 }}>
             <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', marginBottom: 12 }}>
               Sending a message to a new supplier.
             </p>
@@ -562,7 +573,7 @@ export default function MessagesPage() {
           </div>
           <div style={{ marginTop: 40 }}>
             <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', marginBottom: 12 }}>
-              Sending an announcement to all suppliers, followed by a direct message.
+              Sending an announcement to all suppliers, followed by a direct message. Announcements are a one-way broadcast to all suppliers. We kept the feature but restyled them and made them collapsible so they don&apos;t dominate individual chats.
             </p>
             <div style={{
               background: '#F1F1F1',
@@ -576,6 +587,43 @@ export default function MessagesPage() {
                 label="Announcement to all suppliers"
               />
             </div>
+          </div>
+          <div style={{ marginTop: 40 }}>
+            <h3 style={{ fontSize: 'var(--font-size-h3)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-heading)', marginBottom: 16 }}>
+              Additional details
+            </h3>
+            <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', marginBottom: 12 }}>
+              Messaging panel on a wider viewport, with design notes.
+            </p>
+            <ClickableImage
+              label="Max width"
+              src="/images/case-studies/messages/max-width.png"
+              aspectRatio="4520/2300"
+              onClick={() => openSingleImage(
+                'Max width',
+                '',
+                'Max width',
+                '/images/case-studies/messages/max-width.png',
+                4520, 2300
+              )}
+            />
+          </div>
+          <div style={{ marginTop: 40 }}>
+            <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', marginBottom: 12 }}>
+              Details of the timestamp behaviour.
+            </p>
+            <ClickableImage
+              label="Timestamp details"
+              src="/images/case-studies/messages/timestamp-details.png"
+              aspectRatio="6836/2120"
+              onClick={() => openSingleImage(
+                'Timestamp details',
+                '',
+                'Timestamp details',
+                '/images/case-studies/messages/timestamp-details.png',
+                6836, 2120
+              )}
+            />
           </div>
         </section>
 

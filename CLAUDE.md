@@ -91,6 +91,10 @@ Available colour tokens: `--color-heading`, `--color-primary`, `--color-body`, `
 
 If a new style is needed that doesn't fit any existing token, stop and ask before proceeding.
 
+## Copy and writing rules
+
+- Never use em dashes (—) anywhere in copy, headings, labels, or placeholder text. Use commas, full stops, or restructure the sentence instead. This applies to all text changes including those made via Agentation.
+
 ## TODO
 
 - Revisit accent colour — currently using old company's accent colour, needs updating
