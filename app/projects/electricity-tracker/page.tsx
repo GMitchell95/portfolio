@@ -278,7 +278,6 @@ export default function ElectricityTrackerPage() {
   const [headerVisible, setHeaderVisible] = useState(false);
   const [activeSection, setActiveSection] = useState('section-overview');
   const [lightbox, setLightbox] = useState<LightboxState>({ open: false, slides: [], index: 0, stateIndices: {} });
-  const [videoScale, setVideoScale] = useState(1);
   const heroTitleRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
@@ -427,18 +426,72 @@ export default function ElectricityTrackerPage() {
 
         {/* DETAILS */}
         <section id="section-final-design" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '39px', minHeight: 400 }}>
-          <h2 style={{ fontSize: 'var(--font-size-h2)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 16 }}>Final design</h2>
-          <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>
-            Final design coming soon. Screenshots and screen recordings will be added here.
-          </p>
-          <div style={{ display: 'flex', justifyContent: 'center', marginTop: 24 }}>
-            <div style={{ width: 280 }}>
-              <PhoneVideo
-                src="/videos/electricity-tracker/test-preview.mp4"
-                lightboxSrc="/videos/electricity-tracker/test-hq.mp4"
-                label="Electricity tracker demo"
-                videoScale={videoScale}
-              />
+          <h2 style={{ fontSize: 'var(--font-size-h2)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 16 }}>Application flows</h2>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 40, marginTop: 24 }}>
+            <div>
+              <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', marginBottom: 12 }}>
+                Add a new entry for a product's electricity usage.
+              </p>
+              <div style={{ background: '#F1F1F1', borderRadius: 12, padding: 24, overflow: 'hidden', display: 'flex', justifyContent: 'center' }}>
+                <div style={{ width: 280 }}>
+                  <PhoneVideo
+                    src="/videos/electricity-tracker/add-entry.mp4"
+                    label="Electricity tracker demo"
+                  />
+                </div>
+              </div>
+            </div>
+            <div>
+              <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', marginBottom: 12 }}>
+                Edit an entry that has already been logged.
+              </p>
+              <div style={{ background: '#F1F1F1', borderRadius: 12, padding: 24, overflow: 'hidden', display: 'flex', justifyContent: 'center' }}>
+                <div style={{ width: 280 }}>
+                  <PhoneVideo
+                    src="/videos/electricity-tracker/edit-entry.mp4"
+                    label="Electricity tracker demo"
+                  />
+                </div>
+              </div>
+            </div>
+            <div>
+              <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', marginBottom: 12 }}>
+                Delete an entry using the iOS gesture.
+              </p>
+              <div style={{ background: '#F1F1F1', borderRadius: 12, padding: 24, overflow: 'hidden', display: 'flex', justifyContent: 'center' }}>
+                <div style={{ width: 280 }}>
+                  <PhoneVideo
+                    src="/videos/electricity-tracker/delete-home.mp4"
+                    label="Delete an entry using the iOS gesture"
+                  />
+                </div>
+              </div>
+            </div>
+            <div>
+              <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', marginBottom: 12 }}>
+                Delete an entry from inside the Edit panel.
+              </p>
+              <div style={{ background: '#F1F1F1', borderRadius: 12, padding: 24, overflow: 'hidden', display: 'flex', justifyContent: 'center' }}>
+                <div style={{ width: 280 }}>
+                  <PhoneVideo
+                    src="/videos/electricity-tracker/delete-sheet.mp4"
+                    label="Delete an entry from inside the bottom sheet"
+                  />
+                </div>
+              </div>
+            </div>
+            <div>
+              <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', marginBottom: 12 }}>
+                Navigating and viewing the Stats page.
+              </p>
+              <div style={{ background: '#F1F1F1', borderRadius: 12, padding: 24, overflow: 'hidden', display: 'flex', justifyContent: 'center' }}>
+                <div style={{ width: 280 }}>
+                  <PhoneVideo
+                    src="/videos/electricity-tracker/view-stats.mp4"
+                    label="Navigating and viewing the Stats page"
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -494,12 +547,6 @@ export default function ElectricityTrackerPage() {
           </div>
         </div>
 
-      </div>
-
-      {/* DEV PANEL — remove once video scale is finalised */}
-      <div style={{ position: 'fixed', bottom: 16, left: 16, zIndex: 999, background: 'white', border: '1px solid var(--color-border)', borderRadius: 8, padding: 12, display: 'flex', alignItems: 'center', gap: 8 }}>
-        <label style={{ fontSize: 12, color: 'var(--color-muted)' }}>Video scale</label>
-        <input type="number" value={videoScale} step={0.01} min={0.1} max={1} onChange={e => setVideoScale(Number(e.target.value))} style={{ width: 72, fontSize: 12, padding: '2px 6px', border: '1px solid var(--color-border)', borderRadius: 6 }} />
       </div>
 
       {/* LIGHTBOX */}
