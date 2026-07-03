@@ -64,7 +64,7 @@ export default function Home() {
             <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', marginTop: 16 }}>
               I&rsquo;ve spent over 5 years designing a complex B2B product at{' '}
               <a href="https://www.keelvar.com/" target="_blank" rel="noopener noreferrer" className="hero-link hero-link--purple">Keelvar</a>
-              , an agentic sourcing platform. Recently I rebuilt this portfolio to learn what it&rsquo;s like to prototype and build with Claude. It&rsquo;s still a work in progress, so go easy on any minor mistakes.
+              , an agentic sourcing platform. Recently I rebuilt this portfolio to learn what it&rsquo;s like to prototype and build with Claude.
             </p>
             <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginTop: 32 }}>
               <a href="https://www.linkedin.com/in/glenmitchell95/" target="_blank" rel="noopener noreferrer" className="hero-link hero-link--zinc" style={{ fontSize: 'var(--font-size-small)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-body)' }}>

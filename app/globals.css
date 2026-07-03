@@ -43,7 +43,7 @@
   }
 
   body {
-    font-family: var(--font-inter), sans-serif;
+    font-family: 'Inter Variable', Inter, sans-serif;
   }
 
   *,
