@@ -10,6 +10,7 @@ import IterationSwitcher from '@/components/case-studies/simplified-navigation/I
 import Lightbox from '@/components/case-studies/simplified-navigation/Lightbox';
 import MegaMenuTile from '@/components/tiles/MegaMenuTile';
 import Button from '@/components/ui/Button';
+import BorderBeam from 'border-beam';
 
 // ── Global styles ────────────────────────────────────────────────────────────
 
@@ -727,9 +728,11 @@ export default function SimplifiedNavigationPage() {
                 <h3 style={{ fontSize: 'var(--font-size-h3)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)' }}>Interactive prototype</h3>
                 <p style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>Click on tabs and subpages in the dropdown menu.</p>
               </div>
-              <Button variant="outline" size="sm" icon={<i className="fa-solid fa-expand" style={{ fontSize: 12 }} />} onClick={toggleFullscreen}>
-                Fullscreen
-              </Button>
+              <BorderBeam size="md" colorVariant="ocean" theme="light" strength={0.3}>
+                <Button variant="outline" size="sm" icon={<i className="fa-solid fa-expand" style={{ fontSize: 12 }} />} onClick={toggleFullscreen}>
+                  Fullscreen
+                </Button>
+              </BorderBeam>
             </div>
             <div
               ref={fullscreenRef}
