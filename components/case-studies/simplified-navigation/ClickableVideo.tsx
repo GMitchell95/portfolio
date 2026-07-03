@@ -2,6 +2,7 @@
 
 import { useRef } from 'react';
 import PhotoSwipe from 'photoswipe';
+import useVideoAutoplay from '@/hooks/useVideoAutoplay';
 import 'photoswipe/style.css';
 
 const SVG_CLOSE = `<svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>`;
@@ -27,6 +28,8 @@ export default function ClickableVideo({
   onClick?: () => void;
 }) {
   const pswpRef = useRef<InstanceType<typeof PhotoSwipe> | null>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  useVideoAutoplay(videoRef);
 
   const handleClick = () => {
     if (onClick) { onClick(); return; }
@@ -83,7 +86,7 @@ export default function ClickableVideo({
       style={{ background: 'var(--color-surface)', clipPath: 'inset(1px 1px 0 0)' }}
       aria-label={label}
     >
-      <video autoPlay loop muted playsInline style={{ width: '100%', display: 'block' }}>
+      <video ref={videoRef} loop muted playsInline style={{ width: '100%', display: 'block' }}>
         <source src={src} type="video/mp4" />
       </video>
       <div className="cs-zoom-hint">
