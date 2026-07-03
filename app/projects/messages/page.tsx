@@ -302,7 +302,7 @@ export default function MessagesPage() {
       if (heroTitleRef.current) {
         setHeaderVisible(heroTitleRef.current.getBoundingClientRect().bottom < 0);
       }
-      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 10) {
         setActiveSection(SECTIONS[SECTIONS.length - 1].id);
         return;
       }

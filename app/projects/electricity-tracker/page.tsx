@@ -9,6 +9,7 @@ import IterationSwitcher from '@/components/case-studies/simplified-navigation/I
 import Lightbox from '@/components/case-studies/simplified-navigation/Lightbox';
 import Button from '@/components/ui/Button';
 import PhoneVideo from '@/components/case-studies/electricity-tracker/PhoneVideo';
+import useVideoAutoplay from '@/hooks/useVideoAutoplay';
 
 // ── Global styles ────────────────────────────────────────────────────────────
 
@@ -244,6 +245,33 @@ const GLOBAL_STYLES = `
     background: rgba(255,255,255,0.16) !important;
   }
 
+  /* Dial comparison notes grid */
+  .dial-notes-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+  }
+  .dial-notes-col {
+    padding-left: 12px;
+    padding-right: 12px;
+    border-left: 1px solid rgba(0,0,0,0.05);
+  }
+  @media (max-width: 600px) {
+    .dial-notes-grid {
+      grid-template-columns: 1fr;
+    }
+    .dial-notes-col {
+      border-left: none;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      padding-left: 0;
+      padding-right: 0;
+      padding-bottom: 12px;
+    }
+    .dial-notes-col:last-child {
+      border-bottom: none;
+    }
+  }
+
   /* Responsive horizontal padding */
   .cs-content-wrap {
     padding-left: 40px;
@@ -268,8 +296,8 @@ const OVERVIEW_SLIDES: Slide[] = [];
 
 const SECTIONS = [
   { id: 'section-overview',  label: 'Overview' },
-  { id: 'section-final-design',   label: 'Final design' },
-  { id: 'section-learnings', label: 'Learnings' },
+  { id: 'section-application-flows',   label: 'Application flows' },
+  { id: 'section-learnings', label: "What's next" },
 ];
 
 // ── Page ──────────────────────────────────────────────────────────────────────
@@ -279,13 +307,17 @@ export default function ElectricityTrackerPage() {
   const [activeSection, setActiveSection] = useState('section-overview');
   const [lightbox, setLightbox] = useState<LightboxState>({ open: false, slides: [], index: 0, stateIndices: {} });
   const heroTitleRef = useRef<HTMLHeadingElement>(null);
+  const dialComparisonRef = useRef<HTMLVideoElement>(null);
+  const dialComp2Ref = useRef<HTMLVideoElement>(null);
+  useVideoAutoplay(dialComparisonRef);
+  useVideoAutoplay(dialComp2Ref);
 
   useEffect(() => {
     const onScroll = () => {
       if (heroTitleRef.current) {
         setHeaderVisible(heroTitleRef.current.getBoundingClientRect().bottom < 0);
       }
-      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 10) {
         setActiveSection(SECTIONS[SECTIONS.length - 1].id);
         return;
       }
@@ -425,7 +457,7 @@ export default function ElectricityTrackerPage() {
         </section>
 
         {/* DETAILS */}
-        <section id="section-final-design" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '39px', minHeight: 400 }}>
+        <section id="section-application-flows" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '39px', minHeight: 400 }}>
           <h2 style={{ fontSize: 'var(--font-size-h2)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 16 }}>Application flows</h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 40, marginTop: 24 }}>
             <div>
@@ -493,15 +525,145 @@ export default function ElectricityTrackerPage() {
                 </div>
               </div>
             </div>
+            <div>
+              <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', marginBottom: 12 }}>
+                Browsing previous days in the Daily breakdown.
+              </p>
+              <div style={{ background: '#F1F1F1', borderRadius: 12, padding: 24, overflow: 'hidden', display: 'flex', justifyContent: 'center' }}>
+                <div style={{ width: 280 }}>
+                  <PhoneVideo
+                    src="/videos/electricity-tracker/daily-breakdown.mp4"
+                    label="Browsing previous days in the Daily breakdown"
+                  />
+                </div>
+              </div>
+            </div>
+            <div>
+              <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', marginBottom: 12 }}>
+                Adding a new device on the Settings page.
+              </p>
+              <div style={{ background: '#F1F1F1', borderRadius: 12, padding: 24, overflow: 'hidden', display: 'flex', justifyContent: 'center' }}>
+                <div style={{ width: 280 }}>
+                  <PhoneVideo
+                    src="/videos/electricity-tracker/add-device.mp4"
+                    label="Adding a new device on the Settings page"
+                  />
+                </div>
+              </div>
+            </div>
+            <div>
+              <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', marginBottom: 12 }}>
+                Adding a new device from the Device dropdown.
+              </p>
+              <div style={{ background: '#F1F1F1', borderRadius: 12, padding: 24, overflow: 'hidden', display: 'flex', justifyContent: 'center' }}>
+                <div style={{ width: 280 }}>
+                  <PhoneVideo
+                    src="/videos/electricity-tracker/add-device-dropdown.mp4"
+                    label="Adding a new device from the Device dropdown"
+                  />
+                </div>
+              </div>
+            </div>
+            <div>
+              <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', marginBottom: 12 }}>
+                Editing the energy provider from the Settings page. Changing the rate reflects instantly across all logged entries, making it easy to compare what your usage might cost with a different provider.
+              </p>
+              <div style={{ background: '#F1F1F1', borderRadius: 12, padding: 24, overflow: 'hidden', display: 'flex', justifyContent: 'center' }}>
+                <div style={{ width: 280 }}>
+                  <PhoneVideo
+                    src="/videos/electricity-tracker/editing-provider.mp4"
+                    label="Editing the energy provider from the Settings page"
+                  />
+                </div>
+              </div>
+            </div>
+            <div>
+              <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', marginBottom: 12 }}>
+                A subtle animation when switching between tabs.
+              </p>
+              <div style={{ background: '#F1F1F1', borderRadius: 12, padding: 24, overflow: 'hidden', display: 'flex', justifyContent: 'center' }}>
+                <div style={{ width: 280 }}>
+                  <PhoneVideo
+                    src="/videos/electricity-tracker/animation-tab-switching.mp4"
+                    label="A subtle animation when switching between tabs"
+                  />
+                </div>
+              </div>
+            </div>
+            <div>
+              <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', marginBottom: 12 }}>
+                A subtle animation when the bottom sheet resizes.
+              </p>
+              <div style={{ background: '#F1F1F1', borderRadius: 12, padding: 24, overflow: 'hidden', display: 'flex', justifyContent: 'center' }}>
+                <div style={{ width: 280 }}>
+                  <PhoneVideo
+                    src="/videos/electricity-tracker/animation-sheet-resize.mp4"
+                    label="A subtle animation when the bottom sheet resizes"
+                  />
+                </div>
+              </div>
+            </div>
+            <div>
+              <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', marginBottom: 12 }}>
+                Various iterations to improve the dial component.
+              </p>
+              <div style={{ position: 'relative' }}>
+                <video
+                  ref={dialComparisonRef}
+                  src="/videos/electricity-tracker/dial-comparison.mp4"
+                  loop
+                  muted
+                  playsInline
+                  style={{ borderRadius: '12px', width: '100%', display: 'block', position: 'relative', zIndex: 2 }}
+                />
+                  <div className="dial-notes-grid" style={{ marginTop: 16 }}>
+                    {([
+                      { label: 'Iteration 1', bullets: ['Start and End inputs separated', 'Time values hard to read at a glance'] },
+                      { label: 'Iteration 2', bullets: ['Added more hour values around the dial', 'Improved how the duration value is displayed', 'Selected values and tick marks highlight to show active state'] },
+                      { label: 'Iteration 3', bullets: ['Merged Start and End into a single combined input', 'Standardised hour marker lengths for consistency', 'Added a transition animation on Start and End time changes', 'The unselected time value dims when editing, making it clear which input is active'] },
+                    ]).map(({ label, bullets }) => (
+                      <div key={label} className="dial-notes-col">
+                        <div className="text-xs font-medium text-zinc-800" style={{ marginBottom: '8px' }}>{label}</div>
+                        <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                          {bullets.map(b => (
+                            <li key={b} className="text-xs text-zinc-500" style={{ lineHeight: 1.5, paddingLeft: '8px', position: 'relative' }}>
+                              <span style={{ position: 'absolute', left: 0 }}>·</span>
+                              {b}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+              </div>
+            </div>
+            <div>
+              <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', marginBottom: 12 }}>
+                The final version on the right shows how the value stays centred as it changes, with a smooth transition between single and double digits.
+              </p>
+              <video
+                ref={dialComp2Ref}
+                src="/videos/electricity-tracker/dial-comp-2.mp4"
+                loop
+                muted
+                playsInline
+                style={{ borderRadius: '12px', width: '100%', display: 'block' }}
+              />
+            </div>
           </div>
         </section>
 
         {/* LEARNINGS */}
         <section id="section-learnings" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '39px', minHeight: 400 }}>
-          <h2 style={{ fontSize: 'var(--font-size-h2)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 16 }}>Learnings</h2>
-          <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>
-            Learnings coming soon.
-          </p>
+          <h2 style={{ fontSize: 'var(--font-size-h2)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 16 }}>What's next</h2>
+          <ul style={{ margin: '16px 0', paddingLeft: 20, display: 'flex', flexDirection: 'column', gap: 4, listStyleType: 'disc' }}>
+            <li style={{ fontSize: 'var(--font-size-small)', color: 'var(--color-muted)', lineHeight: 'var(--line-height-body)' }}>Side-by-side cost comparison across 2 energy providers</li>
+            <li style={{ fontSize: 'var(--font-size-small)', color: 'var(--color-muted)', lineHeight: 'var(--line-height-body)' }}>Savings indicator on each provider showing estimated cost difference based on your logged usage</li>
+            <li style={{ fontSize: 'var(--font-size-small)', color: 'var(--color-muted)', lineHeight: 'var(--line-height-body)' }}>Add recurring entries for devices used on a regular schedule, such as a Tesla charger on weekdays or an air con unit running overnight</li>
+            <li style={{ fontSize: 'var(--font-size-small)', color: 'var(--color-muted)', lineHeight: 'var(--line-height-body)' }}>Polish up components and improve overall visual consistency</li>
+            <li style={{ fontSize: 'var(--font-size-small)', color: 'var(--color-muted)', lineHeight: 'var(--line-height-body)' }}>Add an onboarding flow for first-time setup</li>
+            <li style={{ fontSize: 'var(--font-size-small)', color: 'var(--color-muted)', lineHeight: 'var(--line-height-body)' }}>Support both flat rate and fluctuating energy tariffs, with live hourly rates pulled from providers</li>
+          </ul>
         </section>
 
         {/* FOOTER */}

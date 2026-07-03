@@ -1,5 +1,8 @@
 'use client';
 
+import { useRef } from 'react';
+import useVideoAutoplay from '@/hooks/useVideoAutoplay';
+
 export default function PhoneVideo({
   src,
   label,
@@ -7,6 +10,9 @@ export default function PhoneVideo({
   src: string;
   label: string;
 }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  useVideoAutoplay(videoRef);
+
   return (
     <div
       aria-label={label}
@@ -16,7 +22,7 @@ export default function PhoneVideo({
       <div style={{
         position: 'absolute',
         top: '2.2%', bottom: '2.28%', left: '3.5%', right: '3.5%',
-        background: '#060D18',
+        background: '#0A0F1A',
         borderRadius: '30px',
         zIndex: 0,
       }} />
@@ -33,7 +39,7 @@ export default function PhoneVideo({
         zIndex: 1,
       }}>
         <video
-          autoPlay
+          ref={videoRef}
           loop
           muted
           playsInline
