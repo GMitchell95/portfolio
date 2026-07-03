@@ -401,22 +401,18 @@ export default function ElectricityTrackerPage() {
             marginLeft: 'calc(-50vw + 50%)',
             marginRight: 'calc(-50vw + 50%)',
             background: 'var(--color-surface-subtle)',
-            padding: '80px 0 40px',
+            padding: '80px 0 0',
             marginBottom: 40,
           }}>
             <div style={{ maxWidth: 680, margin: '0 auto', padding: '0 40px' }}>
-              {/* Hero image — add src once asset is ready: /images/case-studies/electricity-tracker/hero.png */}
-              <div
-                className="hero-image-enter"
-                style={{
-                  border: '1px solid rgba(0, 0, 0, 0.06)',
-                  borderRadius: 16,
-                  overflow: 'hidden',
-                  width: '100%',
-                  minHeight: 320,
-                  background: 'var(--color-surface-subtle)',
-                }}
-              />
+              <div style={{ position: 'relative', overflow: 'hidden', height: '450px', display: 'flex', justifyContent: 'center' }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/images/case-studies/electricity-tracker/hero.png"
+                  alt=""
+                  style={{ position: 'absolute', top: 0, width: '340px', height: 'auto' }}
+                />
+              </div>
             </div>
           </div>
           <div style={{ fontSize: 'var(--font-size-label)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-accent)', letterSpacing: '0.06em', marginBottom: 20 }}>
@@ -446,7 +442,7 @@ export default function ElectricityTrackerPage() {
         </section>
 
         {/* OVERVIEW */}
-        <section id="section-overview" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '39px', minHeight: 400 }}>
+        <section id="section-overview" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '39px' }}>
           <h2 style={{ fontSize: 'var(--font-size-h2)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 16 }}>Overview</h2>
           <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', marginBottom: 16 }}>
             The goal was a simple app to automate cost calculations and log usage over time. The intention is to connect it to a live electricity pricing API so rates adjust automatically by time of day, which matters in Spain where peak and off-peak hours are priced differently.
@@ -639,7 +635,7 @@ export default function ElectricityTrackerPage() {
             </div>
             <div>
               <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', marginBottom: 12 }}>
-                The final version on the right shows how the value stays centred as it changes, with a smooth transition between single and double digits.
+                The final version on the right shows how the value stays centred as it changes, with a smoother transition between single and double digits.
               </p>
               <video
                 ref={dialComp2Ref}

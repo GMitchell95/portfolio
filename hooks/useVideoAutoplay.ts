@@ -1,7 +1,7 @@
 import { RefObject, useEffect } from 'react'
 
 export default function useVideoAutoplay(
-  ref: RefObject<HTMLVideoElement>,
+  ref: RefObject<HTMLVideoElement | null>,
   threshold = 0.2
 ) {
   useEffect(() => {
