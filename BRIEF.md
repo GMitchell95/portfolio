@@ -19,7 +19,7 @@ A personal portfolio for a product and UI designer with ~8 years experience. The
 - **Framework:** Next.js (app router), TypeScript
 - **Styling:** Tailwind CSS v3
 - **Deployment:** Vercel (free tier, auto-deploys on push to main)
-- **Fonts:** Inter (Google Fonts, loaded via next/font/google)
+- **Fonts:** Inter, self-hosted via fontsource variable font package (@fontsource-variable/inter)
 - **Icons:** Font Awesome 6.5.1 (CDN, loaded in app/layout.tsx)
 - **Lightbox:** PhotoSwipe v5
 
@@ -30,7 +30,7 @@ A personal portfolio for a product and UI designer with ~8 years experience. The
 - Work shown up front — no click required to see it
 - Interactive tiles where visitors can engage with actual UI components
 - Simple, typographic, no unnecessary decoration
-- Desktop first for now — mobile responsiveness to come later
+- Mobile responsiveness is in scope and actively being built
 - No serif fonts anywhere
 - All spacing in multiples of 4px or 8px — no arbitrary values
 - No uppercase text anywhere on the site
@@ -151,31 +151,25 @@ Reusable Button component lives at `components/ui/Button.tsx`.
 ```
 portfolio/
 ├── app/
-│   ├── globals.css                    — global styles, CSS tokens, PhotoSwipe overrides
-│   ├── layout.tsx                     — Inter font, FA CDN link, Agentation (dev only), root layout
-│   └── page.tsx                       — homepage (hero + work section)
+│   ├── globals.css           — global styles, sw-* classes for Selected Work section
+│   ├── layout.tsx            — Inter font (fontsource), FA CDN link, root layout
+│   └── page.tsx              — homepage (hero + Selected Work + work section)
 ├── components/
-│   ├── case-studies/
-│   │   └── simplified-navigation/
-│   │       ├── types.ts               — Slide, SlideState, LightboxState interfaces
-│   │       ├── icons.tsx              — ChevronLeft, ChevronRight
-│   │       ├── ClickableImage.tsx     — image with zoom hint and lightbox trigger
-│   │       ├── ClickableVideo.tsx     — video with zoom hint and PhotoSwipe lightbox
-│   │       ├── StateSwitcher.tsx      — per-slide state pill switcher
-│   │       ├── IterationSwitcher.tsx  — slide carousel with arrows and dots
-│   │       └── Lightbox.tsx           — PhotoSwipe v5 lightbox
 │   ├── tiles/
-│   │   ├── FormBuilderTile.tsx
-│   │   └── MegaMenuTile.tsx
+│   │   └── FormBuilderTile.tsx   — first interactive tile
 │   └── ui/
-│       └── Button.tsx
+│       └── Button.tsx            — reusable button component
+├── hooks/
+├── lib/
 ├── public/
-│   ├── images/
-│   │   └── case-studies/
-│   │       └── simplified-navigation/ — all case study images
-│   └── videos/                        — compressed mp4 screen recordings
-├── CLAUDE.md                          — Claude Code instructions and conventions
-├── next.config.ts                     — images.unoptimized: true
+│   └── images/
+│       └── case-studies/
+│           ├── electricity-tracker/
+│           ├── simplified-navigation/
+│           └── messages/
+├── AGENTS.md
+├── BRIEF.md
+├── CLAUDE.md
 └── tailwind.config.js
 ```
 
@@ -193,6 +187,54 @@ portfolio/
 - Action buttons above tile: use `Button` component, `outline` variant, `sm` size
 - Fixed container height — no jumping when content changes
 - Desktop only for now
+
+### Adding new tiles
+1. Prototype the component in a standalone HTML file in Claude
+2. Refine all interactions, states, animations and edge cases
+3. Write a Claude Code brief referencing the HTML prototype
+4. Place the HTML prototype in the portfolio root folder so Claude Code can reference it
+5. Implement as a React component in components/tiles/
+6. Add to app/page.tsx
+7. Delete the HTML prototype from the root folder once implementation is complete
+
+---
+
+## Selected Work section
+
+A grid of three project tiles on the homepage, positioned 80px below the intro text. Each tile links to its case study page. Heights driven entirely by CSS container queries — no JS measurement.
+
+### Projects
+| Order | Title | Year | href |
+|---|---|---|---|
+| 1 | Electricity tracker | 2026 | /projects/electricity-tracker |
+| 2 | Simplified navigation | 2026 | /projects/simplified-navigation |
+| 3 | Messages | 2025 | /projects/messages |
+
+### Grid
+- Desktop (≥900px): grid-template-columns: 1fr 1.55fr 1.55fr, gap 24px
+- Tablet (700–899px): same columns, gap 16px
+- Mobile (<700px): grid-template-columns: 1fr (stacked), gap 32px
+
+### Tile hover states (all tiles)
+- Tint overlay: ::after pseudo-element, opacity 0 → 0.04 black, 0.2s ease-out, z-index 0, sits behind the image (z-index 1) so only the zinc-100 padding area darkens
+- Image lift/rotate: translateY(-1px) rotate(1deg), 240ms ease-out
+
+### Portrait tile (Electricity tracker)
+- Asymmetric image container padding: 24px top, 24px left, 24px right, 0 bottom
+- Image runs flush to the bottom edge, cropped from the top (object-position: top)
+- Image border radius: 8px 8px 0 0
+- Height: calc(87.1875cqw + 21px) desktop/tablet, calc(56.25cqw + 21px) mobile
+- Mobile (<700px): image width 50%, centered in the full-width tile
+
+### Landscape tiles (Simplified navigation, Messages)
+- Full natural image size, no object-fit, no forced height
+- Next <Image> with width={3200} height={1800}
+
+### Year reveal on hover
+- Hidden by default: opacity 0, translateY(-8px)
+- On hover: opacity 1, translateY(0), 240ms ease-out
+- No layout shift — hidden via opacity/transform, not display:none
+- Normal font style — no tabular-nums, no monospace
 
 ---
 
@@ -285,3 +327,7 @@ At end of each session:
 | No em dashes | Design/copy decision — sentence case, commas instead |
 | 4/8px spacing rhythm | Consistency with standard design systems |
 | Desktop first | Ship faster, add mobile later |
+| Fontsource self-hosted Inter | Avoids Google Fonts network dependency, same variable font quality |
+| Mobile responsiveness in scope | Originally desktop-first, now actively being built for all screen sizes |
+| CSS container queries for portrait tile height | Eliminates JS measurement, ResizeObserver, SSR flash — height derived from fixed grid ratio and image aspect ratio, correct at any viewport width |
+| Tabular-nums applied contextually | Used only where numeric alignment or live updates matter (e.g. data tables, counters, timers inside tiles). Not applied to decorative numbers like years on the Selected Work section |

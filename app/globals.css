@@ -298,3 +298,115 @@
 .pswp-custom-zoom-out { display: none !important; }
 .pswp--zoomed-in .pswp-custom-zoom-in  { display: none !important; }
 .pswp--zoomed-in .pswp-custom-zoom-out { display: flex !important; }
+
+/* ── Selected work grid ──────────────────────────────────────────────────── */
+
+.sw-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.55fr 1.55fr;
+  gap: 24px;
+}
+@media (max-width: 899px) and (min-width: 700px) {
+  .sw-grid { gap: 16px; }
+}
+@media (max-width: 699px) {
+  .sw-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
+.sw-tile {
+  display: block;
+  text-decoration: none;
+  container-type: inline-size;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 400ms ease-out, transform 400ms ease-out;
+}
+
+.sw-visible .sw-tile:nth-child(1) {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0ms;
+}
+.sw-visible .sw-tile:nth-child(2) {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 100ms;
+}
+.sw-visible .sw-tile:nth-child(3) {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 200ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sw-tile {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+.sw-img-container {
+  position: relative;
+  border-radius: 16px;
+  padding: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.sw-img-container::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  background: black;
+  opacity: 0;
+  transition: opacity 0.2s ease-out;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.sw-tile:hover .sw-img-container::after {
+  opacity: 0.04;
+}
+
+.sw-img {
+  position: relative;
+  z-index: 1;
+  transition: transform 240ms ease-out;
+}
+
+.sw-tile:hover .sw-img {
+  transform: translateY(-1px) rotate(1deg);
+}
+
+.sw-img-container--portrait {
+  padding: 24px 24px 0 24px;
+  align-items: flex-start;
+  height: calc(87.1875cqw + 21px);
+}
+
+@media (max-width: 699px) {
+  .sw-img-container--portrait {
+    height: calc(56.25cqw + 21px);
+  }
+  .sw-img-container--portrait .sw-img {
+    width: 50% !important;
+  }
+}
+
+.sw-year {
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: opacity 240ms ease-out, transform 240ms ease-out;
+}
+
+.sw-tile:hover .sw-year {
+  opacity: 1;
+  transform: translateY(0);
+}

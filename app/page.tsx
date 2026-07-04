@@ -1,7 +1,8 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import FormBuilderTile from '@/components/tiles/FormBuilderTile'
 import MegaMenuTile from '@/components/tiles/MegaMenuTile'
 import VinylTile from '@/components/tiles/VinylTile'
@@ -14,6 +15,23 @@ const WORDS = ['playground', 'elements', 'designs']
 
 export default function Home() {
   const [wordIndex, setWordIndex] = useState(0)
+  const sectionRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    const el = sectionRef.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.classList.add('sw-visible')
+          observer.disconnect()
+        }
+      },
+      { threshold: 0.1 }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -75,6 +93,79 @@ export default function Home() {
                 Email me
               </a>
             </div>
+          </div>
+        </section>
+
+        {/* Selected Work Section */}
+        <section
+          ref={sectionRef}
+          className="border-t"
+          style={{ borderColor: 'var(--color-surface)', padding: '80px 0' }}
+        >
+          <h2 style={{ fontSize: 'var(--font-size-h3)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-heading)', marginBottom: 32 }}>
+            Selected work
+          </h2>
+          <div className="sw-grid">
+
+            {/* Electricity Tracker — portrait */}
+            <Link href="/projects/electricity-tracker" className="sw-tile">
+              <div className="sw-img-container sw-img-container--portrait bg-zinc-100">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/images/case-studies/electricity-tracker/hero.png"
+                  alt="Electricity tracker"
+                  className="sw-img"
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    objectPosition: 'top',
+                    borderRadius: '8px 8px 0 0',
+                  }}
+                />
+              </div>
+              <div style={{ paddingTop: 12, display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 16 }}>
+                <span className="text-zinc-800" style={{ fontSize: 'var(--font-size-small)', fontWeight: 'var(--font-weight-medium)' }}>Electricity tracker</span>
+                <span className="sw-year text-zinc-500" style={{ fontSize: 'var(--font-size-nav)', fontWeight: 'var(--font-weight-regular)', whiteSpace: 'nowrap' }}>2026</span>
+              </div>
+            </Link>
+
+            {/* Simplified Navigation — landscape */}
+            <Link href="/projects/simplified-navigation" className="sw-tile">
+              <div className="sw-img-container bg-zinc-100">
+                <Image
+                  src="/images/case-studies/simplified-navigation/home-simplified-nav.png"
+                  alt="Simplified navigation"
+                  width={3200}
+                  height={1800}
+                  className="sw-img"
+                  style={{ width: '100%', height: 'auto' }}
+                />
+              </div>
+              <div style={{ paddingTop: 12, display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 16 }}>
+                <span className="text-zinc-800" style={{ fontSize: 'var(--font-size-small)', fontWeight: 'var(--font-weight-medium)' }}>Simplified navigation</span>
+                <span className="sw-year text-zinc-500" style={{ fontSize: 'var(--font-size-nav)', fontWeight: 'var(--font-weight-regular)', whiteSpace: 'nowrap' }}>2026</span>
+              </div>
+            </Link>
+
+            {/* Messages — landscape */}
+            <Link href="/projects/messages" className="sw-tile">
+              <div className="sw-img-container bg-zinc-100">
+                <Image
+                  src="/images/case-studies/messages/home-messages.png"
+                  alt="Messages"
+                  width={3200}
+                  height={1800}
+                  className="sw-img"
+                  style={{ width: '100%', height: 'auto' }}
+                />
+              </div>
+              <div style={{ paddingTop: 12, display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 16 }}>
+                <span className="text-zinc-800" style={{ fontSize: 'var(--font-size-small)', fontWeight: 'var(--font-weight-medium)' }}>Messages</span>
+                <span className="sw-year text-zinc-500" style={{ fontSize: 'var(--font-size-nav)', fontWeight: 'var(--font-weight-regular)', whiteSpace: 'nowrap' }}>2025</span>
+              </div>
+            </Link>
+
           </div>
         </section>
 
