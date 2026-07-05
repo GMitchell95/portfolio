@@ -410,3 +410,20 @@
   opacity: 1;
   transform: translateY(0);
 }
+
+/* ── Homepage nav scroll reveal ─────────────────────────────────────────── */
+
+.hp-nav {
+  transform: translateY(-100%);
+  transition: transform 0.24s ease-out;
+}
+
+.hp-nav--visible {
+  transform: translateY(0);
+}
+
+@media (max-width: 1199px) {
+  .hp-nav {
+    transform: translateY(0) !important;
+  }
+}

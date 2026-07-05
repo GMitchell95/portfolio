@@ -70,7 +70,7 @@ const GLOBAL_STYLES = `
     display: flex;
     align-items: center;
     transform: translateY(-100%);
-    transition: transform 0.25s cubic-bezier(0.4,0,0.2,1);
+    transition: transform 0.24s ease-out;
   }
   .cs-header.cs-header--visible {
     transform: translateY(0);
@@ -518,7 +518,7 @@ export default function SimplifiedNavigationPage() {
             padding: '80px 0 40px',
             marginBottom: 40,
           }}>
-            <div className="cs-content-wrap hero-image-enter" style={{ maxWidth: 680, margin: '0 auto' }}>
+            <div className="cs-content-wrap" style={{ maxWidth: 680, margin: '0 auto' }}>
               <Image
                 src="/images/case-studies/simplified-navigation/hero-menu.png"
                 width={1166}
@@ -529,29 +529,31 @@ export default function SimplifiedNavigationPage() {
               />
             </div>
           </div>
-          <div style={{ fontSize: 'var(--font-size-label)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-accent)', letterSpacing: '0.06em', marginBottom: 20 }}>
-            Project
-          </div>
-          <h1
-            ref={heroTitleRef}
-            style={{ fontSize: 'var(--font-size-h1)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', lineHeight: 'var(--line-height-heading)', letterSpacing: '-0.025em', marginBottom: 24 }}
-          >
-            Simplified navigation
-          </h1>
-          <p style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', marginBottom: 40 }}>
-            Redesigning the navigation for a complex procurement sourcing platform, condensing a 7-step flow without losing access to any of the core functionality.
-          </p>
-          <div style={{ display: 'flex', gap: 40, paddingTop: 40, borderTop: '1px solid rgba(228,228,231,0.5)' }}>
-            {[
-              { label: 'Role', value: 'Product designer' },
-              { label: 'Timeline', value: '1-2 weeks' },
-              { label: 'Date', value: 'February 2026' },
-            ].map(item => (
-              <div key={item.label} style={{ flex: 1 }}>
-                <div style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-primary)', marginBottom: 4 }}>{item.label}</div>
-                <div style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)' }}>{item.value}</div>
-              </div>
-            ))}
+          <div>
+            <div style={{ fontSize: 'var(--font-size-label)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-accent)', letterSpacing: '0.06em', marginBottom: 20 }}>
+              Project
+            </div>
+            <h1
+              ref={heroTitleRef}
+              style={{ fontSize: 'var(--font-size-h1)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', lineHeight: 'var(--line-height-heading)', letterSpacing: '-0.025em', marginBottom: 24 }}
+            >
+              Simplified navigation
+            </h1>
+            <p style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', marginBottom: 40 }}>
+              Redesigning the navigation for a complex procurement sourcing platform, condensing a 7-step flow without losing access to any of the core functionality.
+            </p>
+            <div style={{ display: 'flex', gap: 40, paddingTop: 40, borderTop: '1px solid rgba(228,228,231,0.5)' }}>
+              {[
+                { label: 'Role', value: 'Product designer' },
+                { label: 'Timeline', value: '1-2 weeks' },
+                { label: 'Date', value: 'February 2026' },
+              ].map(item => (
+                <div key={item.label} style={{ flex: 1 }}>
+                  <div style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-primary)', marginBottom: 4 }}>{item.label}</div>
+                  <div style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)' }}>{item.value}</div>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 

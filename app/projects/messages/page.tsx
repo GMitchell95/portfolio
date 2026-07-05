@@ -68,7 +68,7 @@ const GLOBAL_STYLES = `
     display: flex;
     align-items: center;
     transform: translateY(-100%);
-    transition: transform 0.25s cubic-bezier(0.4,0,0.2,1);
+    transition: transform 0.24s ease-out;
   }
   .cs-header.cs-header--visible {
     transform: translateY(0);
