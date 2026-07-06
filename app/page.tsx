@@ -68,12 +68,12 @@ export default function Home() {
           </span>
           <ul className="flex items-center gap-8 list-none">
             <li>
-              <a href="#work" className="nav-link" style={{ fontSize: 'var(--font-size-small)' }}>
+              <a href="#projects" className="nav-link" style={{ fontSize: 'var(--font-size-small)' }}>
                 Projects
               </a>
             </li>
             <li>
-              <a href="#about" className="nav-link" style={{ fontSize: 'var(--font-size-small)' }}>
+              <a href="#interactive-playground" className="nav-link" style={{ fontSize: 'var(--font-size-small)' }}>
                 Interactive playground
               </a>
             </li>
@@ -123,8 +123,9 @@ export default function Home() {
 
         {/* Selected Work Section */}
         <section
+          id="projects"
           ref={sectionRef}
-          style={{ padding: '112px 0 0' }}
+          style={{ padding: '112px 0 0', scrollMarginTop: -36 }}
         >
           <h2 style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 24 }}>
             <span style={{ fontSize: 'var(--font-size-h3)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-heading)' }}>Projects</span>
@@ -196,8 +197,8 @@ export default function Home() {
 
         {/* Work Section */}
         <section
-          id="work"
-          style={{ padding: '112px 0' }}
+          id="interactive-playground"
+          style={{ padding: '112px 0', scrollMarginTop: -36 }}
         >
           <h2 className="mb-6" style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
             <span style={{ fontSize: 'var(--font-size-h3)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-heading)' }}>Interactive <SlotText text={WORDS[wordIndex]} /></span>

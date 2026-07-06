@@ -516,7 +516,7 @@ export default function SimplifiedNavigationPage() {
             marginRight: 'calc(-50vw + 50%)',
             background: 'var(--color-surface-subtle)',
             padding: '80px 0 40px',
-            marginBottom: 40,
+            marginBottom: 60,
           }}>
             <div className="cs-content-wrap" style={{ maxWidth: 680, margin: '0 auto' }}>
               <Image
@@ -530,12 +530,12 @@ export default function SimplifiedNavigationPage() {
             </div>
           </div>
           <div>
-            <div style={{ fontSize: 'var(--font-size-label)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-accent)', letterSpacing: '0.06em', marginBottom: 20 }}>
+            <div style={{ fontSize: 'var(--font-size-label)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-accent)', letterSpacing: '0.06em', marginBottom: 8 }}>
               Project
             </div>
             <h1
               ref={heroTitleRef}
-              style={{ fontSize: 'var(--font-size-h1)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', lineHeight: 'var(--line-height-heading)', letterSpacing: '-0.025em', marginBottom: 24 }}
+              style={{ fontSize: 'var(--font-size-h1)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', lineHeight: 'var(--line-height-heading)', letterSpacing: '-0.025em', marginBottom: 16 }}
             >
               Simplified navigation
             </h1>

@@ -402,7 +402,7 @@ export default function ElectricityTrackerPage() {
             marginRight: 'calc(-50vw + 50%)',
             background: 'var(--color-surface-subtle)',
             padding: '80px 0 0',
-            marginBottom: 40,
+            marginBottom: 60,
           }}>
             <div style={{ maxWidth: 680, margin: '0 auto', padding: '0 40px' }}>
               <div style={{ position: 'relative', overflow: 'hidden', height: '450px', display: 'flex', justifyContent: 'center' }}>
@@ -415,12 +415,12 @@ export default function ElectricityTrackerPage() {
               </div>
             </div>
           </div>
-          <div style={{ fontSize: 'var(--font-size-label)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-accent)', letterSpacing: '0.06em', marginBottom: 20 }}>
+          <div className="text-cyan-700" style={{ fontSize: 'var(--font-size-label)', fontWeight: 'var(--font-weight-medium)', letterSpacing: '0.06em', marginBottom: 8 }}>
             Project
           </div>
           <h1
             ref={heroTitleRef}
-            style={{ fontSize: 'var(--font-size-h1)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', lineHeight: 'var(--line-height-heading)', letterSpacing: '-0.025em', marginBottom: 24 }}
+            style={{ fontSize: 'var(--font-size-h1)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', lineHeight: 'var(--line-height-heading)', letterSpacing: '-0.025em', marginBottom: 16 }}
           >
             Electricity tracker
           </h1>
@@ -453,9 +453,9 @@ export default function ElectricityTrackerPage() {
         </section>
 
         {/* DETAILS */}
-        <section id="section-application-flows" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '39px', minHeight: 400 }}>
+        <section id="section-application-flows" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '39px' }}>
           <h2 style={{ fontSize: 'var(--font-size-h2)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 16 }}>Application flows</h2>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 40, marginTop: 24 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 40, marginTop: 16 }}>
             <div>
               <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', marginBottom: 12 }}>
                 Add a new entry for a product's electricity usage.
@@ -650,9 +650,9 @@ export default function ElectricityTrackerPage() {
         </section>
 
         {/* LEARNINGS */}
-        <section id="section-learnings" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '39px', minHeight: 400 }}>
+        <section id="section-learnings" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '39px' }}>
           <h2 style={{ fontSize: 'var(--font-size-h2)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 16 }}>What's next</h2>
-          <ul style={{ margin: '16px 0', paddingLeft: 20, display: 'flex', flexDirection: 'column', gap: 4, listStyleType: 'disc' }}>
+          <ul style={{ marginTop: 16, paddingLeft: 20, display: 'flex', flexDirection: 'column', gap: 4, listStyleType: 'disc' }}>
             <li style={{ fontSize: 'var(--font-size-small)', color: 'var(--color-muted)', lineHeight: 'var(--line-height-body)' }}>Side-by-side cost comparison across 2 energy providers</li>
             <li style={{ fontSize: 'var(--font-size-small)', color: 'var(--color-muted)', lineHeight: 'var(--line-height-body)' }}>Savings indicator on each provider showing estimated cost difference based on your logged usage</li>
             <li style={{ fontSize: 'var(--font-size-small)', color: 'var(--color-muted)', lineHeight: 'var(--line-height-body)' }}>Add recurring entries for devices used on a regular schedule, such as a Tesla charger on weekdays or an air con unit running overnight</li>
@@ -667,7 +667,6 @@ export default function ElectricityTrackerPage() {
           padding: '48px 0',
           borderTop: '1px solid rgba(228,228,231,0.5)',
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          marginTop: 24,
         }}>
           <span style={{ fontSize: 'var(--font-size-small)', color: 'var(--color-muted)' }}>Glen Mitchell</span>
           <div style={{ display: 'flex', gap: 8 }}>
