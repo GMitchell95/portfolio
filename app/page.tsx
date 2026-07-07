@@ -90,7 +90,7 @@ export default function Home() {
       <div className="site-container" style={CONTAINER}>
         {/* Hero Section */}
         <section ref={introRef}>
-          <div style={{ maxWidth: 510, padding: '168px 0 0' }}>
+          <div className="hp-intro" style={{ maxWidth: 510, padding: '168px 0 0' }}>
             <div className="flex items-center" style={{ gap: 16, marginBottom: 32 }}>
               <Image
                 src="/images/home/profile-photo.png"

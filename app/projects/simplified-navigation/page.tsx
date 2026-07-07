@@ -16,7 +16,7 @@ import BorderBeam from 'border-beam';
 
 const GLOBAL_STYLES = `
   /* Reset background set by root layout */
-  body { background: white !important; }
+  body { background: white !important; overflow-x: hidden; }
 
   /* Keyframes */
   @keyframes titleExit {
@@ -75,9 +75,25 @@ const GLOBAL_STYLES = `
   .cs-header.cs-header--visible {
     transform: translateY(0);
   }
-  @media (max-width: 1199px) {
+  @media (max-width: 1199px) and (min-width: 700px) {
     .cs-header {
       transform: translateY(0) !important;
+    }
+  }
+  @media (max-width: 699px) {
+    .cs-header {
+      transform: translateY(0);
+    }
+    .cs-header--scroll-hidden {
+      transform: translateY(-100%) !important;
+    }
+    .cs-interactive-prototype {
+      display: none;
+    }
+    .cs-hero-img {
+      width: 80vw !important;
+      display: block;
+      margin: 0 auto;
     }
   }
 
@@ -373,6 +389,8 @@ export default function SimplifiedNavigationPage() {
   const [activeSection, setActiveSection] = useState('section-brief');
   const [lightbox, setLightbox] = useState<LightboxState>({ open: false, slides: [], index: 0, stateIndices: {} });
   const heroTitleRef = useRef<HTMLHeadingElement>(null);
+  const headerRef = useRef<HTMLElement>(null);
+  const lastScrollYRef = useRef(0);
   const fullscreenRef = useRef<HTMLDivElement>(null);
   const targetScrollYRef = useRef<number>(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -392,6 +410,13 @@ export default function SimplifiedNavigationPage() {
     const onScroll = () => {
       if (heroTitleRef.current) {
         setHeaderVisible(heroTitleRef.current.getBoundingClientRect().bottom < 0);
+      }
+      if (window.innerWidth < 700 && headerRef.current) {
+        const diff = window.scrollY - lastScrollYRef.current;
+        if (Math.abs(diff) > 10) {
+          headerRef.current.classList.toggle('cs-header--scroll-hidden', diff > 0);
+          lastScrollYRef.current = window.scrollY;
+        }
       }
       if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
         setActiveSection(SECTIONS[SECTIONS.length - 1].id);
@@ -474,7 +499,7 @@ export default function SimplifiedNavigationPage() {
       <style>{GLOBAL_STYLES}</style>
 
       {/* ── TOP HEADER ────────────────────────────────────────────────── */}
-      <header className={`cs-header${headerVisible ? ' cs-header--visible' : ''}`}>
+      <header ref={headerRef} className={`cs-header${headerVisible ? ' cs-header--visible' : ''}`}>
         <div className="cs-header-inner">
           <a href="/" className="cs-header-back">
             <ChevronLeft size={14} />
@@ -525,6 +550,7 @@ export default function SimplifiedNavigationPage() {
                 height={856}
                 priority
                 alt="Simplified navigation hero"
+                className="cs-hero-img"
                 style={{ width: '100%', height: 'auto', borderRadius: 8 }}
               />
             </div>
@@ -725,7 +751,7 @@ export default function SimplifiedNavigationPage() {
             ))}
           </div>
 
-          <div style={{ marginTop: 40 }}>
+          <div className="cs-interactive-prototype" style={{ marginTop: 40 }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                 <h3 style={{ fontSize: 'var(--font-size-h3)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)' }}>Interactive prototype</h3>
@@ -790,22 +816,8 @@ export default function SimplifiedNavigationPage() {
         }}>
           <span style={{ fontSize: 'var(--font-size-small)', color: 'var(--color-muted)' }}>Glen Mitchell</span>
           <div style={{ display: 'flex', gap: 8 }}>
-            <button
-              disabled
-              style={{
-                display: 'inline-flex', alignItems: 'center', gap: 8,
-                height: 36, padding: '0 16px', borderRadius: 8,
-                fontSize: 'var(--font-size-small)', fontWeight: 'var(--font-weight-medium)',
-                background: 'var(--color-white)', color: 'var(--color-primary)',
-                border: '1px solid var(--color-border)',
-                boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
-                opacity: 0.3, cursor: 'default',
-              }}
-            >
-              <ChevronLeft />
-              Previous
-            </button>
-            <button
+            <a
+              href="/projects/electricity-tracker"
               className="cs-btn-outline"
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: 8,
@@ -816,11 +828,30 @@ export default function SimplifiedNavigationPage() {
                 boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
                 cursor: 'pointer',
                 transition: 'all 0.15s ease-out',
+                textDecoration: 'none',
+              }}
+            >
+              <ChevronLeft />
+              Previous
+            </a>
+            <a
+              href="/projects/messages"
+              className="cs-btn-outline"
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: 8,
+                height: 36, padding: '0 16px', borderRadius: 8,
+                fontSize: 'var(--font-size-small)', fontWeight: 'var(--font-weight-medium)',
+                background: 'var(--color-white)', color: 'var(--color-primary)',
+                border: '1px solid var(--color-border)',
+                boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
+                cursor: 'pointer',
+                transition: 'all 0.15s ease-out',
+                textDecoration: 'none',
               }}
             >
               Next project
               <ChevronRight />
-            </button>
+            </a>
           </div>
         </div>
 

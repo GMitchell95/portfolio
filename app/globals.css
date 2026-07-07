@@ -315,6 +315,18 @@
     grid-template-columns: 1fr;
     gap: 32px;
   }
+  .hp-nav {
+    display: none !important;
+  }
+  #interactive-playground {
+    display: none !important;
+  }
+  .hp-intro {
+    padding-top: 112px !important;
+  }
+  #projects {
+    padding-bottom: 16px !important;
+  }
 }
 
 .sw-tile {

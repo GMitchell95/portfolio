@@ -15,7 +15,7 @@ import useVideoAutoplay from '@/hooks/useVideoAutoplay';
 
 const GLOBAL_STYLES = `
   /* Reset background set by root layout */
-  body { background: white !important; }
+  body { background: white !important; overflow-x: hidden; }
 
   /* Keyframes */
   @keyframes titleExit {
@@ -74,9 +74,17 @@ const GLOBAL_STYLES = `
   .cs-header.cs-header--visible {
     transform: translateY(0);
   }
-  @media (max-width: 1199px) {
+  @media (max-width: 1199px) and (min-width: 700px) {
     .cs-header {
       transform: translateY(0) !important;
+    }
+  }
+  @media (max-width: 699px) {
+    .cs-header {
+      transform: translateY(0);
+    }
+    .cs-header--scroll-hidden {
+      transform: translateY(-100%) !important;
     }
   }
 
@@ -307,6 +315,8 @@ export default function ElectricityTrackerPage() {
   const [activeSection, setActiveSection] = useState('section-overview');
   const [lightbox, setLightbox] = useState<LightboxState>({ open: false, slides: [], index: 0, stateIndices: {} });
   const heroTitleRef = useRef<HTMLHeadingElement>(null);
+  const headerRef = useRef<HTMLElement>(null);
+  const lastScrollYRef = useRef(0);
   const dialComparisonRef = useRef<HTMLVideoElement>(null);
   const dialComp2Ref = useRef<HTMLVideoElement>(null);
   useVideoAutoplay(dialComparisonRef);
@@ -316,6 +326,13 @@ export default function ElectricityTrackerPage() {
     const onScroll = () => {
       if (heroTitleRef.current) {
         setHeaderVisible(heroTitleRef.current.getBoundingClientRect().bottom < 0);
+      }
+      if (window.innerWidth < 700 && headerRef.current) {
+        const diff = window.scrollY - lastScrollYRef.current;
+        if (Math.abs(diff) > 10) {
+          headerRef.current.classList.toggle('cs-header--scroll-hidden', diff > 0);
+          lastScrollYRef.current = window.scrollY;
+        }
       }
       if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 10) {
         setActiveSection(SECTIONS[SECTIONS.length - 1].id);
@@ -360,7 +377,7 @@ export default function ElectricityTrackerPage() {
       <style>{GLOBAL_STYLES}</style>
 
       {/* ── TOP HEADER ────────────────────────────────────────────────── */}
-      <header className={`cs-header${headerVisible ? ' cs-header--visible' : ''}`}>
+      <header ref={headerRef} className={`cs-header${headerVisible ? ' cs-header--visible' : ''}`}>
         <div className="cs-header-inner">
           <a href="/" className="cs-header-back">
             <ChevronLeft size={14} />
@@ -696,7 +713,8 @@ export default function ElectricityTrackerPage() {
               <ChevronLeft />
               Previous
             </button>
-            <button
+            <a
+              href="/projects/simplified-navigation"
               className="cs-btn-outline"
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: 8,
@@ -707,11 +725,12 @@ export default function ElectricityTrackerPage() {
                 boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
                 cursor: 'pointer',
                 transition: 'all 0.15s ease-out',
+                textDecoration: 'none',
               }}
             >
               Next project
               <ChevronRight />
-            </button>
+            </a>
           </div>
         </div>
 

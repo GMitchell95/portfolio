@@ -14,7 +14,7 @@ import Button from '@/components/ui/Button';
 
 const GLOBAL_STYLES = `
   /* Reset background set by root layout */
-  body { background: white !important; }
+  body { background: white !important; overflow-x: hidden; }
 
   /* Keyframes */
   @keyframes titleExit {
@@ -73,9 +73,21 @@ const GLOBAL_STYLES = `
   .cs-header.cs-header--visible {
     transform: translateY(0);
   }
-  @media (max-width: 1199px) {
+  @media (max-width: 1199px) and (min-width: 700px) {
     .cs-header {
       transform: translateY(0) !important;
+    }
+  }
+  @media (max-width: 699px) {
+    .cs-header {
+      transform: translateY(0);
+    }
+    .cs-header--scroll-hidden {
+      transform: translateY(-100%) !important;
+    }
+    .cs-hero-frame {
+      width: 80vw;
+      margin: 0 auto;
     }
   }
 
@@ -296,11 +308,20 @@ export default function MessagesPage() {
   const [activeSection, setActiveSection] = useState('section-overview');
   const [lightbox, setLightbox] = useState<LightboxState>({ open: false, slides: [], index: 0, stateIndices: {} });
   const heroTitleRef = useRef<HTMLHeadingElement>(null);
+  const headerRef = useRef<HTMLElement>(null);
+  const lastScrollYRef = useRef(0);
 
   useEffect(() => {
     const onScroll = () => {
       if (heroTitleRef.current) {
         setHeaderVisible(heroTitleRef.current.getBoundingClientRect().bottom < 0);
+      }
+      if (window.innerWidth < 700 && headerRef.current) {
+        const diff = window.scrollY - lastScrollYRef.current;
+        if (Math.abs(diff) > 10) {
+          headerRef.current.classList.toggle('cs-header--scroll-hidden', diff > 0);
+          lastScrollYRef.current = window.scrollY;
+        }
       }
       if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 10) {
         setActiveSection(SECTIONS[SECTIONS.length - 1].id);
@@ -345,7 +366,7 @@ export default function MessagesPage() {
       <style>{GLOBAL_STYLES}</style>
 
       {/* ── TOP HEADER ────────────────────────────────────────────────── */}
-      <header className={`cs-header${headerVisible ? ' cs-header--visible' : ''}`}>
+      <header ref={headerRef} className={`cs-header${headerVisible ? ' cs-header--visible' : ''}`}>
         <div className="cs-header-inner">
           <a href="/" className="cs-header-back">
             <ChevronLeft size={14} />
@@ -390,7 +411,7 @@ export default function MessagesPage() {
             marginBottom: 60,
           }}>
             <div style={{ maxWidth: 680, margin: '0 auto', padding: '0 40px' }}>
-              <div className="hero-image-enter" style={{ border: '1px solid rgba(0, 0, 0, 0.06)', borderRadius: 16, overflow: 'hidden' }}>
+              <div className="hero-image-enter cs-hero-frame" style={{ border: '1px solid rgba(0, 0, 0, 0.06)', borderRadius: 16, overflow: 'hidden' }}>
                 <Image
                   src="/images/case-studies/messages/hero.png"
                   width={2484}
@@ -644,22 +665,8 @@ export default function MessagesPage() {
         }}>
           <span style={{ fontSize: 'var(--font-size-small)', color: 'var(--color-muted)' }}>Glen Mitchell</span>
           <div style={{ display: 'flex', gap: 8 }}>
-            <button
-              disabled
-              style={{
-                display: 'inline-flex', alignItems: 'center', gap: 8,
-                height: 36, padding: '0 16px', borderRadius: 8,
-                fontSize: 'var(--font-size-small)', fontWeight: 'var(--font-weight-medium)',
-                background: 'var(--color-white)', color: 'var(--color-primary)',
-                border: '1px solid var(--color-border)',
-                boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
-                opacity: 0.3, cursor: 'default',
-              }}
-            >
-              <ChevronLeft />
-              Previous
-            </button>
-            <button
+            <a
+              href="/projects/simplified-navigation"
               className="cs-btn-outline"
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: 8,
@@ -670,6 +677,22 @@ export default function MessagesPage() {
                 boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
                 cursor: 'pointer',
                 transition: 'all 0.15s ease-out',
+                textDecoration: 'none',
+              }}
+            >
+              <ChevronLeft />
+              Previous
+            </a>
+            <button
+              disabled
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: 8,
+                height: 36, padding: '0 16px', borderRadius: 8,
+                fontSize: 'var(--font-size-small)', fontWeight: 'var(--font-weight-medium)',
+                background: 'var(--color-white)', color: 'var(--color-primary)',
+                border: '1px solid var(--color-border)',
+                boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
+                opacity: 0.3, cursor: 'default',
               }}
             >
               Next project
