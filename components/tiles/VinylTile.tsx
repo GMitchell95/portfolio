@@ -17,11 +17,11 @@ interface Album {
 }
 
 const ALBUMS: Album[] = [
-  { track: 'No Reply',      artist: 'Tame Impala',    album: 'Deadbeat',          spotify: '5x0zW1JcdON7Zli2umGEJg', art: 'https://i.scdn.co/image/ab67616d00001e02208500450dcd0fd294d7bd3b', c1: '#f0a500', tilt: '-9deg', slideX: '-26px' },
-  { track: 'Quik Stop',     artist: 'J. Cole',        album: 'The Fall-Off',      spotify: '050ECC7Yu78pTJP8PrMo8o', art: 'https://i.scdn.co/image/ab67616d00001e0280788f104c780412212e97e3', c1: '#8b5e1a', tilt: '-3deg', slideX: '-9px' },
-  { track: 'Real Friends',  artist: 'Kanye West',     album: 'The Life of Pablo', spotify: '66Q3fAmSX5eHamgbKa9alP', art: 'https://i.scdn.co/image/ab67616d00001e022a7db835b912dc5014bd37f4', c1: '#d4a843', tilt:  '1deg', slideX:  '2px' },
-  { track: 'Arabella',      artist: 'Arctic Monkeys', album: 'AM',                spotify: '7nzsY8vlnKdvGOEE0rjAXZ', art: 'https://i.scdn.co/image/ab67616d00001e024ae1c4c5c45aabe565499163', c1: '#cc0033', tilt:  '5deg', slideX: '13px' },
-  { track: 'Bug',           artist: 'Fontaines D.C.', album: 'Romance',           spotify: '0MXmiqd7zoXxv6Gqn9ahhQ', art: 'https://i.scdn.co/image/ab67616d00001e02f69e28716be1331924f25f2e', c1: '#c0408a', tilt:  '9deg', slideX: '24px' },
+  { track: 'No Reply',      artist: 'Tame Impala',    album: 'Deadbeat',          spotify: '5x0zW1JcdON7Zli2umGEJg', art: 'https://i.scdn.co/image/ab67616d00001e02208500450dcd0fd294d7bd3b', c1: '#f0a500', tilt: '-9deg', slideX: '0px' },
+  { track: 'Quik Stop',     artist: 'J. Cole',        album: 'The Fall-Off',      spotify: '050ECC7Yu78pTJP8PrMo8o', art: 'https://i.scdn.co/image/ab67616d00001e0280788f104c780412212e97e3', c1: '#8b5e1a', tilt: '-3deg', slideX: '0px' },
+  { track: 'Real Friends',  artist: 'Kanye West',     album: 'The Life of Pablo', spotify: '66Q3fAmSX5eHamgbKa9alP', art: 'https://i.scdn.co/image/ab67616d00001e022a7db835b912dc5014bd37f4', c1: '#d4a843', tilt:  '1deg', slideX: '0px' },
+  { track: 'Arabella',      artist: 'Arctic Monkeys', album: 'AM',                spotify: '7nzsY8vlnKdvGOEE0rjAXZ', art: 'https://i.scdn.co/image/ab67616d00001e024ae1c4c5c45aabe565499163', c1: '#cc0033', tilt:  '5deg', slideX: '0px' },
+  { track: 'Bug',           artist: 'Fontaines D.C.', album: 'Romance',           spotify: '0MXmiqd7zoXxv6Gqn9ahhQ', art: 'https://i.scdn.co/image/ab67616d00001e02f69e28716be1331924f25f2e', c1: '#c0408a', tilt:  '9deg', slideX: '0px' },
 ]
 
 const DEFAULT_INSTRUCTION = 'Click to open album, drag the vinyl to the player'
@@ -369,7 +369,7 @@ export default function VinylTile() {
                 onClick={() => handleAlbumClick(idx)}
               >
                 {/* "click to open" badge */}
-                <div className={styles.clickBadge}>click to open</div>
+                <div className={styles.clickBadge}>Click to open</div>
 
                 {/* Floating disc — behind sleeve in z-order */}
                 {openIdx === idx && (
