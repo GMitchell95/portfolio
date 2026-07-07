@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import '@fontsource-variable/inter';
 import "./globals.css";
 import { Agentation } from "agentation";
+import { Analytics } from '@vercel/analytics/next';
 
 export const metadata: Metadata = {
   title: "Portfolio",
@@ -25,6 +26,7 @@ export default function RootLayout({
       <body style={{ backgroundColor: '#FDFDFC' }}>
         {children}
         {process.env.NODE_ENV === "development" && <Agentation />}
+        <Analytics />
       </body>
     </html>
   );
