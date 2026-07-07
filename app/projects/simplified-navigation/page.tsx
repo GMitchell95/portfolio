@@ -579,6 +579,7 @@ export default function SimplifiedNavigationPage() {
                 label="Old navigation flow"
               />
             </div>
+            <p style={{ marginTop: 8, fontSize: 'var(--font-size-small)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-muted)', textAlign: 'center' }}>The original side navigation.</p>
           </div>
         </section>
 
@@ -590,7 +591,7 @@ export default function SimplifiedNavigationPage() {
           </p>
 
           {/* Analysis block */}
-          <div style={{ marginTop: 40, marginBottom: 64 }}>
+          <div style={{ marginTop: 12, marginBottom: 40 }}>
             <ClickableImage
               label="Page break up diagram"
               src="/images/case-studies/simplified-navigation/Nav-breakdown.png"

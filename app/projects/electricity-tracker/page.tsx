@@ -448,7 +448,7 @@ export default function ElectricityTrackerPage() {
             The goal was a simple app to automate cost calculations and log usage over time. The intention is to connect it to a live electricity pricing API so rates adjust automatically by time of day, which matters in Spain where peak and off-peak hours are priced differently.
           </p>
           <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>
-            This was also an exercise in building something quickly in Claude. The focus was on getting something functional and useful rather than a polished visual product.
+            This was also an exercise in building and prototyping in Claude. The focus was on getting something functional and useful rather than a polished visual product.
           </p>
         </section>
 
@@ -652,14 +652,25 @@ export default function ElectricityTrackerPage() {
         {/* LEARNINGS */}
         <section id="section-learnings" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '39px' }}>
           <h2 style={{ fontSize: 'var(--font-size-h2)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 16 }}>What's next</h2>
-          <ul style={{ marginTop: 16, paddingLeft: 20, display: 'flex', flexDirection: 'column', gap: 4, listStyleType: 'disc' }}>
+          <h3 style={{ fontSize: 'var(--font-size-h3)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)' }}>Things I'd like to add:</h3>
+          <ul style={{ marginTop: 8, paddingLeft: 20, display: 'flex', flexDirection: 'column', gap: 4, listStyleType: 'disc' }}>
             <li style={{ fontSize: 'var(--font-size-small)', color: 'var(--color-muted)', lineHeight: 'var(--line-height-body)' }}>Side-by-side cost comparison across 2 energy providers</li>
             <li style={{ fontSize: 'var(--font-size-small)', color: 'var(--color-muted)', lineHeight: 'var(--line-height-body)' }}>Savings indicator on each provider showing estimated cost difference based on your logged usage</li>
             <li style={{ fontSize: 'var(--font-size-small)', color: 'var(--color-muted)', lineHeight: 'var(--line-height-body)' }}>Add recurring entries for devices used on a regular schedule, such as a Tesla charger on weekdays or an air con unit running overnight</li>
             <li style={{ fontSize: 'var(--font-size-small)', color: 'var(--color-muted)', lineHeight: 'var(--line-height-body)' }}>Polish up components and improve overall visual consistency</li>
             <li style={{ fontSize: 'var(--font-size-small)', color: 'var(--color-muted)', lineHeight: 'var(--line-height-body)' }}>Add an onboarding flow for first-time setup</li>
             <li style={{ fontSize: 'var(--font-size-small)', color: 'var(--color-muted)', lineHeight: 'var(--line-height-body)' }}>Support both flat rate and fluctuating energy tariffs, with live hourly rates pulled from providers</li>
+            <li style={{ fontSize: 'var(--font-size-small)', color: 'var(--color-muted)', lineHeight: 'var(--line-height-body)' }}>Add haptics when controlling the dial component.</li>
           </ul>
+          <h3 style={{ fontSize: 'var(--font-size-h3)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginTop: 16 }}>Things I need to do:</h3>
+          <div style={{ marginTop: 8, paddingLeft: 20, display: 'flex', flexDirection: 'column', gap: 4 }}>
+            {['Move from prototype to a real build using Claude Code', 'Get the app in front of users for feedback and testing'].map((text) => (
+              <div key={text} style={{ display: 'flex', alignItems: 'flex-start', gap: 4, marginLeft: -20 }}>
+                <div style={{ width: 16, height: 16, borderRadius: 4, border: '1.5px solid var(--color-border-strong)', backgroundColor: 'var(--color-white)', flexShrink: 0, marginTop: 2 }} />
+                <span style={{ fontSize: 'var(--font-size-small)', color: 'var(--color-muted)', lineHeight: 'var(--line-height-body)' }}>{text}</span>
+              </div>
+            ))}
+          </div>
         </section>
 
         {/* FOOTER */}
