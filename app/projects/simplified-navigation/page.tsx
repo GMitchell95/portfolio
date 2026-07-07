@@ -649,7 +649,20 @@ export default function SimplifiedNavigationPage() {
           <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>
             We ran a workshop with the PM, engineers, and myself. We shared ideas of concepts from Figma Make to quickly coded prototypes. We narrowed it down to a combination of 2 concepts which I refined further before sending final feedback.
           </p>
-          <IterationSwitcher slides={REFINED_SLIDES} onOpenLightbox={openLightbox} />
+          <div style={{ marginTop: 16 }}>
+            <ClickableImage
+              label="Refined concept"
+              src="/images/case-studies/simplified-navigation/Refined-concept.png"
+              aspectRatio="3520/2120"
+              onClick={() => openSingleImage(
+                'Refined concept',
+                '',
+                'Refined concept',
+                '/images/case-studies/simplified-navigation/Refined-concept.png',
+                3520, 2120,
+              )}
+            />
+          </div>
           <div style={{ marginTop: 40 }}>
             <h3 className="mb-2" style={{ fontSize: 'var(--font-size-h3)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)' }}>Internal feedback</h3>
             <ul style={{ margin: 0, paddingLeft: 20, listStyleType: 'disc', display: 'flex', flexDirection: 'column', gap: 4 }}>
