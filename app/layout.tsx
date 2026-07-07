@@ -5,8 +5,28 @@ import { Agentation } from "agentation";
 import { Analytics } from '@vercel/analytics/next';
 
 export const metadata: Metadata = {
-  title: "Portfolio",
-  description: "Product & UI Designer",
+  title: "Glen Mitchell",
+  description: "Product designer from Ireland, based in Barcelona. 5+ years designing an agentic sourcing and procurement platform at Keelvar.",
+  openGraph: {
+    title: "Glen Mitchell",
+    description: "Product designer from Ireland, based in Barcelona. 5+ years designing an agentic sourcing and procurement platform at Keelvar.",
+    url: "https://www.glenmitchell.design/",
+    siteName: "Glen Mitchell",
+    images: [
+      {
+        url: "/images/og-image.png",
+        width: 1200,
+        height: 630,
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Glen Mitchell",
+    description: "Product designer from Ireland, based in Barcelona. 5+ years designing an agentic sourcing and procurement platform at Keelvar.",
+    images: ["/images/og-image.png"],
+  },
 };
 
 export default function RootLayout({
