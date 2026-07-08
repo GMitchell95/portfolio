@@ -350,30 +350,6 @@ const REFINED_SLIDES: Slide[] = [
   },
 ];
 
-const ADDITIONAL_SLIDES: Slide[] = [
-  {
-    label: 'Detail 1',
-    title: 'Final design',
-    body: 'Status dropdowns',
-    src: '/images/case-studies/simplified-navigation/3-AD-Status-dropdowns.png',
-    width: 3520, height: 2120,
-  },
-  {
-    label: 'Detail 2',
-    title: 'Iteration 2',
-    body: 'Grey icons',
-    src: '/images/case-studies/simplified-navigation/2-AD-Grey-icons.png',
-    width: 3520, height: 2120,
-  },
-  {
-    label: 'Detail 3',
-    title: 'Iteration 1',
-    body: 'Coloured icons',
-    src: '/images/case-studies/simplified-navigation/1-AD-Coloured-icons.png',
-    width: 3520, height: 2120,
-  },
-];
-
 const SECTIONS = [
   { id: 'section-brief',            label: 'The brief' },
   { id: 'section-explorations',     label: 'Explorations' },
@@ -390,6 +366,8 @@ function BeforeAfterSlider({
   beforeAlt = 'Before',
   afterAlt = 'After',
   aspectRatio = '1600/1000',
+  initialPos = 50,
+  orientation = 'vertical',
   onExpand,
 }: {
   beforeSrc: string;
@@ -397,10 +375,13 @@ function BeforeAfterSlider({
   beforeAlt?: string;
   afterAlt?: string;
   aspectRatio?: string;
+  initialPos?: number;
+  orientation?: 'horizontal' | 'vertical';
   onExpand: (startIndex: number) => void;
 }) {
+  const isHorizontal = orientation === 'horizontal';
   // displayPos can exceed 0–100 during elastic drag; clipPos is clamped for image reveal
-  const [displayPos, setDisplayPos] = useState(50);
+  const [displayPos, setDisplayPos] = useState(initialPos);
   const [isReleasing, setIsReleasing] = useState(false);
   const [dragging, setDragging] = useState(false);
   const isDragging = useRef(false);
@@ -411,13 +392,15 @@ function BeforeAfterSlider({
   const rawToElastic = (raw: number) =>
     raw < 0 ? raw * 0.35 : raw > 100 ? 100 + (raw - 100) * 0.35 : raw;
 
-  const startDrag = (clientY: number) => {
+  const startDrag = (client: number) => {
     if (!containerRef.current) return;
     isDragging.current = true;
     setDragging(true);
     setIsReleasing(false);
     const rect = containerRef.current.getBoundingClientRect();
-    setDisplayPos(rawToElastic(((clientY - rect.top) / rect.height) * 100));
+    setDisplayPos(isHorizontal
+      ? rawToElastic(((client - rect.left) / rect.width) * 100)
+      : rawToElastic(((client - rect.top) / rect.height) * 100));
   };
 
   // Global handlers so drag continues when mouse leaves the frame
@@ -425,13 +408,17 @@ function BeforeAfterSlider({
     const onMove = (e: MouseEvent) => {
       if (!isDragging.current || !containerRef.current) return;
       const rect = containerRef.current.getBoundingClientRect();
-      setDisplayPos(rawToElastic(((e.clientY - rect.top) / rect.height) * 100));
+      setDisplayPos(isHorizontal
+        ? rawToElastic(((e.clientX - rect.left) / rect.width) * 100)
+        : rawToElastic(((e.clientY - rect.top) / rect.height) * 100));
     };
     const onTouchMove = (e: TouchEvent) => {
       e.preventDefault();
       if (!isDragging.current || !containerRef.current) return;
       const rect = containerRef.current.getBoundingClientRect();
-      setDisplayPos(rawToElastic(((e.touches[0].clientY - rect.top) / rect.height) * 100));
+      setDisplayPos(isHorizontal
+        ? rawToElastic(((e.touches[0].clientX - rect.left) / rect.width) * 100)
+        : rawToElastic(((e.touches[0].clientY - rect.top) / rect.height) * 100));
     };
     const onUp = () => {
       if (!isDragging.current) return;
@@ -458,15 +445,15 @@ function BeforeAfterSlider({
     };
   }, []); // safe: only refs and stable setState used inside
 
-  const posTransition = isReleasing ? 'top 450ms cubic-bezier(0.34, 1.56, 0.64, 1)' : 'none';
+  const posTransition = isReleasing ? `${isHorizontal ? 'left' : 'top'} 450ms cubic-bezier(0.34, 1.56, 0.64, 1)` : 'none';
   // Fade divider within 6% of either edge; fully opaque in the middle 88%
   const dividerOpacity = Math.min(1, Math.min(clipPos, 100 - clipPos) / 6);
   // Gradient tint over "before" region; baseline 0.35 always present, ramps to 1.0 at full drag
   const tintOpacity = 0.35 + (clipPos / 100) * 0.65;
 
   return (
-    // Outer wrapper: 20px vertical padding so handle never clips at top/bottom edges
-    <div style={{ paddingTop: 20, paddingBottom: 20 }}>
+    // Outer wrapper: 20px padding on the drag axis so handle never clips at the edges
+    <div style={isHorizontal ? { paddingLeft: 20, paddingRight: 20 } : { paddingTop: 20, paddingBottom: 20 }}>
       {/* Image container: coordinate system for handle/divider positioning */}
       <div
         ref={containerRef}
@@ -478,42 +465,62 @@ function BeforeAfterSlider({
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={beforeSrc} alt={beforeAlt} draggable={false}
             style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
-          {/* Accent tint over the "before" region (below the divider), ramping in after 20% drag */}
+          {/* Accent tint over the "before" region, ramping in after 20% drag */}
           <div style={{
             position: 'absolute', inset: 0,
-            background: 'linear-gradient(to bottom, transparent, rgba(68,67,180,0.14))',
+            background: isHorizontal
+              ? 'linear-gradient(to right, transparent, rgba(68,67,180,0.14))'
+              : 'linear-gradient(to bottom, transparent, rgba(68,67,180,0.14))',
             opacity: tintOpacity,
-            clipPath: `inset(${clipPos}% 0 0 0)`,
+            clipPath: isHorizontal ? `inset(0 0 0 ${clipPos}%)` : `inset(${clipPos}% 0 0 0)`,
             pointerEvents: 'none',
           }} />
-          {/* After — clipped to reveal from top as clipPos increases */}
-          <div style={{ position: 'absolute', inset: 0, clipPath: `inset(0 0 ${100 - clipPos}% 0)` }}>
+          {/* After — clipped to reveal as clipPos increases */}
+          <div style={{ position: 'absolute', inset: 0, clipPath: isHorizontal ? `inset(0 ${100 - clipPos}% 0 0)` : `inset(0 0 ${100 - clipPos}% 0)` }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={afterSrc} alt={afterAlt} draggable={false}
               style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
           </div>
           {/* Divider inside overflow:hidden so it respects the border-radius at all positions */}
           <div
-            style={{
+            style={isHorizontal ? {
+              position: 'absolute', top: 0, bottom: 0,
+              left: `${displayPos}%`, width: 8, transform: 'translateX(-50%)',
+              cursor: dragging ? 'grabbing' : 'grab',
+              opacity: dividerOpacity,
+              zIndex: 2, transition: posTransition,
+            } : {
               position: 'absolute', left: 0, right: 0,
               top: `${displayPos}%`, height: 8, transform: 'translateY(-50%)',
               cursor: dragging ? 'grabbing' : 'grab',
               opacity: dividerOpacity,
               zIndex: 2, transition: posTransition,
             }}
-            onMouseDown={e => { e.preventDefault(); startDrag(e.clientY); }}
-            onTouchStart={e => startDrag(e.touches[0].clientY)}
+            onMouseDown={e => { e.preventDefault(); startDrag(isHorizontal ? e.clientX : e.clientY); }}
+            onTouchStart={e => startDrag(isHorizontal ? e.touches[0].clientX : e.touches[0].clientY)}
           >
             {/* 2px visible line, centred in the 8px hit area */}
-            <div style={{ position: 'absolute', top: '50%', left: 0, right: 0, height: 2, transform: 'translateY(-50%)', background: 'rgba(0,0,0,0.18)', pointerEvents: 'none' }} />
-            {/* Shadow band directly below the line */}
-            <div style={{ position: 'absolute', top: '50%', left: 0, right: 0, height: 8, background: 'linear-gradient(to bottom, rgba(0,0,0,0.05), transparent)', pointerEvents: 'none' }} />
+            <div style={isHorizontal
+              ? { position: 'absolute', left: '50%', top: 0, bottom: 0, width: 2, transform: 'translateX(-50%)', background: 'rgba(0,0,0,0.18)', pointerEvents: 'none' }
+              : { position: 'absolute', top: '50%', left: 0, right: 0, height: 2, transform: 'translateY(-50%)', background: 'rgba(0,0,0,0.18)', pointerEvents: 'none' }} />
+            {/* Shadow band directly beside the line */}
+            <div style={isHorizontal
+              ? { position: 'absolute', left: '50%', top: 0, bottom: 0, width: 8, background: 'linear-gradient(to right, rgba(0,0,0,0.05), transparent)', pointerEvents: 'none' }
+              : { position: 'absolute', top: '50%', left: 0, right: 0, height: 8, background: 'linear-gradient(to bottom, rgba(0,0,0,0.05), transparent)', pointerEvents: 'none' }} />
           </div>
         </div>
 
         {/* Handle */}
         <div
-          style={{
+          style={isHorizontal ? {
+            position: 'absolute', top: '50%', left: `${displayPos}%`,
+            transform: 'translate(-50%, -50%)',
+            width: 36, height: 36, borderRadius: '50%',
+            background: 'white', boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            cursor: dragging ? 'grabbing' : 'grab',
+            zIndex: 3, color: '#52525B', transition: posTransition,
+          } : {
             position: 'absolute', left: '50%', top: `${displayPos}%`,
             transform: 'translate(-50%, -50%)',
             width: 36, height: 36, borderRadius: '50%',
@@ -522,11 +529,13 @@ function BeforeAfterSlider({
             cursor: dragging ? 'grabbing' : 'grab',
             zIndex: 3, color: '#52525B', transition: posTransition,
           }}
-          onMouseDown={e => { e.preventDefault(); startDrag(e.clientY); }}
-          onTouchStart={e => startDrag(e.touches[0].clientY)}
+          onMouseDown={e => { e.preventDefault(); startDrag(isHorizontal ? e.clientX : e.clientY); }}
+          onTouchStart={e => startDrag(isHorizontal ? e.touches[0].clientX : e.touches[0].clientY)}
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M6 9l6-6 6 6M6 15l6 6 6-6" strokeLinecap="round" strokeLinejoin="round"/>
+            {isHorizontal
+              ? <path d="M9 6l-6 6 6 6M15 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round"/>
+              : <path d="M6 9l6-6 6 6M6 15l6 6 6-6" strokeLinecap="round" strokeLinejoin="round"/>}
           </svg>
         </div>
 
@@ -945,7 +954,7 @@ export default function SimplifiedNavigationPage() {
         <section id="section-additional" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '39px' }}>
           <h2 style={{ fontSize: 'var(--font-size-h2)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 12 }}>Overview page</h2>
           <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>
-            Previously, when a user landed on a newly created event, they were taken to an event information page with no indication of what needed to be completed before publishing. Errors only surfaced at the point of publish, forcing users to fix issues and try again.
+            Previously, when a user landed on a newly created event, they were taken to an event information page with no indication of what needed to be completed before publishing the event.
           </p>
           <div style={{ marginTop: 16, marginBottom: 40 }}>
             <ClickableImage
@@ -961,13 +970,29 @@ export default function SimplifiedNavigationPage() {
               )}
             />
             <p style={{ fontSize: 'var(--font-size-small)', color: 'var(--color-muted)', textAlign: 'center', marginTop: 8 }}>
-              Original landing place for the user
+              Landing page after creating a new event.
             </p>
           </div>
-          <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', marginBottom: 16 }}>
+          <h3 className="mb-2" style={{ fontSize: 'var(--font-size-h3)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)' }}>Final design</h3>
+          <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', marginBottom: 12 }}>
             The new overview page front-loads all required tasks, with optional ones clearly marked. Users can work through and check off each task before publishing, reducing errors and giving them a clear path forward.
           </p>
-          <IterationSwitcher slides={ADDITIONAL_SLIDES} onOpenLightbox={openLightbox} marginTop={0} />
+          <div style={{ marginTop: 0, marginLeft: -20, marginRight: -20, width: 'calc(100% + 40px)' }}>
+            <BeforeAfterSlider
+              beforeSrc="/images/case-studies/simplified-navigation/final-before.png"
+              afterSrc="/images/case-studies/simplified-navigation/final-after.png"
+              beforeAlt="Final design — before"
+              afterAlt="Final design — after"
+              aspectRatio="3520/2120"
+              initialPos={90}
+              orientation="horizontal"
+              onExpand={startIndex => openLightbox([
+                { title: 'Final design', body: '', label: 'Before', src: '/images/case-studies/simplified-navigation/final-before.png' },
+                { title: 'Final design', body: '', label: 'After', src: '/images/case-studies/simplified-navigation/final-after.png' },
+              ], startIndex)}
+            />
+          </div>
+          <p style={{ marginTop: 8, fontSize: 'var(--font-size-small)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-muted)', lineHeight: 'var(--line-height-body)', textAlign: 'center' }}>Drag to reveal an earlier iteration.</p>
         </section>
 
         {/* CONCLUSION */}
