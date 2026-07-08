@@ -430,7 +430,7 @@ export default function FormBuilderTile() {
     <div>
       {/* Header row: label left, buttons right */}
       <div className={styles.tileHeader}>
-        <span style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-heading)' }}>Question card - RFI</span>
+        <span style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-heading)' }}>Question card</span>
         <div className={styles.tileHeaderButtons}>
         <Button
           variant="outline"

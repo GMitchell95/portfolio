@@ -10,6 +10,9 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
 
+// Set to false or delete this block to remove debug visualisation.
+const DEBUG_SAFE_AREA = false
+
 // ── SVG Icons ────────────────────────────────────────────────────────────────
 
 const DesignTabIcon = () => (
@@ -211,6 +214,11 @@ export default function MegaMenuTile() {
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([])
   const searchRef = useRef<HTMLInputElement>(null)
   const panelRef = useRef<HTMLDivElement>(null)
+  const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const safeTriangleRef = useRef<HTMLDivElement>(null)
+  const chevronHoverRef = useRef(false)
+  const panelHoverRef = useRef(false)
+  const triangleHoverRef = useRef(false)
 
   // ── Slider positioning ───────────────────────────────────────────────────
   const moveSlider = useCallback(() => {
@@ -263,6 +271,44 @@ export default function MegaMenuTile() {
     setIsOpen(false)
     setSearchQuery('')
     setHighlightedIndex(null)
+    chevronHoverRef.current = false
+    panelHoverRef.current = false
+    triangleHoverRef.current = false
+    if (safeTriangleRef.current) {
+      safeTriangleRef.current.style.pointerEvents = 'none'
+      safeTriangleRef.current.style.clipPath = 'polygon(0px 0px, 0px 0px, 0px 0px)'
+    }
+  }, [])
+
+  const cancelClose = useCallback(() => {
+    if (closeTimerRef.current !== null) {
+      clearTimeout(closeTimerRef.current)
+      closeTimerRef.current = null
+    }
+  }, [])
+
+  const attemptClose = useCallback(() => {
+    if (chevronHoverRef.current || panelHoverRef.current || triangleHoverRef.current) return
+    close()
+  }, [close])
+
+  const scheduleClose = useCallback(() => {
+    if (closeTimerRef.current !== null) clearTimeout(closeTimerRef.current)
+    closeTimerRef.current = setTimeout(attemptClose, 30)
+  }, [attemptClose])
+
+  // Computes the safe triangle clip-path from cursor → menu top-left/top-right corners.
+  // Uses the panel's horizontal center (stable through scale transitions) + known width.
+  const updateTriangle = useCallback((cx: number, cy: number) => {
+    const panel = panelRef.current
+    const tri = safeTriangleRef.current
+    if (!panel || !tri) return
+    const r = panel.getBoundingClientRect()
+    const centerX = (r.left + r.right) / 2
+    const ml = centerX - 330
+    const mr = centerX + 330
+    tri.style.clipPath = `polygon(${cx}px ${cy}px, ${ml}px ${r.top}px, ${mr}px ${r.top}px)`
+    tri.style.pointerEvents = 'all'
   }, [])
 
   // Highlight first item when search changes
@@ -492,6 +538,14 @@ export default function MegaMenuTile() {
             >
               <div
                 ref={panelRef}
+                onMouseEnter={() => {
+                  panelHoverRef.current = true
+                  cancelClose()
+                }}
+                onMouseLeave={() => {
+                  panelHoverRef.current = false
+                  scheduleClose()
+                }}
                 style={{
                   width: 660,
                   background: 'white',
@@ -665,8 +719,27 @@ export default function MegaMenuTile() {
 
           {/* Chevron button — 4px right of pill */}
           <button
-            onClick={e => { e.stopPropagation(); isOpen ? close() : open() }}
             aria-label="Toggle menu"
+            onMouseEnter={e => {
+              chevronHoverRef.current = true
+              cancelClose()
+              if (!isOpen) {
+                open()
+                const cx = e.clientX, cy = e.clientY
+                requestAnimationFrame(() => updateTriangle(cx, cy))
+              } else {
+                updateTriangle(e.clientX, e.clientY)
+              }
+              ;(e.currentTarget as HTMLButtonElement).style.background = '#F4F4F5'
+            }}
+            onMouseMove={e => {
+              updateTriangle(e.clientX, e.clientY)
+            }}
+            onMouseLeave={e => {
+              chevronHoverRef.current = false
+              scheduleClose()
+              ;(e.currentTarget as HTMLButtonElement).style.background = isOpen ? '#FAFAFA' : 'transparent'
+            }}
             style={{
               position: 'absolute',
               left: 'calc(100% + 4px)',
@@ -686,15 +759,36 @@ export default function MegaMenuTile() {
               fontFamily: 'inherit',
               flexShrink: 0,
             }}
-            onMouseEnter={e => {
-              (e.currentTarget as HTMLButtonElement).style.background = '#F4F4F5'
-            }}
-            onMouseLeave={e => {
-              (e.currentTarget as HTMLButtonElement).style.background = isOpen ? '#FAFAFA' : 'transparent'
-            }}
           >
             <ChevronDownIcon open={isOpen} />
           </button>
+
+          {/* Safe triangle — position: fixed covers viewport; clip-path restricts events
+              to the triangle from cursor → menu top-left/right corners only */}
+          <div
+            ref={safeTriangleRef}
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              width: '100vw',
+              height: '100vh',
+              zIndex: 9999,
+              pointerEvents: 'none',
+              // Debug styles — controlled entirely by DEBUG_SAFE_AREA, safe to delete as a block
+              background: DEBUG_SAFE_AREA ? 'rgba(68, 67, 180, 0.08)' : 'transparent',
+              outline: DEBUG_SAFE_AREA ? '1px solid rgba(68, 67, 180, 0.3)' : 'none',
+              clipPath: 'polygon(0px 0px, 0px 0px, 0px 0px)',
+            }}
+            onMouseEnter={() => {
+              triangleHoverRef.current = true
+              cancelClose()
+            }}
+            onMouseLeave={() => {
+              triangleHoverRef.current = false
+              scheduleClose()
+            }}
+          />
         </div>
       </div>
 

@@ -353,23 +353,23 @@ const REFINED_SLIDES: Slide[] = [
 const ADDITIONAL_SLIDES: Slide[] = [
   {
     label: 'Detail 1',
-    title: 'Coloured icons',
-    body: '',
-    src: '/images/case-studies/simplified-navigation/1-AD-Coloured-icons.png',
+    title: 'Final design',
+    body: 'Status dropdowns',
+    src: '/images/case-studies/simplified-navigation/3-AD-Status-dropdowns.png',
     width: 3520, height: 2120,
   },
   {
     label: 'Detail 2',
-    title: 'Grey icons',
-    body: '',
+    title: 'Iteration 2',
+    body: 'Grey icons',
     src: '/images/case-studies/simplified-navigation/2-AD-Grey-icons.png',
     width: 3520, height: 2120,
   },
   {
     label: 'Detail 3',
-    title: 'Status dropdowns',
-    body: '',
-    src: '/images/case-studies/simplified-navigation/3-AD-Status-dropdowns.png',
+    title: 'Iteration 1',
+    body: 'Coloured icons',
+    src: '/images/case-studies/simplified-navigation/1-AD-Coloured-icons.png',
     width: 3520, height: 2120,
   },
 ];
@@ -381,6 +381,177 @@ const SECTIONS = [
   { id: 'section-additional',       label: 'Overview page' },
   { id: 'section-conclusion',       label: 'Conclusion' },
 ];
+
+// ── Before/After slider ──────────────────────────────────────────────────────
+
+function BeforeAfterSlider({
+  beforeSrc,
+  afterSrc,
+  beforeAlt = 'Before',
+  afterAlt = 'After',
+  aspectRatio = '1600/1000',
+  onExpand,
+}: {
+  beforeSrc: string;
+  afterSrc: string;
+  beforeAlt?: string;
+  afterAlt?: string;
+  aspectRatio?: string;
+  onExpand: (startIndex: number) => void;
+}) {
+  // displayPos can exceed 0–100 during elastic drag; clipPos is clamped for image reveal
+  const [displayPos, setDisplayPos] = useState(50);
+  const [isReleasing, setIsReleasing] = useState(false);
+  const [dragging, setDragging] = useState(false);
+  const isDragging = useRef(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const clipPos = Math.max(0, Math.min(100, displayPos));
+
+  const rawToElastic = (raw: number) =>
+    raw < 0 ? raw * 0.35 : raw > 100 ? 100 + (raw - 100) * 0.35 : raw;
+
+  const startDrag = (clientY: number) => {
+    if (!containerRef.current) return;
+    isDragging.current = true;
+    setDragging(true);
+    setIsReleasing(false);
+    const rect = containerRef.current.getBoundingClientRect();
+    setDisplayPos(rawToElastic(((clientY - rect.top) / rect.height) * 100));
+  };
+
+  // Global handlers so drag continues when mouse leaves the frame
+  useEffect(() => {
+    const onMove = (e: MouseEvent) => {
+      if (!isDragging.current || !containerRef.current) return;
+      const rect = containerRef.current.getBoundingClientRect();
+      setDisplayPos(rawToElastic(((e.clientY - rect.top) / rect.height) * 100));
+    };
+    const onTouchMove = (e: TouchEvent) => {
+      e.preventDefault();
+      if (!isDragging.current || !containerRef.current) return;
+      const rect = containerRef.current.getBoundingClientRect();
+      setDisplayPos(rawToElastic(((e.touches[0].clientY - rect.top) / rect.height) * 100));
+    };
+    const onUp = () => {
+      if (!isDragging.current) return;
+      isDragging.current = false;
+      setDragging(false);
+      setDisplayPos(prev => {
+        const clamped = Math.max(0, Math.min(100, prev));
+        if (clamped !== prev) {
+          setIsReleasing(true);
+          setTimeout(() => setIsReleasing(false), 500);
+        }
+        return clamped;
+      });
+    };
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onUp);
+    document.addEventListener('touchmove', onTouchMove, { passive: false });
+    document.addEventListener('touchend', onUp);
+    return () => {
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseup', onUp);
+      document.removeEventListener('touchmove', onTouchMove);
+      document.removeEventListener('touchend', onUp);
+    };
+  }, []); // safe: only refs and stable setState used inside
+
+  const posTransition = isReleasing ? 'top 450ms cubic-bezier(0.34, 1.56, 0.64, 1)' : 'none';
+  // Fade divider within 6% of either edge; fully opaque in the middle 88%
+  const dividerOpacity = Math.min(1, Math.min(clipPos, 100 - clipPos) / 6);
+  // Gradient tint over "before" region; baseline 0.35 always present, ramps to 1.0 at full drag
+  const tintOpacity = 0.35 + (clipPos / 100) * 0.65;
+
+  return (
+    // Outer wrapper: 20px vertical padding so handle never clips at top/bottom edges
+    <div style={{ paddingTop: 20, paddingBottom: 20 }}>
+      {/* Image container: coordinate system for handle/divider positioning */}
+      <div
+        ref={containerRef}
+        style={{ position: 'relative', aspectRatio, userSelect: 'none', cursor: dragging ? 'grabbing' : 'default' }}
+      >
+        {/* Inner image wrapper: overflow:hidden + border-radius clips images and divider */}
+        <div style={{ position: 'absolute', inset: 0, borderRadius: 12, overflow: 'hidden' }}>
+          {/* Before — base layer */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={beforeSrc} alt={beforeAlt} draggable={false}
+            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+          {/* Accent tint over the "before" region (below the divider), ramping in after 20% drag */}
+          <div style={{
+            position: 'absolute', inset: 0,
+            background: 'linear-gradient(to bottom, transparent, rgba(68,67,180,0.14))',
+            opacity: tintOpacity,
+            clipPath: `inset(${clipPos}% 0 0 0)`,
+            pointerEvents: 'none',
+          }} />
+          {/* After — clipped to reveal from top as clipPos increases */}
+          <div style={{ position: 'absolute', inset: 0, clipPath: `inset(0 0 ${100 - clipPos}% 0)` }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={afterSrc} alt={afterAlt} draggable={false}
+              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+          </div>
+          {/* Divider inside overflow:hidden so it respects the border-radius at all positions */}
+          <div
+            style={{
+              position: 'absolute', left: 0, right: 0,
+              top: `${displayPos}%`, height: 8, transform: 'translateY(-50%)',
+              cursor: dragging ? 'grabbing' : 'grab',
+              opacity: dividerOpacity,
+              zIndex: 2, transition: posTransition,
+            }}
+            onMouseDown={e => { e.preventDefault(); startDrag(e.clientY); }}
+            onTouchStart={e => startDrag(e.touches[0].clientY)}
+          >
+            {/* 2px visible line, centred in the 8px hit area */}
+            <div style={{ position: 'absolute', top: '50%', left: 0, right: 0, height: 2, transform: 'translateY(-50%)', background: 'rgba(0,0,0,0.18)', pointerEvents: 'none' }} />
+            {/* Shadow band directly below the line */}
+            <div style={{ position: 'absolute', top: '50%', left: 0, right: 0, height: 8, background: 'linear-gradient(to bottom, rgba(0,0,0,0.05), transparent)', pointerEvents: 'none' }} />
+          </div>
+        </div>
+
+        {/* Handle */}
+        <div
+          style={{
+            position: 'absolute', left: '50%', top: `${displayPos}%`,
+            transform: 'translate(-50%, -50%)',
+            width: 36, height: 36, borderRadius: '50%',
+            background: 'white', boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            cursor: dragging ? 'grabbing' : 'grab',
+            zIndex: 3, color: '#52525B', transition: posTransition,
+          }}
+          onMouseDown={e => { e.preventDefault(); startDrag(e.clientY); }}
+          onTouchStart={e => startDrag(e.touches[0].clientY)}
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M6 9l6-6 6 6M6 15l6 6 6-6" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </div>
+
+        {/* Expand button — stops drag propagation, opens lightbox */}
+        <button
+          onMouseDown={e => e.stopPropagation()}
+          onClick={e => { e.stopPropagation(); onExpand(clipPos > 50 ? 1 : 0); }}
+          style={{
+            position: 'absolute', bottom: 16, right: 16,
+            width: 32, height: 32, borderRadius: 8, zIndex: 3,
+            background: 'rgba(255,255,255,0.9)',
+            border: '1px solid rgba(0,0,0,0.08)',
+            boxShadow: '0 1px 4px rgba(0,0,0,0.12)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            cursor: 'pointer', color: '#52525B',
+          }}
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  );
+}
 
 // ── Page ──────────────────────────────────────────────────────────────────────
 
@@ -663,7 +834,7 @@ export default function SimplifiedNavigationPage() {
               )}
             />
           </div>
-          <div style={{ marginTop: 40 }}>
+          <div style={{ marginTop: 24 }}>
             <h3 className="mb-2" style={{ fontSize: 'var(--font-size-h3)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)' }}>Internal feedback</h3>
             <ul style={{ margin: 0, paddingLeft: 20, listStyleType: 'disc', display: 'flex', flexDirection: 'column', gap: 4 }}>
               {[
@@ -675,11 +846,96 @@ export default function SimplifiedNavigationPage() {
               ))}
             </ul>
           </div>
+          <div style={{ backgroundImage: 'repeating-linear-gradient(to right, rgba(0,0,0,0.06) 0, rgba(0,0,0,0.06) 8px, transparent 8px, transparent 14px)', height: 1, width: '100%', margin: '24px 0' }} />
+          <div>
+            <h3 className="mb-2" style={{ fontSize: 'var(--font-size-h3)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', display: 'flex', alignItems: 'center', gap: 8 }}>
+              Further feedback
+              <span style={{ fontSize: 'var(--font-size-label)', fontWeight: 'var(--font-weight-medium)', color: '#78350f', background: '#fef3c7', borderRadius: 6, padding: '2px 8px' }}>Late</span>
+            </h3>
+            <ul style={{ margin: 0, paddingLeft: 20, listStyleType: 'disc', display: 'flex', flexDirection: 'column', gap: 4 }}>
+              {[
+                "The existing side and top global navigation, shared across the product, could not be modified, a constraint that hadn't been raised earlier.",
+                "This feedback came from the team responsible for that navigation, who noted it was complex to update and they had other priorities at the time.",
+              ].map((item, i) => (
+                <li key={i} style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>{item}</li>
+              ))}
+            </ul>
+          </div>
+          <p style={{ marginTop: 16, fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>Based on this feedback, a new header was introduced below the global nav to house the event level navigation. This did mean we lost some vertical real estate in the UI, but we had to move forward because of time constraints. The plan was to eventually revisit the global nav at some point, after validating the sourcing v2 product.</p>
+          <div style={{ marginTop: 4 }}>
+            <BeforeAfterSlider
+              beforeSrc="/images/case-studies/simplified-navigation/Refined-concept.png"
+              afterSrc="/images/case-studies/simplified-navigation/Refined-concept-last.png"
+              beforeAlt="Refined concept — before"
+              afterAlt="Refined concept — after"
+              aspectRatio="3520/2120"
+              onExpand={startIndex => openLightbox([
+                { title: 'Refined concept', body: '', label: 'Before', src: '/images/case-studies/simplified-navigation/Refined-concept.png' },
+                { title: 'Refined concept', body: '', label: 'After', src: '/images/case-studies/simplified-navigation/Refined-concept-last.png' },
+              ], startIndex)}
+            />
+          </div>
+          <p style={{ marginTop: -12, fontSize: 'var(--font-size-small)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-muted)', lineHeight: 'var(--line-height-body)', textAlign: 'center' }}>The design before and after further feedback.</p>
 
           <div style={{ marginTop: 40 }}>
             <h3 className="mb-2" style={{ fontSize: 'var(--font-size-h3)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)' }}>Old navigation flow</h3>
             <p className="mb-3" style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>Below shows how the user previously navigated to the &apos;Scenario Analysis&apos; page.</p>
             <ClickableVideo src="/videos/simplified-navigation/old-flow.mp4" label="Original navigation flow" />
+          </div>
+          <div style={{ marginTop: 40 }}>
+            <h3 className="mb-2" style={{ fontSize: 'var(--font-size-h3)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)' }}>New navigation flow</h3>
+            <p style={{ marginBottom: 8, fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>The new design gives users three different paths to reach the same page, each just as fast or faster than before. The paths range from simple to advanced, so users can navigate in the way that best matches their familiarity with the tool.</p>
+            <div style={{ marginBottom: 24, display: 'flex', alignItems: 'center', gap: 8, background: '#FAFAFA', border: '1px solid #E4E4E7', borderRadius: 8, padding: '12px 16px' }}>
+              <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 -960 960 960" fill="currentColor" style={{ color: 'var(--color-muted)', flexShrink: 0 }}><path d="M440-280h80v-240h-80v240Zm68.5-331.5Q520-623 520-640t-11.5-28.5Q497-680 480-680t-28.5 11.5Q440-657 440-640t11.5 28.5Q463-600 480-600t28.5-11.5ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>
+              <p style={{ margin: 0, fontSize: 'var(--font-size-small)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-muted)', lineHeight: 'var(--line-height-body)' }}>Some screens in the videos below contain wireframe placeholders.</p>
+            </div>
+            <p style={{ marginBottom: 12, fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-primary)', lineHeight: 'var(--line-height-body)' }}>1. Navigate using the top-level steps</p>
+            <div style={{ background: 'var(--color-surface)', borderRadius: 8, overflow: 'hidden', aspectRatio: '2194 / 1322' }}>
+              <ClickableVideo
+                src="/videos/simplified-navigation/1-click-step-preview.mp4"
+                lightboxSrc="/videos/simplified-navigation/1-click-step-hq.mp4"
+                label="Navigate using the top-level steps"
+              />
+            </div>
+            <p style={{ marginTop: 8, fontSize: 'var(--font-size-small)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>For first-time or less experienced users, the top-level steps offer a simple route. They select Analysis, see an overview, then continue to Scenario analysis.</p>
+          </div>
+          <div style={{ marginTop: 24 }}>
+            <p style={{ marginBottom: 12, fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-primary)', lineHeight: 'var(--line-height-body)' }}>2. Navigate using mega menu</p>
+            <div style={{ background: 'var(--color-surface)', borderRadius: 8, overflow: 'hidden', aspectRatio: '2194 / 1322' }}>
+              <ClickableVideo
+                src="/videos/simplified-navigation/2-click-page-menu-preview.mp4"
+                lightboxSrc="/videos/simplified-navigation/2-click-page-menu-hq.mp4"
+                label="Navigate using mega menu"
+              />
+            </div>
+            <p style={{ marginTop: 8, fontSize: 'var(--font-size-small)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>For users who are a little more familiar with the tool, the mega menu offers a much faster route. They can jump straight to subpages without using the top-level steps.</p>
+          </div>
+          <div style={{ marginTop: 24 }}>
+            <p style={{ marginBottom: 12, fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-primary)', lineHeight: 'var(--line-height-body)' }}>3. Navigate using keyboard shortcut</p>
+            <div style={{ background: 'var(--color-surface)', borderRadius: 8, overflow: 'hidden', aspectRatio: '2194 / 1322' }}>
+              <ClickableVideo
+                src="/videos/simplified-navigation/3-keyboard-shortcut-preview.mp4"
+                lightboxSrc="/videos/simplified-navigation/3-keyboard-shortcut-hq.mp4"
+                label="Navigate using keyboard shortcut"
+              />
+            </div>
+            <p style={{ marginTop: 8, fontSize: 'var(--font-size-small)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>For advanced users, a keyboard shortcut (Cmd+K) opens the mega menu, letting them navigate without clicking. Try it yourself in the prototype at the end.</p>
+          </div>
+          <div style={{ marginTop: 24 }}>
+            <h3 className="mb-2" style={{ fontSize: 'var(--font-size-h3)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)' }}>Cursor safe zone</h3>
+            <p style={{ marginBottom: 12, fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>Additional detail showing the safe zone that the mouse can travel without triggering the menu to close.</p>
+            <div style={{
+              background: 'var(--color-surface)',
+              borderRadius: 8,
+              overflow: 'hidden',
+              aspectRatio: '2230 / 1172',
+            }}>
+              <ClickableVideo
+                src="/videos/simplified-navigation/safe-zone-menu-preview.mp4"
+                lightboxSrc="/videos/simplified-navigation/safe-zone-menu-hq.mp4"
+                label="Safe zone mega menu"
+              />
+            </div>
           </div>
         </section>
 
@@ -702,7 +958,7 @@ export default function SimplifiedNavigationPage() {
                 3520, 2120,
               )}
             />
-            <p style={{ fontSize: 'var(--font-size-label)', color: 'var(--color-muted)', textAlign: 'center', marginTop: 8 }}>
+            <p style={{ fontSize: 'var(--font-size-small)', color: 'var(--color-muted)', textAlign: 'center', marginTop: 8 }}>
               Original landing place for the user
             </p>
           </div>
@@ -749,7 +1005,7 @@ export default function SimplifiedNavigationPage() {
               <React.Fragment key={i}>
                 <span style={{
                   fontSize: 'var(--font-size-label)', fontWeight: 'var(--font-weight-bold)',
-                  borderRadius: 4, padding: '3px 7px',
+                  borderRadius: 6, padding: '3px 7px',
                   alignSelf: 'start', justifySelf: 'start',
                   marginTop: 2,
                   ...item.tagStyle,
