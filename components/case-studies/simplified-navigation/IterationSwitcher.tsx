@@ -200,7 +200,7 @@ export default function IterationSwitcher({
       </div>
 
       {/* Caption */}
-      <p style={{ fontSize: 'var(--font-size-small)', color: 'var(--color-muted)', lineHeight: 'var(--line-height-body)', marginTop: 12 }}>
+      <p style={{ fontSize: 'var(--font-size-small)', color: 'var(--color-muted)', lineHeight: 'var(--line-height-body)', marginTop: 8 }}>
         {slides[current].body}
       </p>
     </div>

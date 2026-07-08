@@ -756,7 +756,7 @@ export default function SimplifiedNavigationPage() {
 
         {/* THE BRIEF */}
         <section id="section-brief" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '39px' }}>
-          <h2 style={{ fontSize: 'var(--font-size-h2)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 16 }}>The brief</h2>
+          <h2 style={{ fontSize: 'var(--font-size-h2)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 12 }}>The brief</h2>
           <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>
             The navigation of Keelvar&#39;s sourcing v1 platform overwhelmed users. The existing side navigation used an accordion to reveal pages across seven different steps. When users created a new event, they lacked a clear starting point and direction for what to do next. Being part of the team working on sourcing v2, which aimed to reimagine the Sourcing Optimizer product, we had 2 tasks:
           </p>
@@ -782,7 +782,7 @@ export default function SimplifiedNavigationPage() {
 
         {/* EXPLORATIONS */}
         <section id="section-explorations" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '39px' }}>
-          <h2 style={{ fontSize: 'var(--font-size-h2)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 16 }}>Explorations</h2>
+          <h2 style={{ fontSize: 'var(--font-size-h2)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 12 }}>Explorations</h2>
           <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>
             Before exploring concepts, I mapped the existing nav from an information architecture perspective to identify which pages could be logically grouped or consolidated across the 7 steps.
           </p>
@@ -816,7 +816,7 @@ export default function SimplifiedNavigationPage() {
 
         {/* REFINED CONCEPT */}
         <section id="section-refined" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '39px' }}>
-          <h2 style={{ fontSize: 'var(--font-size-h2)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 16 }}>Refined concept</h2>
+          <h2 style={{ fontSize: 'var(--font-size-h2)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 12 }}>Refined concept</h2>
           <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>
             We ran a workshop with the PM, engineers, and myself. We shared ideas of concepts from Figma Make to quickly coded prototypes. We narrowed it down to a combination of 2 concepts which I refined further before sending final feedback.
           </p>
@@ -875,9 +875,11 @@ export default function SimplifiedNavigationPage() {
               ], startIndex)}
             />
           </div>
-          <p style={{ marginTop: -12, fontSize: 'var(--font-size-small)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-muted)', lineHeight: 'var(--line-height-body)', textAlign: 'center' }}>The design before and after further feedback.</p>
+          <p style={{ marginTop: -12, fontSize: 'var(--font-size-small)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-muted)', lineHeight: 'var(--line-height-body)', textAlign: 'center' }}>Drag the divider to reveal the design before the late feedback.</p>
 
-          <div style={{ marginTop: 40 }}>
+          <div style={{ backgroundImage: 'repeating-linear-gradient(to right, rgba(0,0,0,0.06) 0, rgba(0,0,0,0.06) 8px, transparent 8px, transparent 14px)', height: 1, width: '100%', margin: '40px 0' }} />
+
+          <div>
             <h3 className="mb-2" style={{ fontSize: 'var(--font-size-h3)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)' }}>Old navigation flow</h3>
             <p className="mb-3" style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>Below shows how the user previously navigated to the &apos;Scenario Analysis&apos; page.</p>
             <ClickableVideo src="/videos/simplified-navigation/old-flow.mp4" label="Original navigation flow" />
@@ -885,7 +887,7 @@ export default function SimplifiedNavigationPage() {
           <div style={{ marginTop: 40 }}>
             <h3 className="mb-2" style={{ fontSize: 'var(--font-size-h3)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)' }}>New navigation flow</h3>
             <p style={{ marginBottom: 8, fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>The new design gives users three different paths to reach the same page, each just as fast or faster than before. The paths range from simple to advanced, so users can navigate in the way that best matches their familiarity with the tool.</p>
-            <div style={{ marginBottom: 24, display: 'flex', alignItems: 'center', gap: 8, background: '#FAFAFA', border: '1px solid #E4E4E7', borderRadius: 8, padding: '12px 16px' }}>
+            <div style={{ marginBottom: 24, display: 'flex', alignItems: 'center', gap: 8, background: '#FAFAFA', border: '1px solid rgba(0, 0, 0, 0.05)', borderRadius: 8, padding: '8px 12px' }}>
               <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 -960 960 960" fill="currentColor" style={{ color: 'var(--color-muted)', flexShrink: 0 }}><path d="M440-280h80v-240h-80v240Zm68.5-331.5Q520-623 520-640t-11.5-28.5Q497-680 480-680t-28.5 11.5Q440-657 440-640t11.5 28.5Q463-600 480-600t28.5-11.5ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>
               <p style={{ margin: 0, fontSize: 'var(--font-size-small)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-muted)', lineHeight: 'var(--line-height-body)' }}>Some screens in the videos below contain wireframe placeholders.</p>
             </div>
@@ -921,7 +923,7 @@ export default function SimplifiedNavigationPage() {
             </div>
             <p style={{ marginTop: 8, fontSize: 'var(--font-size-small)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>For advanced users, a keyboard shortcut (Cmd+K) opens the mega menu, letting them navigate without clicking. Try it yourself in the prototype at the end.</p>
           </div>
-          <div style={{ marginTop: 24 }}>
+          <div style={{ marginTop: 32 }}>
             <h3 className="mb-2" style={{ fontSize: 'var(--font-size-h3)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)' }}>Cursor safe zone</h3>
             <p style={{ marginBottom: 12, fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>Additional detail showing the safe zone that the mouse can travel without triggering the menu to close.</p>
             <div style={{
@@ -941,7 +943,7 @@ export default function SimplifiedNavigationPage() {
 
         {/* ADDITIONAL DETAILS */}
         <section id="section-additional" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '39px' }}>
-          <h2 style={{ fontSize: 'var(--font-size-h2)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 16 }}>Overview page</h2>
+          <h2 style={{ fontSize: 'var(--font-size-h2)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 12 }}>Overview page</h2>
           <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>
             Previously, when a user landed on a newly created event, they were taken to an event information page with no indication of what needed to be completed before publishing. Errors only surfaced at the point of publish, forcing users to fix issues and try again.
           </p>
@@ -970,7 +972,7 @@ export default function SimplifiedNavigationPage() {
 
         {/* CONCLUSION */}
         <section id="section-conclusion" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '39px' }}>
-          <h2 style={{ fontSize: 'var(--font-size-h2)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 16 }}>Conclusion</h2>
+          <h2 style={{ fontSize: 'var(--font-size-h2)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 12 }}>Conclusion</h2>
           <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>
             A few of the more significant choices made during the project — and the reasoning behind them.
           </p>
