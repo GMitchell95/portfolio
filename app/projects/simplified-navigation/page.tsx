@@ -992,7 +992,7 @@ export default function SimplifiedNavigationPage() {
               ], startIndex)}
             />
           </div>
-          <p style={{ marginTop: 8, fontSize: 'var(--font-size-small)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-muted)', lineHeight: 'var(--line-height-body)', textAlign: 'center' }}>Drag to reveal an earlier iteration.</p>
+          <p style={{ marginTop: 8, fontSize: 'var(--font-size-small)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-muted)', lineHeight: 'var(--line-height-body)', textAlign: 'center' }}>Drag to reveal an earlier iteration with design annotations.</p>
         </section>
 
         {/* CONCLUSION */}
@@ -1002,7 +1002,7 @@ export default function SimplifiedNavigationPage() {
             A look back on the key outcomes, decisions, and constraints from the project.
           </p>
 
-          <div style={{ marginTop: 28, display: 'grid', gridTemplateColumns: '1fr', columnGap: 16, rowGap: 24, alignItems: 'start' }}>
+          <div style={{ marginTop: 24, display: 'grid', gridTemplateColumns: '1fr', columnGap: 16, rowGap: 24, alignItems: 'start' }}>
             {[
               {
                 icon: 'check' as const,
