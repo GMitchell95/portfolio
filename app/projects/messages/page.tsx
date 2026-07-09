@@ -298,7 +298,7 @@ const OVERVIEW_SLIDES = [
 const SECTIONS = [
   { id: 'section-overview',  label: 'Overview' },
   { id: 'section-final-design',   label: 'Final design' },
-  { id: 'section-learnings', label: 'Learnings' },
+  { id: 'section-learnings', label: "What's next" },
 ];
 
 // ── Page ──────────────────────────────────────────────────────────────────────
@@ -650,10 +650,18 @@ export default function MessagesPage() {
 
         {/* LEARNINGS */}
         <section id="section-learnings" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '39px', minHeight: 400 }}>
-          <h2 style={{ fontSize: 'var(--font-size-h2)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 16 }}>Learnings</h2>
+          <h2 style={{ fontSize: 'var(--font-size-h2)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 16 }}>What&apos;s next</h2>
           <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>
-            Placeholder learnings. Reflect on what worked, what didn't, and what you'd do differently.
+            Filtering and targeted messaging were left out due to time constraints, with the plan to revisit once other pages were implemented.
           </p>
+          <div style={{ marginTop: 12, paddingLeft: 20, display: 'flex', flexDirection: 'column', gap: 4 }}>
+            {['Filter the supplier list to quickly find specific suppliers', 'Send messages to filtered groups of suppliers, including those who have been invited, accepted, or rejected'].map((text) => (
+              <div key={text} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, marginLeft: -20 }}>
+                <div style={{ width: 16, height: 16, borderRadius: 4, border: '1.5px solid var(--color-border-strong)', backgroundColor: 'var(--color-white)', flexShrink: 0, marginTop: 2 }} />
+                <span style={{ fontSize: 'var(--font-size-small)', color: 'var(--color-muted)', lineHeight: 'var(--line-height-body)' }}>{text}</span>
+              </div>
+            ))}
+          </div>
         </section>
 
         {/* FOOTER */}
