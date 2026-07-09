@@ -999,57 +999,58 @@ export default function SimplifiedNavigationPage() {
         <section id="section-conclusion" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '39px' }}>
           <h2 style={{ fontSize: 'var(--font-size-h2)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 12 }}>Conclusion</h2>
           <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>
-            A few of the more significant choices made during the project — and the reasoning behind them.
+            A look back on the key outcomes, decisions, and constraints from the project.
           </p>
 
-          <div style={{ marginTop: 40, display: 'grid', gridTemplateColumns: 'auto 1fr', columnGap: 16, rowGap: 32, alignItems: 'start' }}>
+          <div style={{ marginTop: 28, display: 'grid', gridTemplateColumns: '1fr', columnGap: 16, rowGap: 24, alignItems: 'start' }}>
             {[
               {
-                tag: 'Kept',
-                tagStyle: { background: '#DCFCE7', color: '#16A34A' },
-                title: 'Three-step structure',
-                body: 'The IA mapping showed many existing steps were granular sub-tasks that could sit under broader categories — the three-step structure was validated early and held firm throughout.',
+                icon: 'check' as const,
+                title: 'Simplified event flow',
+                body: 'We consolidated a complex event flow into 3 clear steps, giving new and less advanced users a much simpler path through the product.',
               },
               {
-                tag: 'Added',
-                tagStyle: { background: '#DBEAFE', color: '#1D4ED8' },
-                title: 'Quick-access sub-page shortcut',
-                body: 'Internal feedback made clear that power users needed a faster way to jump to specific sub-pages. A keyboard-accessible dropdown alongside the three tabs was added, letting users navigate directly to any page without stepping through the hierarchy.',
+                icon: 'check' as const,
+                title: 'Improved overview page',
+                body: 'The redesigned overview page front-loads all tasks required to publish an event, giving users a clear path forward. Previously, users had no clear indication of what was needed to publish an event.',
               },
               {
-                tag: 'Constraint',
-                tagStyle: { background: '#F3E8FF', color: '#7C3AED' },
-                title: 'No external validation before build',
-                body: "Time constraints meant we couldn't test with customers before handoff. The plan was to validate with an early MVP of the new v2 platform once it was available.",
+                icon: 'check' as const,
+                title: 'Added mega menu',
+                body: 'The accordion side nav made it difficult to find pages as they were buried inside sections. The new mega menu shows all pages at once, removing that friction entirely.',
               },
               {
-                tag: 'Kept',
-                tagStyle: { background: '#DCFCE7', color: '#16A34A' },
-                title: 'Internal feedback as the primary signal',
-                body: 'Feedback from professional services — the team dealing with customers daily — was broadly positive and gave us enough confidence to move forward.',
+                icon: 'check' as const,
+                title: 'Added keyboard shortcuts',
+                body: 'While redesigning the navigation, we took the opportunity to give power users a faster way to navigate the event. A keyboard shortcut lets users access the mega menu and jump directly to any subpage in 1-2 seconds.',
+              },
+              {
+                icon: 'x' as const,
+                title: 'Deferred external validation',
+                body: 'Time pressure from leadership meant we were directed to move forward without customer validation for this project. We had only recently validated the lo-fi flow for Sourcing v2, so the intention was to validate once more designs were finalised.',
               },
             ].map((item, i) => (
-              <React.Fragment key={i}>
-                <span style={{
-                  fontSize: 'var(--font-size-label)', fontWeight: 'var(--font-weight-bold)',
-                  borderRadius: 6, padding: '3px 7px',
-                  alignSelf: 'start', justifySelf: 'start',
-                  marginTop: 2,
-                  ...item.tagStyle,
-                }}>
-                  {item.tag}
-                </span>
-                <div>
-                  <div style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-primary)', marginBottom: 6 }}>{item.title}</div>
-                  <div style={{ fontSize: 'var(--font-size-small)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>{item.body}</div>
+              <div key={i}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 4 }}>
+                  {item.icon === 'check' ? (
+                    <svg width="20" height="20" viewBox="0 0 640 640" fill="#16a34a" style={{ flexShrink: 0 }}>
+                      <path d="M320 576C178.6 576 64 461.4 64 320C64 178.6 178.6 64 320 64C461.4 64 576 178.6 576 320C576 461.4 461.4 576 320 576zM320 112C205.1 112 112 205.1 112 320C112 434.9 205.1 528 320 528C434.9 528 528 434.9 528 320C528 205.1 434.9 112 320 112zM390.7 233.9C398.5 223.2 413.5 220.8 424.2 228.6C434.9 236.4 437.3 251.4 429.5 262.1L307.4 430.1C303.3 435.8 296.9 439.4 289.9 439.9C282.9 440.4 276 437.9 271.1 433L215.2 377.1C205.8 367.7 205.8 352.5 215.2 343.2C224.6 333.9 239.8 333.8 249.1 343.2L285.1 379.2L390.7 234z"/>
+                    </svg>
+                  ) : (
+                    <svg width="20" height="20" viewBox="0 0 640 640" fill="#e11d48" style={{ flexShrink: 0 }}>
+                      <path d="M320 112C434.9 112 528 205.1 528 320C528 434.9 434.9 528 320 528C205.1 528 112 434.9 112 320C112 205.1 205.1 112 320 112zM320 576C461.4 576 576 461.4 576 320C576 178.6 461.4 64 320 64C178.6 64 64 178.6 64 320C64 461.4 178.6 576 320 576zM231 231C221.6 240.4 221.6 255.6 231 264.9L286 319.9L231 374.9C221.6 384.3 221.6 399.5 231 408.8C240.4 418.1 255.6 418.2 264.9 408.8L319.9 353.8L374.9 408.8C384.3 418.2 399.5 418.2 408.8 408.8C418.1 399.4 418.2 384.2 408.8 374.9L353.8 319.9L408.8 264.9C418.2 255.5 418.2 240.3 408.8 231C399.4 221.7 384.2 221.6 374.9 231L319.9 286L264.9 231C255.5 221.6 240.3 221.6 231 231z"/>
+                    </svg>
+                  )}
+                  <div style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-primary)' }}>{item.title}</div>
                 </div>
-              </React.Fragment>
+                <div style={{ fontSize: 'var(--font-size-small)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', paddingLeft: 32 }}>{item.body}</div>
+              </div>
             ))}
           </div>
 
           <div className="cs-interactive-prototype" style={{ marginTop: 40 }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
                 <h3 style={{ fontSize: 'var(--font-size-h3)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)' }}>Interactive prototype</h3>
                 <p style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>Click on tabs and subpages in the dropdown menu.</p>
               </div>
