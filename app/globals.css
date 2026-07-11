@@ -212,6 +212,16 @@
   }
 }
 
+@media (max-width: 699px) {
+  .hero-stagger-el,
+  .sidebar-fade-in {
+    opacity: 1;
+    animation: none;
+    filter: none;
+    transform: none;
+  }
+}
+
 /* Shared hero link */
 .hero-link {
   color: inherit;
@@ -410,6 +420,14 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .sw-tile {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+@media (max-width: 699px) {
   .sw-tile {
     opacity: 1;
     transform: none;
