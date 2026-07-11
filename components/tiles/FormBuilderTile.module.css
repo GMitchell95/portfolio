@@ -67,6 +67,7 @@
 /* ── TILE SHELL ─────────────────────────────────────── */
 .tile {
   width: 560px;
+  padding: 1px;
   border-radius: 12px;
   transition: height 300ms ease-out;
   overflow: hidden;
