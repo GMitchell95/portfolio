@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, useId } from 'react'
 import Button from '@/components/ui/Button'
 import { flushSync } from 'react-dom'
+import { play } from 'cuelume'
 import styles from './FormBuilderTile.module.css'
 
 // ── Types ────────────────────────────────────────────
@@ -70,15 +71,6 @@ export default function FormBuilderTile() {
   const answersContainerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => { isMutedRef.current = isMuted }, [isMuted])
-
-  // Lock container height on mount
-  useEffect(() => {
-    requestAnimationFrame(() => {
-      if (containerRef.current) {
-        containerRef.current.style.height = containerRef.current.offsetHeight + 'px'
-      }
-    })
-  }, [])
 
   // Close dropdown on outside click
   useEffect(() => {
@@ -291,13 +283,15 @@ export default function FormBuilderTile() {
   // ── Add / remove answers ───────────────────────────
   function addAnswer() {
     const id = newId()
+    if (!isMutedRef.current) play('tick')
     setAnswers(prev => [...prev, { id, value: '', isEntering: true }])
     setTimeout(() => {
       setAnswers(prev => prev.map(a => a.id === id ? { ...a, isEntering: false } : a))
-    }, 150)
+    }, 200)
   }
 
   function removeAnswer(id: string) {
+    if (!isMutedRef.current) play('whisper')
     setAnswers(prev => {
       if (prev.length <= 1) return prev
       return prev.map(a => a.id === id ? { ...a, isExiting: true } : a)
@@ -426,6 +420,19 @@ export default function FormBuilderTile() {
   // ── Render ─────────────────────────────────────────
   const cx = (...classes: (string | false | undefined)[]) => classes.filter(Boolean).join(' ')
 
+  // Same-render DOM read: position the drop line against the already-rendered answer rows.
+  let dropLineTop: number | null = null
+  if (dropIndicator) {
+    const container = answersContainerRef.current
+    const targetEl = container?.querySelector<HTMLElement>(`[data-answer-id="${dropIndicator.id}"]`)
+    if (container && targetEl) {
+      const containerRect = container.getBoundingClientRect()
+      const targetRect = targetEl.getBoundingClientRect()
+      const edge = dropIndicator.position === 'above' ? targetRect.top - 4 : targetRect.bottom + 4
+      dropLineTop = edge - containerRect.top - 1
+    }
+  }
+
   return (
     <div>
       {/* Header row: label left, buttons right */}
@@ -490,6 +497,7 @@ export default function FormBuilderTile() {
         <div className={styles.tile} ref={tileRef}>
 
           {/* ── FORM CARD ─────────────────────────────── */}
+          <div className={styles.formCardWrapper}>
           <div className={styles.formCard} ref={formCardRef}>
             <div className={styles.formHeader}>
               <div className={styles.formTitle}>New question</div>
@@ -511,7 +519,7 @@ export default function FormBuilderTile() {
                   autoComplete="off"
                 />
                 <span className={styles.fieldError}>
-                  <i className="fa-solid fa-circle-exclamation" /> Question is required
+                  <i className="fa-solid fa-circle-exclamation" /> Question required
                 </span>
               </div>
 
@@ -601,8 +609,6 @@ export default function FormBuilderTile() {
                             styles.answerWrap,
                             answer.isEntering && styles.entering,
                             answer.isExiting && styles.exiting,
-                            dropIndicator?.id === answer.id && dropIndicator.position === 'above' && styles.dropAbove,
-                            dropIndicator?.id === answer.id && dropIndicator.position === 'below' && styles.dropBelow,
                           )}
                           data-answer-id={answer.id}
                         >
@@ -634,10 +640,13 @@ export default function FormBuilderTile() {
                             </button>
                           </div>
                           <div className={cx(styles.answerError, answerErrors[answer.id] && styles.visible)}>
-                            <i className="fa-solid fa-circle-exclamation" /> Answer is required
+                            <i className="fa-solid fa-circle-exclamation" /> Answer required
                           </div>
                         </div>
                       ))}
+                      {dropLineTop !== null && (
+                        <div className={styles.dropLine} style={{ top: dropLineTop }} />
+                      )}
                     </div>
                     <button
                       className={styles.addAnswerBtn}
@@ -667,6 +676,7 @@ export default function FormBuilderTile() {
                 <span>{isSaving ? 'Saving...' : 'Save question'}</span>
               </button>
             </div>
+          </div>
           </div>
 
           {/* ── SAVED CARD ────────────────────────────── */}
