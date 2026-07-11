@@ -69,6 +69,7 @@
   width: 560px;
   border-radius: 12px;
   transition: height 300ms ease-out;
+  overflow: hidden;
 }
 
 /* ── FORM CARD ──────────────────────────────────────── */
