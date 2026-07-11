@@ -380,7 +380,7 @@ export default function MessagesPage() {
       <div className="cs-header-spacer" />
 
       {/* ── SIDEBAR ───────────────────────────────────────────────────── */}
-      <nav className="cs-sidebar">
+      <nav className="cs-sidebar sidebar-fade-in">
         <a href="/" className="cs-sidebar-back">
           <ChevronLeft size={14} />
           Back
@@ -411,7 +411,7 @@ export default function MessagesPage() {
             marginBottom: 60,
           }}>
             <div style={{ maxWidth: 680, margin: '0 auto', padding: '0 40px' }}>
-              <div className="hero-image-enter cs-hero-frame" style={{ border: '1px solid rgba(0, 0, 0, 0.06)', borderRadius: 16, overflow: 'hidden' }}>
+              <div className="cs-hero-frame cs-hero-img hero-stagger-el" style={{ border: '1px solid rgba(0, 0, 0, 0.04)', borderRadius: 16, overflow: 'hidden', boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.04)', animationDelay: '0ms' }}>
                 <Image
                   src="/images/case-studies/messages/hero.png"
                   width={2484}
@@ -423,19 +423,21 @@ export default function MessagesPage() {
               </div>
             </div>
           </div>
-          <div style={{ fontSize: 'var(--font-size-label)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-accent)', letterSpacing: '0.06em', marginBottom: 8 }}>
-            Project
+          <div className="hero-stagger-el" style={{ animationDelay: '140ms' }}>
+            <div style={{ fontSize: 'var(--font-size-label)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-accent)', letterSpacing: '0.06em', marginBottom: 8 }}>
+              Project
+            </div>
+            <h1
+              ref={heroTitleRef}
+              style={{ fontSize: 'var(--font-size-h1)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', lineHeight: 'var(--line-height-heading)', letterSpacing: '-0.025em', marginBottom: 16 }}
+            >
+              Messages
+            </h1>
+            <p style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', marginBottom: 40 }}>
+              As part of sourcing v2, we revisited the messages page to improve the overall experience. We introduced conventions from apps like Slack, Messenger and WhatsApp to make the experience feel more familiar.
+            </p>
           </div>
-          <h1
-            ref={heroTitleRef}
-            style={{ fontSize: 'var(--font-size-h1)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', lineHeight: 'var(--line-height-heading)', letterSpacing: '-0.025em', marginBottom: 16 }}
-          >
-            Messages
-          </h1>
-          <p style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', marginBottom: 40 }}>
-            As part of sourcing v2, we revisited the messages page to improve the overall experience. We introduced conventions from apps like Slack, Messenger and WhatsApp to make the experience feel more familiar.
-          </p>
-          <div style={{ display: 'flex', gap: 40, paddingTop: 40, borderTop: '1px solid rgba(228,228,231,0.5)' }}>
+          <div className="hero-stagger-el" style={{ display: 'flex', gap: 40, paddingTop: 40, borderTop: '1px solid rgba(228,228,231,0.5)', animationDelay: '280ms' }}>
             {[
               { label: 'Role', value: 'Product designer' },
               { label: 'Timeline', value: '2-3 weeks' },
@@ -450,7 +452,7 @@ export default function MessagesPage() {
         </section>
 
         {/* OVERVIEW */}
-        <section id="section-overview" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '39px', minHeight: 400 }}>
+        <section id="section-overview" className="hero-stagger-el" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '39px', minHeight: 400, animationDelay: '420ms' }}>
           <h2 style={{ fontSize: 'var(--font-size-h2)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 16 }}>Overview</h2>
           <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>
             The original messages page felt dated compared to modern messaging tools. The UI hadn&#39;t kept pace with conventions users were already familiar with, and some core flows worked differently to what users might expect.

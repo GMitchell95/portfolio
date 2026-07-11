@@ -102,10 +102,10 @@
   background-color: transparent;
   background-image: linear-gradient(
     104deg,
-    rgba(68, 67, 180, 0.28) 0%,
-    rgba(68, 67, 180, 0.22) 30%,
-    rgba(68, 67, 180, 0.16) 70%,
-    rgba(68, 67, 180, 0.08) 90%,
+    rgba(68, 67, 180, 0.16) 0%,
+    rgba(68, 67, 180, 0.13) 30%,
+    rgba(68, 67, 180, 0.09) 70%,
+    rgba(68, 67, 180, 0.07) 90%,
     rgba(68, 67, 180, 0.06) 100%
   );
   background-size: 0% 100%;
@@ -154,6 +154,61 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes heroStaggerIn {
+  from {
+    opacity: 0;
+    filter: blur(1px);
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0px);
+    transform: translateY(0);
+  }
+}
+
+.hero-stagger-el {
+  opacity: 0;
+  animation: heroStaggerIn 400ms ease-out forwards;
+}
+
+@keyframes heroImageStaggerIn {
+  from {
+    opacity: 0;
+    filter: none;
+    transform: translateY(32px);
+  }
+  to {
+    opacity: 1;
+    filter: none;
+    transform: translateY(0);
+  }
+}
+
+.cs-hero-img.hero-stagger-el {
+  animation: heroImageStaggerIn 320ms ease-out forwards;
+}
+
+.sidebar-fade-in {
+  opacity: 0;
+  animation: sidebarFadeIn 300ms ease-out 250ms forwards;
+}
+
+@keyframes sidebarFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-stagger-el,
+  .sidebar-fade-in {
+    opacity: 1;
+    animation: none;
+    filter: none;
+    transform: none;
   }
 }
 

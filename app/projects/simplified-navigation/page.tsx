@@ -693,7 +693,7 @@ export default function SimplifiedNavigationPage() {
       <div className="cs-header-spacer" />
 
       {/* ── SIDEBAR ───────────────────────────────────────────────────── */}
-      <nav className="cs-sidebar">
+      <nav className="cs-sidebar sidebar-fade-in">
         <a href="/" className="cs-sidebar-back">
           <ChevronLeft size={14} />
           Back
@@ -730,12 +730,12 @@ export default function SimplifiedNavigationPage() {
                 height={856}
                 priority
                 alt="Simplified navigation hero"
-                className="cs-hero-img"
-                style={{ width: '100%', height: 'auto', borderRadius: 8 }}
+                className="cs-hero-img hero-stagger-el"
+                style={{ width: '100%', height: 'auto', borderRadius: 8, animationDelay: '0ms' }}
               />
             </div>
           </div>
-          <div>
+          <div className="hero-stagger-el" style={{ animationDelay: '140ms' }}>
             <div style={{ fontSize: 'var(--font-size-label)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-accent)', letterSpacing: '0.06em', marginBottom: 8 }}>
               Project
             </div>
@@ -748,23 +748,23 @@ export default function SimplifiedNavigationPage() {
             <p style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', marginBottom: 40 }}>
               Redesigning the navigation for a complex procurement sourcing platform, condensing a 7-step flow without losing access to any of the core functionality.
             </p>
-            <div style={{ display: 'flex', gap: 40, paddingTop: 40, borderTop: '1px solid rgba(228,228,231,0.5)' }}>
-              {[
-                { label: 'Role', value: 'Product designer' },
-                { label: 'Timeline', value: '1-2 weeks' },
-                { label: 'Date', value: 'February 2026' },
-              ].map(item => (
-                <div key={item.label} style={{ flex: 1 }}>
-                  <div style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-primary)', marginBottom: 4 }}>{item.label}</div>
-                  <div style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)' }}>{item.value}</div>
-                </div>
-              ))}
-            </div>
+          </div>
+          <div className="hero-stagger-el" style={{ display: 'flex', gap: 40, paddingTop: 40, borderTop: '1px solid rgba(228,228,231,0.5)', animationDelay: '280ms' }}>
+            {[
+              { label: 'Role', value: 'Product designer' },
+              { label: 'Timeline', value: '1-2 weeks' },
+              { label: 'Date', value: 'February 2026' },
+            ].map(item => (
+              <div key={item.label} style={{ flex: 1 }}>
+                <div style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-primary)', marginBottom: 4 }}>{item.label}</div>
+                <div style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)' }}>{item.value}</div>
+              </div>
+            ))}
           </div>
         </section>
 
         {/* THE BRIEF */}
-        <section id="section-brief" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '39px' }}>
+        <section id="section-brief" className="hero-stagger-el" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '39px', animationDelay: '420ms' }}>
           <h2 style={{ fontSize: 'var(--font-size-h2)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 12 }}>The brief</h2>
           <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>
             The navigation of Keelvar&#39;s sourcing v1 platform overwhelmed users. The existing side navigation used an accordion to reveal pages across seven different steps. When users created a new event, they lacked a clear starting point and direction for what to do next. Being part of the team working on sourcing v2, which aimed to reimagine the Sourcing Optimizer product, we had 2 tasks:

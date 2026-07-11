@@ -391,7 +391,7 @@ export default function ElectricityTrackerPage() {
       <div className="cs-header-spacer" />
 
       {/* ── SIDEBAR ───────────────────────────────────────────────────── */}
-      <nav className="cs-sidebar">
+      <nav className="cs-sidebar sidebar-fade-in">
         <a href="/" className="cs-sidebar-back">
           <ChevronLeft size={14} />
           Back
@@ -427,24 +427,27 @@ export default function ElectricityTrackerPage() {
                 <img
                   src="/images/case-studies/electricity-tracker/hero.png"
                   alt=""
-                  style={{ position: 'absolute', top: 0, width: '340px', height: 'auto' }}
+                  className="cs-hero-img hero-stagger-el"
+                  style={{ position: 'absolute', top: 0, width: '340px', height: 'auto', animationDelay: '0ms' }}
                 />
               </div>
             </div>
           </div>
-          <div className="text-cyan-700" style={{ fontSize: 'var(--font-size-label)', fontWeight: 'var(--font-weight-medium)', letterSpacing: '0.06em', marginBottom: 8 }}>
-            Project
+          <div className="hero-stagger-el" style={{ animationDelay: '140ms' }}>
+            <div className="text-cyan-700" style={{ fontSize: 'var(--font-size-label)', fontWeight: 'var(--font-weight-medium)', letterSpacing: '0.06em', marginBottom: 8 }}>
+              Project
+            </div>
+            <h1
+              ref={heroTitleRef}
+              style={{ fontSize: 'var(--font-size-h1)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', lineHeight: 'var(--line-height-heading)', letterSpacing: '-0.025em', marginBottom: 16 }}
+            >
+              Electricity tracker
+            </h1>
+            <p style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', marginBottom: 40 }}>
+              A side project born out of curiosity about how much our air conditioning unit actually costs to run. I built a simple app that makes it fun to log daily usage and track the estimated cost per day. What started as an aircon tracker ended up expanding to cover other household appliances too.
+            </p>
           </div>
-          <h1
-            ref={heroTitleRef}
-            style={{ fontSize: 'var(--font-size-h1)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', lineHeight: 'var(--line-height-heading)', letterSpacing: '-0.025em', marginBottom: 16 }}
-          >
-            Electricity tracker
-          </h1>
-          <p style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', marginBottom: 40 }}>
-            A side project born out of curiosity about how much our air conditioning unit actually costs to run. I built a simple app that makes it fun to log daily usage and track the estimated cost per day. What started as an aircon tracker ended up expanding to cover other household appliances too.
-          </p>
-          <div style={{ display: 'flex', gap: 40, paddingTop: 40, borderTop: '1px solid rgba(228,228,231,0.5)' }}>
+          <div className="hero-stagger-el" style={{ display: 'flex', gap: 40, paddingTop: 40, borderTop: '1px solid rgba(228,228,231,0.5)', animationDelay: '280ms' }}>
             {[
               { label: 'Role', value: 'Builder' },
               { label: 'Timeline', value: '1-2 days' },
@@ -459,7 +462,7 @@ export default function ElectricityTrackerPage() {
         </section>
 
         {/* OVERVIEW */}
-        <section id="section-overview" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '39px' }}>
+        <section id="section-overview" className="hero-stagger-el" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '39px', animationDelay: '420ms' }}>
           <h2 style={{ fontSize: 'var(--font-size-h2)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 16 }}>Overview</h2>
           <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', marginBottom: 16 }}>
             The goal was a simple app to automate cost calculations and log usage over time. The intention is to connect it to a live electricity pricing API so rates adjust automatically by time of day, which matters in Spain where peak and off-peak hours are priced differently.
