@@ -992,7 +992,7 @@ export default function SimplifiedNavigationPage() {
               ], startIndex)}
             />
           </div>
-          <p style={{ marginTop: 8, fontSize: 'var(--font-size-small)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-muted)', lineHeight: 'var(--line-height-body)', textAlign: 'center' }}>Drag to reveal an earlier iteration with design annotations.</p>
+          <p style={{ marginTop: 8, fontSize: 'var(--font-size-small)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-muted)', lineHeight: 'var(--line-height-body)', textAlign: 'center' }}>Drag the divider left to reveal an earlier iteration with design annotations.</p>
         </section>
 
         {/* CONCLUSION */}
