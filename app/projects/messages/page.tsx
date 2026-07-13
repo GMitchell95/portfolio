@@ -651,7 +651,7 @@ export default function MessagesPage() {
         </section>
 
         {/* LEARNINGS */}
-        <section id="section-learnings" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '39px', minHeight: 400 }}>
+        <section id="section-learnings" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '39px' }}>
           <h2 style={{ fontSize: 'var(--font-size-h2)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 16 }}>What&apos;s next</h2>
           <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>
             Filtering and targeted messaging were left out due to time constraints, with the plan to revisit once other pages were implemented.
@@ -671,7 +671,6 @@ export default function MessagesPage() {
           padding: '48px 0',
           borderTop: '1px solid rgba(228,228,231,0.5)',
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          marginTop: 24,
         }}>
           <span style={{ fontSize: 'var(--font-size-small)', color: 'var(--color-muted)' }}>Glen Mitchell</span>
           <div style={{ display: 'flex', gap: 8 }}>

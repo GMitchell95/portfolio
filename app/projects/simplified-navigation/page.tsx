@@ -1109,7 +1109,6 @@ export default function SimplifiedNavigationPage() {
           padding: '48px 0',
           borderTop: '1px solid rgba(228,228,231,0.5)',
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          marginTop: 24,
         }}>
           <span style={{ fontSize: 'var(--font-size-small)', color: 'var(--color-muted)' }}>Glen Mitchell</span>
           <div style={{ display: 'flex', gap: 8 }}>
