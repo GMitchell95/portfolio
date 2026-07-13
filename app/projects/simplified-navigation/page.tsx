@@ -884,7 +884,7 @@ export default function SimplifiedNavigationPage() {
               ], startIndex)}
             />
           </div>
-          <p style={{ marginTop: -12, fontSize: 'var(--font-size-small)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-muted)', lineHeight: 'var(--line-height-body)', textAlign: 'center' }}>Drag the divider to reveal the design before the late feedback.</p>
+          <p style={{ marginTop: -12, fontSize: 'var(--font-size-small)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-muted)', lineHeight: 'var(--line-height-body)', textAlign: 'center' }}>Drag the divider up to reveal the design before the late feedback.</p>
 
           <div style={{ backgroundImage: 'repeating-linear-gradient(to right, rgba(0,0,0,0.06) 0, rgba(0,0,0,0.06) 8px, transparent 8px, transparent 14px)', height: 1, width: '100%', margin: '40px 0' }} />
 
