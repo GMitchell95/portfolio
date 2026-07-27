@@ -787,6 +787,15 @@ export default function SimplifiedNavigationPage() {
             </div>
             <p style={{ marginTop: 8, fontSize: 'var(--font-size-small)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-muted)', textAlign: 'center' }}>The original side navigation.</p>
           </div>
+          <div style={{ marginTop: 24 }}>
+            <h3 className="mb-2" style={{ fontSize: 'var(--font-size-h3)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)' }}>Research context</h3>
+            <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>
+              This project was part of a full rewrite of Keelvar&#39;s core sourcing app. I paired with the principal PM, who led the customer research. 15 customer interviews took place with key customers to define requirements for the product rewrite. Given the scale of the undertaking and the technical complexity involved, the interviews focused primarily on validating how the new product could function, exploring customer use cases, and securing buy-in from major customers rather than UI specifics.
+            </p>
+            <p style={{ marginTop: 12, fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>
+              For the navigation specifically, over a decade of feedback from our customers and our customer success and professional services teams also informed what needed to change, including a clear and consistent signal to simplify the navigation.
+            </p>
+          </div>
         </section>
 
         {/* EXPLORATIONS */}
