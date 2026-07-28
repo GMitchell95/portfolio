@@ -100,7 +100,7 @@
 }
 
 .formHeader {
-  padding: 20px 24px 16px;
+  padding: 16px 24px;
   border-bottom: 1px solid #E4E4E7;
 }
 
@@ -112,7 +112,7 @@
 }
 
 .formBody {
-  padding: 20px 24px;
+  padding: 16px 24px;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -181,11 +181,11 @@
 /* ── EDIT SECTION ───────────────────────────────────── */
 .editSection {
   background: #FAFAFA;
-  padding: 20px 24px 20px;
+  padding: 20px 16px 20px 24px;
   display: flex;
   flex-direction: column;
   gap: 16px;
-  margin: 0 -24px -20px;
+  margin: 0 -24px -16px;
 }
 .editSectionLabel {
   font-size: 13px;
@@ -304,6 +304,7 @@
   align-items: center;
   gap: 4px;
   position: relative;
+  margin-left: -4px;
 }
 
 .dropLine {
@@ -326,6 +327,9 @@
   user-select: none;
   display: flex;
   align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
 }
 .dragHandle:active { cursor: grabbing; }
 
@@ -335,7 +339,7 @@
   border-radius: 8px;
   height: 36px;
   padding: 0 13px;
-  margin-left: 8px;
+  margin-left: 4px;
   font-family: 'Inter', sans-serif;
   font-size: 13.5px;
   color: #27272A;
@@ -396,7 +400,7 @@
 
 /* ── FORM FOOTER ────────────────────────────────────── */
 .formFooter {
-  padding: 14px 24px;
+  padding: 16px 24px;
   border-top: 1px solid #E4E4E7;
   display: flex;
   align-items: center;
@@ -449,7 +453,7 @@
   display: none;
   transition: opacity 0.18s ease-out;
 }
-.cardBody { padding: 22px 24px 18px; }
+.cardBody { padding: 20px 24px; }
 .cardNumber {
   font-size: 13.5px;
   font-weight: 600;
@@ -476,7 +480,7 @@
 }
 .cardDescription.visible { display: block; }
 .cardQuestion:has(+ .cardDescription.visible) { margin-bottom: 0; }
-.cardOptions { display: flex; flex-direction: column; gap: 8px; margin-bottom: 4px; }
+.cardOptions { display: flex; flex-direction: column; gap: 8px; }
 .cardOption { display: flex; align-items: center; gap: 10px; font-size: 13.5px; color: #3F3F46; }
 
 .radioCircle {
@@ -500,7 +504,7 @@
 }
 
 .cardFooter {
-  padding: 12px 24px 14px;
+  padding: 16px 24px;
   border-top: 1px solid #E4E4E7;
   display: flex;
   align-items: center;
@@ -525,5 +529,5 @@
 .cardAction i { font-size: 12px; }
 .cardAction:active { transform: scale(0.97); }
 .cardAction:hover { background: #F4F4F5; color: #3F3F46; }
-.cardAction.editAction { border-color: #4443B4; color: #4443B4; padding: 8px 16px; }
-.cardAction.editAction:hover { background: #EBEBF8; color: #3332A0; }
+.cardAction.editAction { border-color: #D4D4D8; color: #3F3F46; padding: 8px 16px; }
+.cardAction.editAction:hover { background: #F4F4F5; color: #18181B; border-color: #D4D4D8; }
