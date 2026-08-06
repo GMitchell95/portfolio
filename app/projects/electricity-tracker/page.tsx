@@ -328,10 +328,15 @@ export default function ElectricityTrackerPage() {
         setHeaderVisible(heroTitleRef.current.getBoundingClientRect().bottom < 0);
       }
       if (window.innerWidth < 700 && headerRef.current) {
-        const diff = window.scrollY - lastScrollYRef.current;
-        if (Math.abs(diff) > 10) {
-          headerRef.current.classList.toggle('cs-header--scroll-hidden', diff > 0);
+        if (window.scrollY < 100) {
+          headerRef.current.classList.remove('cs-header--scroll-hidden');
           lastScrollYRef.current = window.scrollY;
+        } else {
+          const diff = window.scrollY - lastScrollYRef.current;
+          if (Math.abs(diff) > 10) {
+            headerRef.current.classList.toggle('cs-header--scroll-hidden', diff > 0);
+            lastScrollYRef.current = window.scrollY;
+          }
         }
       }
       if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 10) {
