@@ -413,8 +413,8 @@ function BeforeAfterSlider({
         : rawToElastic(((e.clientY - rect.top) / rect.height) * 100));
     };
     const onTouchMove = (e: TouchEvent) => {
-      e.preventDefault();
       if (!isDragging.current || !containerRef.current) return;
+      e.preventDefault();
       const rect = containerRef.current.getBoundingClientRect();
       setDisplayPos(isHorizontal
         ? rawToElastic(((e.touches[0].clientX - rect.left) / rect.width) * 100)
