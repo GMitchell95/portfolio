@@ -6,6 +6,7 @@ import Image from 'next/image'
 import FormBuilderTile from '@/components/tiles/FormBuilderTile'
 import MegaMenuTile from '@/components/tiles/MegaMenuTile'
 import VinylTile from '@/components/tiles/VinylTile'
+import TextEditorTile from '@/components/tiles/TextEditorTile'
 import Button from '@/components/ui/Button'
 import { SlotText } from 'slot-text/react'
 import 'slot-text/style.css'
@@ -215,6 +216,10 @@ export default function Home() {
             </Link>
           </div>
           <MegaMenuTile />
+
+          <div style={{ marginTop: 32 }}>
+            <TextEditorTile />
+          </div>
 
           <div style={{ marginTop: 32 }}>
             <FormBuilderTile />
