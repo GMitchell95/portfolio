@@ -202,6 +202,23 @@ const GLOBAL_STYLES = `
     pointer-events: none;
     backdrop-filter: blur(4px);
   }
+
+  /* Highlighter effect on scenario statement */
+  .highlight-scenario {
+    background: linear-gradient(
+      104deg,
+      transparent 0%,
+      rgba(245, 253, 216, 0.6) 3%,
+      rgba(245, 253, 216, 1) 6%,
+      rgba(245, 253, 216, 0.9) 90%,
+      rgba(245, 253, 216, 0.3) 95%,
+      transparent 100%
+    );
+    border-radius: 4px;
+    padding: 1px 3px;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
 `;
 
 // ── Sections ─────────────────────────────────────────────────────────────────
@@ -549,7 +566,7 @@ export default function ReedsyDesignAssignmentPage() {
               <>
                 <h3 style={{ fontSize: 'var(--font-size-h3)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 8 }}>Selected scenario</h3>
                 <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', marginBottom: 8 }}>
-                  Easily view character relationships and interactions from selected text.
+                  <mark className="highlight-scenario">Easily view character relationships and interactions from selected text.</mark>
                 </p>
                 <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', marginBottom: 40 }}>
                   Tracking character relationships manually across a long manuscript must be tedious. By embedding AI actions directly into the toolbar, appearing only when text is selected, writers can access the AI actions without breaking their flow while keeping the UI clean and reducing cognitive load.
