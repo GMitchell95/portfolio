@@ -569,7 +569,7 @@ export default function ReedsyDesignAssignmentPage() {
                   <mark className="highlight-scenario">Easily view character relationships and interactions from selected text.</mark>
                 </p>
                 <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', marginBottom: 40 }}>
-                  Tracking character relationships manually across a long manuscript must be tedious. By embedding AI actions directly into the toolbar, appearing only when text is selected, writers can access the AI actions without breaking their flow while keeping the UI clean and reducing cognitive load.
+                  Tracking character relationships manually across a long manuscript must be tedious. By embedding this into the toolbar, appearing only when text is selected, writers can view a character&apos;s relationships and interaction history without breaking their flow, all while keeping the UI clean and reducing cognitive load.
                 </p>
                 <h3 style={{ fontSize: 'var(--font-size-h3)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 8 }}>Initial explorations</h3>
                 <div style={{ marginBottom: 40 }}>
