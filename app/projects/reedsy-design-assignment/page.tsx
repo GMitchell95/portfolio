@@ -685,6 +685,13 @@ export default function ReedsyDesignAssignmentPage() {
                     </li>
                   </ul>
                 </li>
+                <li>
+                  In person feedback sessions
+                  <ul style={{ margin: '8px 0 0', paddingLeft: 20, listStyleType: 'circle', display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    <li>Focus groups - Set up group calls with users. Could be based on active and non-active users</li>
+                    <li>1-1 interviews - Check in with customers to gain insights or feedback on why they&apos;re not using the feature</li>
+                  </ul>
+                </li>
               </ul>
               </>
             )}
