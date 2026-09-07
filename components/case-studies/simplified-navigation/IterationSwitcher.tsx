@@ -10,10 +10,12 @@ export default function IterationSwitcher({
   slides,
   onOpenLightbox,
   marginTop = 40,
+  aspectRatio,
 }: {
   slides: Slide[];
   onOpenLightbox: (slides: Slide[], index: number, stateIndices?: Record<number, number>) => void;
   marginTop?: number;
+  aspectRatio?: string;
 }) {
   const [current, setCurrent] = useState(0);
   const [displayTitle, setDisplayTitle] = useState(slides[0].title);
@@ -185,6 +187,7 @@ export default function IterationSwitcher({
               <ClickableImage
                 label={slide.label}
                 src={activeSrc}
+                aspectRatio={aspectRatio}
                 onClick={() => onOpenLightbox(slides, current, stateIndices)}
               />
               {hasStates && (
