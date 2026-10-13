@@ -697,8 +697,9 @@ export default function MessagesPage() {
               <ChevronLeft />
               Previous
             </a>
-            <button
-              disabled
+            <a
+              href="/projects/electricity-tracker"
+              className="cs-btn-outline"
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: 8,
                 height: 36, padding: '0 16px', borderRadius: 8,
@@ -706,12 +707,14 @@ export default function MessagesPage() {
                 background: 'var(--color-white)', color: 'var(--color-primary)',
                 border: '1px solid var(--color-border)',
                 boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
-                opacity: 0.3, cursor: 'default',
+                cursor: 'pointer',
+                transition: 'all 0.15s ease-out',
+                textDecoration: 'none',
               }}
             >
               Next project
               <ChevronRight />
-            </button>
+            </a>
           </div>
         </div>
 

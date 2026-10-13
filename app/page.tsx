@@ -134,29 +134,6 @@ export default function Home() {
           </h2>
           <div className="sw-grid">
 
-            {/* Electricity Tracker — portrait */}
-            <Link href="/projects/electricity-tracker" className="sw-tile">
-              <div className="sw-img-container sw-img-container--portrait bg-zinc-100">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/images/case-studies/electricity-tracker/hero.png"
-                  alt="Electricity tracker"
-                  className="sw-img"
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    objectPosition: 'top',
-                    borderRadius: '8px 8px 0 0',
-                  }}
-                />
-              </div>
-              <div style={{ paddingTop: 12, display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 16 }}>
-                <span className="text-zinc-800" style={{ fontSize: 'var(--font-size-small)', fontWeight: 'var(--font-weight-medium)' }}>Electricity tracker</span>
-                <span className="sw-year text-zinc-500" style={{ fontSize: 'var(--font-size-nav)', fontWeight: 'var(--font-weight-regular)', whiteSpace: 'nowrap' }}>2026</span>
-              </div>
-            </Link>
-
             {/* Simplified Navigation — landscape */}
             <Link href="/projects/simplified-navigation" className="sw-tile">
               <div className="sw-img-container bg-zinc-100">
@@ -190,6 +167,29 @@ export default function Home() {
               <div style={{ paddingTop: 12, display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 16 }}>
                 <span className="text-zinc-800" style={{ fontSize: 'var(--font-size-small)', fontWeight: 'var(--font-weight-medium)' }}>Messages</span>
                 <span className="sw-year text-zinc-500" style={{ fontSize: 'var(--font-size-nav)', fontWeight: 'var(--font-weight-regular)', whiteSpace: 'nowrap' }}>2025</span>
+              </div>
+            </Link>
+
+            {/* Electricity Tracker — portrait */}
+            <Link href="/projects/electricity-tracker" className="sw-tile">
+              <div className="sw-img-container sw-img-container--portrait bg-zinc-100">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/images/case-studies/electricity-tracker/hero.png"
+                  alt="Electricity tracker"
+                  className="sw-img"
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    objectPosition: 'top',
+                    borderRadius: '8px 8px 0 0',
+                  }}
+                />
+              </div>
+              <div style={{ paddingTop: 12, display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 16 }}>
+                <span className="text-zinc-800" style={{ fontSize: 'var(--font-size-small)', fontWeight: 'var(--font-weight-medium)' }}>Electricity tracker</span>
+                <span className="sw-year text-zinc-500" style={{ fontSize: 'var(--font-size-nav)', fontWeight: 'var(--font-weight-regular)', whiteSpace: 'nowrap' }}>2026</span>
               </div>
             </Link>
 

@@ -1126,9 +1126,8 @@ export default function SimplifiedNavigationPage() {
         }}>
           <span style={{ fontSize: 'var(--font-size-small)', color: 'var(--color-muted)' }}>Glen Mitchell</span>
           <div style={{ display: 'flex', gap: 8 }}>
-            <a
-              href="/projects/electricity-tracker"
-              className="cs-btn-outline"
+            <button
+              disabled
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: 8,
                 height: 36, padding: '0 16px', borderRadius: 8,
@@ -1136,14 +1135,12 @@ export default function SimplifiedNavigationPage() {
                 background: 'var(--color-white)', color: 'var(--color-primary)',
                 border: '1px solid var(--color-border)',
                 boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
-                cursor: 'pointer',
-                transition: 'all 0.15s ease-out',
-                textDecoration: 'none',
+                opacity: 0.3, cursor: 'default',
               }}
             >
               <ChevronLeft />
               Previous
-            </a>
+            </button>
             <a
               href="/projects/messages"
               className="cs-btn-outline"

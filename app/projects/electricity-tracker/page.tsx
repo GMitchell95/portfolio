@@ -713,23 +713,8 @@ export default function ElectricityTrackerPage() {
         }}>
           <span style={{ fontSize: 'var(--font-size-small)', color: 'var(--color-muted)' }}>Glen Mitchell</span>
           <div style={{ display: 'flex', gap: 8 }}>
-            <button
-              disabled
-              style={{
-                display: 'inline-flex', alignItems: 'center', gap: 8,
-                height: 36, padding: '0 16px', borderRadius: 8,
-                fontSize: 'var(--font-size-small)', fontWeight: 'var(--font-weight-medium)',
-                background: 'var(--color-white)', color: 'var(--color-primary)',
-                border: '1px solid var(--color-border)',
-                boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
-                opacity: 0.3, cursor: 'default',
-              }}
-            >
-              <ChevronLeft />
-              Previous
-            </button>
             <a
-              href="/projects/simplified-navigation"
+              href="/projects/messages"
               className="cs-btn-outline"
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: 8,
@@ -743,9 +728,24 @@ export default function ElectricityTrackerPage() {
                 textDecoration: 'none',
               }}
             >
+              <ChevronLeft />
+              Previous
+            </a>
+            <button
+              disabled
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: 8,
+                height: 36, padding: '0 16px', borderRadius: 8,
+                fontSize: 'var(--font-size-small)', fontWeight: 'var(--font-weight-medium)',
+                background: 'var(--color-white)', color: 'var(--color-primary)',
+                border: '1px solid var(--color-border)',
+                boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
+                opacity: 0.3, cursor: 'default',
+              }}
+            >
               Next project
               <ChevronRight />
-            </a>
+            </button>
           </div>
         </div>
 
