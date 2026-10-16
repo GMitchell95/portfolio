@@ -757,7 +757,7 @@ export default function SimplifiedNavigationPage() {
           <div className="hero-stagger-el" style={{ display: 'flex', gap: 40, paddingTop: 40, borderTop: '1px solid rgba(228,228,231,0.5)', animationDelay: '280ms' }}>
             {[
               { label: 'Role', value: 'Product designer' },
-              { label: 'Timeline', value: '1-2 weeks' },
+              { label: 'Timeline', value: '2-4 weeks' },
               { label: 'Date', value: 'February 2026' },
             ].map(item => (
               <div key={item.label} style={{ flex: 1 }}>
