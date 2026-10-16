@@ -20,11 +20,11 @@ const ALBUMS: Album[] = [
   { track: 'No Reply',      artist: 'Tame Impala',    album: 'Deadbeat',          spotify: '5x0zW1JcdON7Zli2umGEJg', art: 'https://i.scdn.co/image/ab67616d00001e02208500450dcd0fd294d7bd3b', c1: '#f0a500', tilt: '-9deg', slideX: '0px' },
   { track: 'Quik Stop',     artist: 'J. Cole',        album: 'The Fall-Off',      spotify: '050ECC7Yu78pTJP8PrMo8o', art: 'https://i.scdn.co/image/ab67616d00001e0280788f104c780412212e97e3', c1: '#8b5e1a', tilt: '-3deg', slideX: '0px' },
   { track: 'Real Friends',  artist: 'Kanye West',     album: 'The Life of Pablo', spotify: '66Q3fAmSX5eHamgbKa9alP', art: 'https://i.scdn.co/image/ab67616d00001e022a7db835b912dc5014bd37f4', c1: '#d4a843', tilt:  '1deg', slideX: '0px' },
-  { track: 'Arabella',      artist: 'Arctic Monkeys', album: 'AM',                spotify: '7nzsY8vlnKdvGOEE0rjAXZ', art: 'https://i.scdn.co/image/ab67616d00001e024ae1c4c5c45aabe565499163', c1: '#cc0033', tilt:  '5deg', slideX: '0px' },
+  { track: 'Woman',         artist: 'SHEE',           album: 'Woman',             spotify: '0nVA2gw5AKuuJjiVKwJvhB', art: 'https://i.scdn.co/image/ab67616d00001e028b709deae661e452babfdc15', c1: '#3b87ac', tilt:  '5deg', slideX: '0px' },
   { track: 'Bug',           artist: 'Fontaines D.C.', album: 'Romance',           spotify: '0MXmiqd7zoXxv6Gqn9ahhQ', art: 'https://i.scdn.co/image/ab67616d00001e02f69e28716be1331924f25f2e', c1: '#c0408a', tilt:  '9deg', slideX: '0px' },
 ]
 
-const DEFAULT_INSTRUCTION = 'Click to open album, drag the vinyl to the player'
+const DEFAULT_INSTRUCTION = 'Click an album to open it. Drag the vinyl to the player.'
 
 function artProxy(url: string) {
   return `/api/album-art?url=${encodeURIComponent(url)}`
@@ -101,6 +101,7 @@ export default function VinylTile() {
 
   const platterRef = useRef<HTMLDivElement>(null)
   const audioRef   = useRef<HTMLAudioElement | null>(null)
+  const fadeRafRef = useRef<number | null>(null)
   const albumRefs  = useRef<(HTMLDivElement | null)[]>([])
   const imgElRefs     = useRef<(HTMLImageElement | null)[]>([])
   const dragPayload   = useRef<Album | null>(null)
@@ -113,6 +114,7 @@ export default function VinylTile() {
 
   useEffect(() => {
     return () => {
+      cancelFade()
       if (audioRef.current) {
         audioRef.current.pause()
         audioRef.current = null
@@ -269,7 +271,7 @@ export default function VinylTile() {
     setTimeout(() => {
       console.log('[vinyl] playState → ready')
       setPlayState('ready')
-      setInstruction('Click the tonearm to spin')
+      setInstruction('Click the tonearm to spin.')
     }, 320)
   }
 
@@ -278,9 +280,9 @@ export default function VinylTile() {
     console.log('[vinyl] dropNeedle — playState:', playState, 'platterAlbum:', platterAlbum?.track ?? null)
     if (playState !== 'ready' || !platterAlbum) return
     setPlayState('playing')
-    setInstruction('Now spinning — click ⏏ to eject')
+    setInstruction('Now spinning. Click ⏏ to eject.')
 
-    const trackId = platterAlbum.spotify
+    const { artist, track } = platterAlbum
 
     // Create the Audio node synchronously inside the click handler —
     // this preserves the user gesture context browsers require for autoplay
@@ -288,21 +290,57 @@ export default function VinylTile() {
     audio.volume = 1
     audioRef.current = audio
 
+    // Clip finished: lift the tonearm, keep the record on the platter
+    audio.addEventListener('ended', () => {
+      if (audioRef.current !== audio) return
+      cancelFade()
+      audio.volume = 1
+      audioRef.current = null
+      setPlayState('ready')
+      setInstruction('Click the tonearm to play again.')
+    })
+
     try {
-      const res = await fetch(`/api/spotify-preview?trackId=${trackId}`)
-      const { previewUrl } = await res.json() as { previewUrl: string | null }
+      const params = new URLSearchParams({ artist, track })
+      const res = await fetch(`/api/apple-preview?${params}`)
+      const { previewUrl } = await res.json() as { previewUrl?: string | null }
 
       // Guard: user may have ejected while the fetch was in flight
       if (audioRef.current !== audio) return
+      if (!previewUrl) throw new Error('No preview')
 
-      if (previewUrl) {
-        audio.src = previewUrl
-        await audio.play()
-      } else {
-        window.open(`https://open.spotify.com/track/${trackId}`, '_blank')
-      }
+      audio.src = previewUrl
+      await audio.play()
+      if (audioRef.current !== audio) return
+      startFade(audio)
     } catch {
-      window.open(`https://open.spotify.com/track/${trackId}`, '_blank')
+      if (audioRef.current !== audio) return
+      audio.pause()
+      audioRef.current = null
+      setPlayState('ready')
+      setInstruction('Preview unavailable.')
+    }
+  }
+
+  // ── Fade out over the last 2s of the clip ──────────────────
+  function startFade(audio: HTMLAudioElement) {
+    cancelFade()
+    function tick() {
+      if (audioRef.current !== audio || audio.paused || audio.ended) {
+        fadeRafRef.current = null
+        return
+      }
+      const remaining = audio.duration - audio.currentTime
+      audio.volume = Number.isFinite(remaining) && remaining <= 2 ? Math.max(0, remaining / 2) : 1
+      fadeRafRef.current = requestAnimationFrame(tick)
+    }
+    fadeRafRef.current = requestAnimationFrame(tick)
+  }
+
+  function cancelFade() {
+    if (fadeRafRef.current !== null) {
+      cancelAnimationFrame(fadeRafRef.current)
+      fadeRafRef.current = null
     }
   }
 
@@ -330,6 +368,7 @@ export default function VinylTile() {
   }
 
   function stopPlayback(silent: boolean) {
+    cancelFade()
     if (audioRef.current) {
       audioRef.current.pause()
       audioRef.current.src = ''
