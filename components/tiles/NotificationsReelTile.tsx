@@ -38,11 +38,6 @@ export default function NotificationsReelTile() {
 
   return (
     <div>
-      <div className="flex items-center" style={{ marginBottom: 8 }}>
-        <span style={{ fontSize: 'var(--font-size-label)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-muted)', letterSpacing: '0.02em' }}>
-          Notifications
-        </span>
-      </div>
       <video
         ref={videoRef}
         className="block w-full h-auto aspect-[2040/1218] rounded-2xl bg-zinc-100"
@@ -56,6 +51,9 @@ export default function NotificationsReelTile() {
         <source src="/videos/home/notifications-reel.mp4" type="video/mp4" />
         <source src="/videos/home/notifications-reel.webm" type="video/webm" />
       </video>
+      <div className="sw-caption">
+        <span className="sw-title">Notifications tray</span>
+      </div>
     </div>
   )
 }

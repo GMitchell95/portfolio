@@ -9,6 +9,7 @@ import VinylTile from '@/components/tiles/VinylTile'
 import TextEditorTile from '@/components/tiles/TextEditorTile'
 import NotificationsReelTile from '@/components/tiles/NotificationsReelTile'
 import Button from '@/components/ui/Button'
+import SectionHeading from '@/components/ui/SectionHeading'
 import { SlotText } from 'slot-text/react'
 import 'slot-text/style.css'
 
@@ -127,12 +128,9 @@ export default function Home() {
         <section
           id="projects"
           ref={sectionRef}
-          style={{ padding: '112px 0 0', scrollMarginTop: -36 }}
+          className="hp-section"
         >
-          <h2 style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 24 }}>
-            <span style={{ fontSize: 'var(--font-size-h3)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-heading)' }}>Projects</span>
-            <div style={{ flex: 1, height: 1, backgroundColor: 'rgba(0,0,0,0.06)' }} />
-          </h2>
+          <SectionHeading>Projects</SectionHeading>
           <div className="sw-grid">
 
             {/* Simplified Navigation — landscape */}
@@ -147,8 +145,8 @@ export default function Home() {
                   style={{ width: '100%', height: 'auto' }}
                 />
               </div>
-              <div style={{ paddingTop: 12, display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 16 }}>
-                <span className="text-zinc-800" style={{ fontSize: 'var(--font-size-small)', fontWeight: 'var(--font-weight-medium)' }}>Simplified navigation</span>
+              <div className="sw-caption">
+                <span className="sw-title">Simplified navigation</span>
                 <span className="sw-year text-zinc-500" style={{ fontSize: 'var(--font-size-nav)', fontWeight: 'var(--font-weight-regular)', whiteSpace: 'nowrap' }}>2026</span>
               </div>
             </Link>
@@ -165,8 +163,8 @@ export default function Home() {
                   style={{ width: '100%', height: 'auto' }}
                 />
               </div>
-              <div style={{ paddingTop: 12, display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 16 }}>
-                <span className="text-zinc-800" style={{ fontSize: 'var(--font-size-small)', fontWeight: 'var(--font-weight-medium)' }}>Messages</span>
+              <div className="sw-caption">
+                <span className="sw-title">Messages</span>
                 <span className="sw-year text-zinc-500" style={{ fontSize: 'var(--font-size-nav)', fontWeight: 'var(--font-weight-regular)', whiteSpace: 'nowrap' }}>2025</span>
               </div>
             </Link>
@@ -188,29 +186,28 @@ export default function Home() {
                   }}
                 />
               </div>
-              <div style={{ paddingTop: 12, display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 16 }}>
-                <span className="text-zinc-800" style={{ fontSize: 'var(--font-size-small)', fontWeight: 'var(--font-weight-medium)' }}>Electricity tracker</span>
+              <div className="sw-caption">
+                <span className="sw-title">Electricity tracker</span>
                 <span className="sw-year text-zinc-500" style={{ fontSize: 'var(--font-size-nav)', fontWeight: 'var(--font-weight-regular)', whiteSpace: 'nowrap' }}>2026</span>
               </div>
             </Link>
 
-            {/* Notifications reel, full width */}
-            <div style={{ gridColumn: '1 / -1' }}>
-              <NotificationsReelTile />
-            </div>
-
           </div>
+        </section>
+
+        {/* Interface Details Section */}
+        <section className="hp-section">
+          <SectionHeading>Interface details</SectionHeading>
+          <NotificationsReelTile />
         </section>
 
         {/* Work Section */}
         <section
           id="interactive-playground"
-          style={{ padding: '112px 0', scrollMarginTop: -36 }}
+          className="hp-section"
+          style={{ paddingBottom: 112 }}
         >
-          <h2 className="mb-6" style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-            <span style={{ fontSize: 'var(--font-size-h3)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-heading)' }}>Interactive <SlotText text={WORDS[wordIndex]} /></span>
-            <div style={{ flex: 1, height: 1, backgroundColor: 'rgba(0,0,0,0.06)' }} />
-          </h2>
+          <SectionHeading>Interactive <SlotText text={WORDS[wordIndex]} /></SectionHeading>
           <div className="flex items-center justify-between" style={{ marginTop: 32, marginBottom: 12 }}>
             <span style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-heading)' }}>
               Simplified navigation
