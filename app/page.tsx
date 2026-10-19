@@ -7,6 +7,7 @@ import FormBuilderTile from '@/components/tiles/FormBuilderTile'
 import MegaMenuTile from '@/components/tiles/MegaMenuTile'
 import VinylTile from '@/components/tiles/VinylTile'
 import TextEditorTile from '@/components/tiles/TextEditorTile'
+import NotificationsReelTile from '@/components/tiles/NotificationsReelTile'
 import Button from '@/components/ui/Button'
 import { SlotText } from 'slot-text/react'
 import 'slot-text/style.css'
@@ -192,6 +193,11 @@ export default function Home() {
                 <span className="sw-year text-zinc-500" style={{ fontSize: 'var(--font-size-nav)', fontWeight: 'var(--font-weight-regular)', whiteSpace: 'nowrap' }}>2026</span>
               </div>
             </Link>
+
+            {/* Notifications reel, full width */}
+            <div style={{ gridColumn: '1 / -1' }}>
+              <NotificationsReelTile />
+            </div>
 
           </div>
         </section>
