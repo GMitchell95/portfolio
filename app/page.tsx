@@ -90,7 +90,7 @@ export default function Home() {
       </nav>
 
       {/* Page content */}
-      <div className="site-container" style={CONTAINER}>
+      <div className="site-container hp-main" style={CONTAINER}>
         {/* Hero Section */}
         <section ref={introRef}>
           <div className="hp-intro" style={{ maxWidth: 510, padding: '168px 0 0' }}>
@@ -128,7 +128,7 @@ export default function Home() {
         <section
           id="projects"
           ref={sectionRef}
-          className="hp-section"
+          className="hp-section hp-section--first"
         >
           <SectionHeading>Projects</SectionHeading>
           <div className="sw-grid">
@@ -205,7 +205,6 @@ export default function Home() {
         <section
           id="interactive-playground"
           className="hp-section"
-          style={{ paddingBottom: 112 }}
         >
           <SectionHeading>Interactive <SlotText text={WORDS[wordIndex]} /></SectionHeading>
           <div className="flex items-center justify-between" style={{ marginTop: 32, marginBottom: 12 }}>

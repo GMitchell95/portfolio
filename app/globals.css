@@ -372,6 +372,24 @@
   scroll-margin-top: -36px;
 }
 
+/* Bottom spacing lives on the page container so it doesn't depend on which section is last */
+.hp-main {
+  padding-bottom: 112px;
+}
+
+/* Gaps between work sections tighten on mobile; the hero gap stays at 112px */
+@media (max-width: 699px) {
+  .hp-main {
+    padding-bottom: 64px;
+  }
+  .hp-section {
+    padding-top: 64px;
+  }
+  .hp-section--first {
+    padding-top: 112px;
+  }
+}
+
 /* ── Selected work grid ──────────────────────────────────────────────────── */
 
 .sw-grid {
@@ -395,9 +413,6 @@
   }
   .hp-intro {
     padding-top: 112px !important;
-  }
-  #projects {
-    padding-bottom: 16px !important;
   }
 }
 
