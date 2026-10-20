@@ -5,7 +5,8 @@ import { useEffect, useRef, useState } from 'react'
 type VideoTileProps = {
   /** Base path without extension, e.g. /videos/home/overview-reel */
   src: string
-  caption: string
+  /** Not shown on screen; used for the pause/play button labels */
+  name: string
   label: string
 }
 
@@ -20,13 +21,13 @@ const PAUSE_BUTTON_CLASS = [
   'focus-visible:outline-none focus-visible:shadow-[0_0_0_3px_rgba(68,67,180,0.35)]',
 ].join(' ')
 
-function VideoPauseButton({ paused, caption, onToggle }: { paused: boolean; caption: string; onToggle: () => void }) {
+function VideoPauseButton({ paused, name, onToggle }: { paused: boolean; name: string; onToggle: () => void }) {
   return (
     <button
       type="button"
       className={PAUSE_BUTTON_CLASS}
       aria-pressed={paused}
-      aria-label={`${paused ? 'Play' : 'Pause'} ${caption}`}
+      aria-label={`${paused ? 'Play' : 'Pause'} ${name}`}
       onClick={onToggle}
     >
       <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true">
@@ -43,7 +44,7 @@ function VideoPauseButton({ paused, caption, onToggle }: { paused: boolean; capt
   )
 }
 
-export default function VideoTile({ src, caption, label }: VideoTileProps) {
+export default function VideoTile({ src, name, label }: VideoTileProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const inViewRef = useRef(false)
   // The viewer's choice wins: a paused video stays paused through scrolling
@@ -96,26 +97,21 @@ export default function VideoTile({ src, caption, label }: VideoTileProps) {
   }, [])
 
   return (
-    <div>
-      <div className="relative">
-        <video
-          ref={videoRef}
-          className="block w-full h-auto aspect-[2040/1218] rounded-2xl bg-zinc-100"
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          poster={`${src}-poster.jpg`}
-          aria-label={label}
-        >
-          <source src={`${src}.mp4`} type="video/mp4" />
-          <source src={`${src}.webm`} type="video/webm" />
-        </video>
-        <VideoPauseButton paused={userPaused} caption={caption} onToggle={() => setPaused(!userPaused)} />
-      </div>
-      <div className="sw-caption">
-        <span className="sw-title">{caption}</span>
-      </div>
+    <div className="relative">
+      <video
+        ref={videoRef}
+        className="block w-full h-auto aspect-[2040/1218] rounded-2xl bg-zinc-100"
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        poster={`${src}-poster.jpg`}
+        aria-label={label}
+      >
+        <source src={`${src}.mp4`} type="video/mp4" />
+        <source src={`${src}.webm`} type="video/webm" />
+      </video>
+      <VideoPauseButton paused={userPaused} name={name} onToggle={() => setPaused(!userPaused)} />
     </div>
   )
 }

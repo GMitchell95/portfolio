@@ -201,12 +201,12 @@ export default function Home() {
           <div className="vt-stack">
             <VideoTile
               src="/videos/home/overview-reel"
-              caption="UI reel"
+              name="UI reel"
               label="A reel of interface work: an event overview, scheduling, document settings, Kai generating RFI questions, a supplier list, a mobile gym app flow and a bid sheet table"
             />
             <VideoTile
               src="/videos/home/notifications-reel"
-              caption="Notifications tray"
+              name="Notifications tray"
               label="Notifications tray: a badge counts up, the tray opens, and one notification is marked as read"
             />
           </div>
