@@ -395,15 +395,19 @@
 .sw-grid {
   display: grid;
   grid-template-columns: 1.55fr 1.55fr 1fr;
-  gap: 24px;
 }
+/* Video tiles stack with the same gap as the selected work grid */
+.vt-stack {
+  display: grid;
+}
+.sw-grid, .vt-stack { gap: 24px; }
 @media (max-width: 899px) and (min-width: 700px) {
-  .sw-grid { gap: 16px; }
+  .sw-grid, .vt-stack { gap: 16px; }
 }
 @media (max-width: 699px) {
+  .sw-grid, .vt-stack { gap: 32px; }
   .sw-grid {
     grid-template-columns: 1fr;
-    gap: 32px;
   }
   .hp-nav {
     display: none !important;

@@ -7,7 +7,7 @@ import FormBuilderTile from '@/components/tiles/FormBuilderTile'
 import MegaMenuTile from '@/components/tiles/MegaMenuTile'
 import VinylTile from '@/components/tiles/VinylTile'
 import TextEditorTile from '@/components/tiles/TextEditorTile'
-import NotificationsReelTile from '@/components/tiles/NotificationsReelTile'
+import VideoTile from '@/components/tiles/VideoTile'
 import Button from '@/components/ui/Button'
 import SectionHeading from '@/components/ui/SectionHeading'
 import { SlotText } from 'slot-text/react'
@@ -198,7 +198,18 @@ export default function Home() {
         {/* Interface Details Section */}
         <section className="hp-section">
           <SectionHeading>Interface details</SectionHeading>
-          <NotificationsReelTile />
+          <div className="vt-stack">
+            <VideoTile
+              src="/videos/home/overview-reel"
+              caption="UI reel"
+              label="A reel of interface work: an event overview, scheduling, document settings, Kai generating RFI questions, a supplier list, a mobile gym app flow and a bid sheet table"
+            />
+            <VideoTile
+              src="/videos/home/notifications-reel"
+              caption="Notifications tray"
+              label="Notifications tray: a badge counts up, the tray opens, and one notification is marked as read"
+            />
+          </div>
         </section>
 
         {/* Work Section */}

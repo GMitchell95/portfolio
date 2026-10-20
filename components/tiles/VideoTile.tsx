@@ -2,7 +2,14 @@
 
 import { useEffect, useRef } from 'react'
 
-export default function NotificationsReelTile() {
+type VideoTileProps = {
+  /** Base path without extension, e.g. /videos/home/overview-reel */
+  src: string
+  caption: string
+  label: string
+}
+
+export default function VideoTile({ src, caption, label }: VideoTileProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
 
   useEffect(() => {
@@ -45,14 +52,14 @@ export default function NotificationsReelTile() {
         loop
         playsInline
         preload="metadata"
-        poster="/videos/home/notifications-reel-poster.jpg"
-        aria-label="Notifications tray: a badge counts up, the tray opens, and one notification is marked as read"
+        poster={`${src}-poster.jpg`}
+        aria-label={label}
       >
-        <source src="/videos/home/notifications-reel.mp4" type="video/mp4" />
-        <source src="/videos/home/notifications-reel.webm" type="video/webm" />
+        <source src={`${src}.mp4`} type="video/mp4" />
+        <source src={`${src}.webm`} type="video/webm" />
       </video>
       <div className="sw-caption">
-        <span className="sw-title">Notifications tray</span>
+        <span className="sw-title">{caption}</span>
       </div>
     </div>
   )
