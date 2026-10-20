@@ -10,6 +10,9 @@ type VideoTileProps = {
   label: string
 }
 
+// Fraction of the video that must be on screen for it to play
+const VISIBLE_THRESHOLD = 0.6
+
 const PAUSE_BUTTON_CLASS = [
   'absolute right-4 bottom-4 flex items-center justify-center',
   'w-8 h-8 max-[699px]:w-10 max-[699px]:h-10 rounded-full',
@@ -81,10 +84,11 @@ export default function VideoTile({ src, name, label }: VideoTileProps) {
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        inViewRef.current = entry.isIntersecting
+        // isIntersecting stays true below the threshold, so compare the ratio
+        inViewRef.current = entry.intersectionRatio >= VISIBLE_THRESHOLD
         sync()
       },
-      { threshold: 0.25 }
+      { threshold: VISIBLE_THRESHOLD }
     )
     observer.observe(video)
     motionQuery.addEventListener('change', onMotionChange)
