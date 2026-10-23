@@ -200,9 +200,9 @@ export default function Home() {
           <SectionHeading>Interface details</SectionHeading>
           <div className="vt-stack">
             <VideoTile
-              src="/videos/home/overview-reel"
+              src="/videos/home/overview-reel-v2"
               name="UI reel"
-              label="A reel of interface work: an event overview, scheduling, document settings, Kai generating RFI questions, a supplier list, a mobile gym app flow and a bid sheet table"
+              label="A reel of interface work: an event overview, a sourcing dashboard, scheduling, document settings, Kai generating RFI questions, a dark landing page with an animated timeline, a supplier list, a mobile gym app flow and a bid sheet table"
             />
             <VideoTile
               src="/videos/home/notifications-reel"
