@@ -205,7 +205,7 @@ export default function Home() {
               label="A reel of interface work: an event overview, a sourcing dashboard, scheduling, document settings, Kai generating RFI questions, a dark landing page with an animated timeline, a supplier list, a mobile gym app flow and a bid sheet table"
             />
             <VideoTile
-              src="/videos/home/notifications-reel"
+              src="/videos/home/notifications-reel-v2"
               name="Notifications tray"
               label="Notifications tray: a badge counts up, the tray opens, and one notification is marked as read"
             />
