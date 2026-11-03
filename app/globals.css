@@ -29,6 +29,10 @@
   /* Line heights */
   --line-height-heading: 1.3;
   --line-height-body: 1.5;
+
+  /* Case study stat tiles */
+  --font-size-stat: 20px;
+  --line-height-stat: 24px;
 }
 
 @tailwind base;

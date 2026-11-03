@@ -339,7 +339,7 @@ const REFINED_SLIDES: Slide[] = [
     body: 'Categories left, sub-items right, with a featured slot at the bottom. Good hierarchy but required editorial maintenance to keep the featured area relevant.',
   },
   {
-    title: 'Three-column grid',
+    title: '3-column grid',
     label: 'Concept B',
     body: 'All top-level categories shown simultaneously with sub-items visible beneath each. More content at a glance but harder to establish clear visual hierarchy between levels.',
   },
@@ -562,6 +562,37 @@ function BeforeAfterSlider({
   );
 }
 
+// ── Stat tiles ───────────────────────────────────────────────────────────────
+
+function ArrowIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="text-zinc-400" aria-hidden="true">
+      <path d="M16.15,13H5q-0.42,0-0.71-0.29Q4,12.43 4,12t0.29-0.71T5,11H16.15L13.3,8.15q-0.3-0.3-0.29-0.7t0.29-0.7q0.3-0.3 0.71-0.31t0.71,0.29L19.3,11.3q0.15,0.15 0.21,0.33T19.58,12t-0.06,0.38T19.3,12.7l-4.57,4.57q-0.3,0.3-0.71,0.29T13.3,17.25q-0.28-0.3-0.29-0.7t0.29-0.7L16.15,13Z" />
+    </svg>
+  );
+}
+
+function StatTile({ value, label }: { value: React.ReactNode; label: string }) {
+  return (
+    <li className="rounded-2xl p-4 bg-[var(--color-surface-subtle)] border border-black/[0.04]">
+      <div className="tabular-nums tracking-[-0.02em]" style={{ fontSize: 'var(--font-size-stat)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-primary)', lineHeight: 'var(--line-height-stat)' }}>
+        {value}
+      </div>
+      <div className="mt-1" style={{ fontSize: 'var(--font-size-nav)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-muted)', lineHeight: 'var(--line-height-body)' }}>
+        {label}
+      </div>
+    </li>
+  );
+}
+
+function StatTiles({ children, className }: { children: React.ReactNode; className?: string }) {
+  return (
+    <ul aria-label="Outcomes" className={`grid grid-cols-1 min-[769px]:grid-cols-3 gap-3 ${className ?? ''}`}>
+      {children}
+    </ul>
+  );
+}
+
 // ── Page ──────────────────────────────────────────────────────────────────────
 
 export default function SimplifiedNavigationPage() {
@@ -751,7 +782,7 @@ export default function SimplifiedNavigationPage() {
               Simplified navigation
             </h1>
             <p style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', marginBottom: 40 }}>
-              Redesigning the navigation for a complex procurement sourcing platform, condensing a 7-step flow without losing access to any of the core functionality.
+              Redesigning the navigation for a complex procurement sourcing platform, condensing a 7-step flow into 3 and bringing every task needed to publish onto 1 overview page.
             </p>
           </div>
           <div className="hero-stagger-el" style={{ display: 'flex', gap: 40, paddingTop: 40, borderTop: '1px solid rgba(228,228,231,0.5)', animationDelay: '280ms' }}>
@@ -772,7 +803,7 @@ export default function SimplifiedNavigationPage() {
         <section id="section-brief" className="hero-stagger-el" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '39px', animationDelay: '420ms' }}>
           <h2 style={{ fontSize: 'var(--font-size-h2)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 12 }}>The brief</h2>
           <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>
-            The navigation of Keelvar&#39;s sourcing v1 platform overwhelmed users. The existing side navigation used an accordion to reveal pages across seven different steps. When users created a new event, they lacked a clear starting point and direction for what to do next. Being part of the team working on sourcing v2, which aimed to reimagine the Sourcing Optimizer product, we had 2 tasks:
+            The navigation of Keelvar&#39;s sourcing v1 platform overwhelmed users. The existing side navigation used an accordion to reveal pages across 7 different steps. When users created a new event, they lacked a clear starting point and direction for what to do next. Being part of the team working on sourcing v2, which aimed to reimagine the Sourcing Optimizer product, we had 2 tasks:
           </p>
           <ol id="brief-task-list" style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', listStyleType: 'decimal', paddingLeft: '1.5rem', marginTop: 8 }}>
             <li><mark id="brief-mark-1" className="highlight-brief">Simplify the navigation</mark></li>
@@ -819,7 +850,7 @@ export default function SimplifiedNavigationPage() {
               loading="eager"
               onClick={() => openSingleImage(
                 'Current state analysis',
-                'The original seven-step nav broken down by event stage and steps, showing where consolidation was possible.',
+                'The original 7-step nav broken down by event stage and steps, showing where consolidation was possible.',
                 'Page break up diagram',
                 '/images/case-studies/simplified-navigation/Nav-breakdown.png',
                 3520, 3092,
@@ -909,7 +940,7 @@ export default function SimplifiedNavigationPage() {
           </div>
           <div style={{ marginTop: 40 }}>
             <h3 className="mb-2" style={{ fontSize: 'var(--font-size-h3)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)' }}>New navigation flow</h3>
-            <p style={{ marginBottom: 8, fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>The new design gives users three different paths to reach the same page, each just as fast or faster than before. The paths range from simple to advanced, so users can navigate in the way that best matches their familiarity with the tool.</p>
+            <p style={{ marginBottom: 8, fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>The new design gives users 3 different paths to reach the same page, each just as fast or faster than before. The paths range from simple to advanced, so users can navigate in the way that best matches their familiarity with the tool.</p>
             <div style={{ marginBottom: 24, display: 'flex', alignItems: 'center', gap: 8, background: '#FAFAFA', border: '1px solid rgba(0, 0, 0, 0.05)', borderRadius: 8, padding: '8px 12px' }}>
               <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 -960 960 960" fill="currentColor" style={{ color: 'var(--color-muted)', flexShrink: 0 }}><path d="M440-280h80v-240h-80v240Zm68.5-331.5Q520-623 520-640t-11.5-28.5Q497-680 480-680t-28.5 11.5Q440-657 440-640t11.5 28.5Q463-600 480-600t28.5-11.5ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>
               <p style={{ margin: 0, fontSize: 'var(--font-size-small)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-muted)', lineHeight: 'var(--line-height-body)' }}>Some screens in the videos below contain wireframe placeholders.</p>
@@ -1016,12 +1047,25 @@ export default function SimplifiedNavigationPage() {
             A look back on the key outcomes, decisions, and constraints from the project.
           </p>
 
-          <div style={{ marginTop: 24, display: 'grid', gridTemplateColumns: '1fr', columnGap: 16, rowGap: 24, alignItems: 'start' }}>
+          <StatTiles className="mt-6">
+            <StatTile
+              value={
+                <span className="inline-flex items-center gap-1">
+                  7<ArrowIcon /><span className="sr-only">to</span>3
+                </span>
+              }
+              label="Navigation steps"
+            />
+            <StatTile value="1" label="Page showing all publish requirements" />
+            <StatTile value="+2" label="More ways to reach any page" />
+          </StatTiles>
+
+          <div style={{ marginTop: 32, display: 'grid', gridTemplateColumns: '1fr', columnGap: 16, rowGap: 24, alignItems: 'start' }}>
             {[
               {
                 icon: 'check' as const,
                 title: 'Simplified event flow',
-                body: 'We consolidated a complex event flow into 3 clear steps, giving new and less advanced users a much simpler path through the product.',
+                body: 'We consolidated a complex event flow from 7 steps into 3, giving new and less advanced users a much simpler path through the product.',
               },
               {
                 icon: 'check' as const,
