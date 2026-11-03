@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, { createContext, useContext, useEffect, useRef, useState, useCallback } from 'react';
 import Image from 'next/image';
 import type { Slide, LightboxState } from '@/components/case-studies/simplified-navigation/types';
 import { ChevronLeft, ChevronRight } from '@/components/case-studies/simplified-navigation/icons';
@@ -572,24 +572,233 @@ function ArrowIcon() {
   );
 }
 
-function StatTile({ value, label }: { value: React.ReactNode; label: string }) {
+function StatTile({ value, label, diagram }: { value: React.ReactNode; label: string; diagram?: React.ReactNode }) {
   return (
-    <li className="rounded-2xl p-4 bg-[var(--color-surface-subtle)] border border-black/[0.04]">
+    <li className="flex flex-col overflow-hidden rounded-2xl p-4 bg-[var(--color-surface-subtle)] border border-black/[0.04]">
       <div className="tabular-nums tracking-[-0.02em]" style={{ fontSize: 'var(--font-size-stat)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-primary)', lineHeight: 'var(--line-height-stat)' }}>
         {value}
       </div>
-      <div className="mt-1" style={{ fontSize: 'var(--font-size-nav)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-muted)', lineHeight: 'var(--line-height-body)' }}>
+      <div className={diagram ? 'mt-1 mb-6' : 'mt-1'} style={{ fontSize: 'var(--font-size-nav)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-muted)', lineHeight: 'var(--line-height-body)' }}>
         {label}
       </div>
+      {diagram && (
+        <div aria-hidden="true" className="relative mt-auto h-8">
+          {diagram}
+        </div>
+      )}
     </li>
   );
 }
 
 function StatTiles({ children, className }: { children: React.ReactNode; className?: string }) {
+  const ref = useRef<HTMLUListElement>(null);
+  const reveal = useRevealOnce(ref);
   return (
-    <ul aria-label="Outcomes" className={`grid grid-cols-1 min-[769px]:grid-cols-3 gap-3 ${className ?? ''}`}>
-      {children}
-    </ul>
+    <RevealContext value={reveal}>
+      <ul ref={ref} aria-label="Outcomes" className={`grid grid-cols-1 min-[769px]:grid-cols-3 gap-3 ${className ?? ''}`}>
+        {children}
+      </ul>
+    </RevealContext>
+  );
+}
+
+// ── Stat tile diagrams ───────────────────────────────────────────────────────
+
+// 'static' shows the final state with no motion (reduced motion, or no IntersectionObserver)
+type RevealState = 'waiting' | 'play' | 'static';
+
+const RevealContext = createContext<RevealState>('waiting');
+
+function useRevealOnce(ref: React.RefObject<HTMLElement | null>, threshold = 0.6): RevealState {
+  const [state, setState] = useState<RevealState>('waiting');
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reducedMotion || typeof IntersectionObserver === 'undefined') {
+      const t = setTimeout(() => setState('static'), 0);
+      return () => clearTimeout(t);
+    }
+
+    const observer = new IntersectionObserver(([entry]) => {
+      // Fallback for short screens: a stacked row may never be 60% visible at once
+      const rootHeight = entry.rootBounds?.height ?? window.innerHeight;
+      const fillsScreen = entry.intersectionRect.height >= rootHeight * threshold;
+      if (entry.intersectionRatio >= threshold || fillsScreen) {
+        setState('play');
+        observer.disconnect();
+      }
+    }, { threshold: Array.from({ length: 21 }, (_, i) => i / 20) });
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [ref, threshold]);
+
+  return state;
+}
+
+type DiagramPhase = 'hidden' | 'enter' | 'morph' | 'final';
+
+const DIAGRAM_MORPH_DELAY = 750;
+const EASE_STANDARD = 'cubic-bezier(0.4, 0, 0.2, 1)';
+
+function useDiagramPhase(enterDelay: number): DiagramPhase {
+  const reveal = useContext(RevealContext);
+  const [phase, setPhase] = useState<'hidden' | 'enter' | 'morph'>('hidden');
+
+  useEffect(() => {
+    if (reveal !== 'play') return;
+    const enter = setTimeout(() => setPhase('enter'), enterDelay);
+    const morph = setTimeout(() => setPhase('morph'), enterDelay + DIAGRAM_MORPH_DELAY);
+    return () => {
+      clearTimeout(enter);
+      clearTimeout(morph);
+    };
+  }, [reveal, enterDelay]);
+
+  return reveal === 'static' ? 'final' : phase;
+}
+
+// Shared styles for the rising rectangles in tiles 1 and 2
+function rectMotionStyle(phase: DiagramPhase, index: number): React.CSSProperties {
+  const morphed = phase === 'morph' || phase === 'final';
+  let transition = 'none';
+  if (phase === 'enter') {
+    const delay = index * 40;
+    transition = `transform 450ms ${EASE_STANDARD} ${delay}ms, opacity 450ms ease-out ${delay}ms`;
+  } else if (phase === 'morph') {
+    transition = ['left', 'width', 'height', 'bottom', 'border-radius']
+      .map(prop => `${prop} 600ms ${EASE_STANDARD}`)
+      .concat('background-color 600ms ease-out')
+      .join(', ');
+  }
+  return {
+    transform: phase === 'hidden' ? 'translateY(64px)' : 'none',
+    opacity: phase === 'hidden' ? 0 : 1,
+    backgroundColor: morphed ? 'var(--color-border-strong)' : 'var(--color-border)',
+    transition,
+  };
+}
+
+// Which of the 3 final rectangles each of the 7 starting rectangles merges into
+const STEPS_TARGETS = [0, 0, 1, 1, 1, 2, 2];
+
+function StepsDiagram({ enterDelay }: { enterDelay: number }) {
+  const phase = useDiagramPhase(enterDelay);
+  const morphed = phase === 'morph' || phase === 'final';
+  const startWidth = '((100% - 36px) / 7)';
+  const endWidth = '((100% - 12px) / 3)';
+
+  return (
+    <>
+      {STEPS_TARGETS.map((target, i) => (
+        <span
+          key={i}
+          className="absolute"
+          style={{
+            left: morphed ? `calc(${target} * (${endWidth} + 6px))` : `calc(${i} * (${startWidth} + 6px))`,
+            width: `calc${morphed ? endWidth : startWidth}`,
+            height: morphed ? 31 : 16,
+            bottom: morphed ? 0 : 7.5,
+            borderRadius: morphed ? 6 : 4,
+            ...rectMotionStyle(phase, i),
+          }}
+        />
+      ))}
+    </>
+  );
+}
+
+function PageDiagram({ enterDelay }: { enterDelay: number }) {
+  const phase = useDiagramPhase(enterDelay);
+  const morphed = phase === 'morph' || phase === 'final';
+  // Inside the outline: 1.5px border + 6px padding on each side, 6px between rectangles
+  const endWidth = '((100% - 39px) / 5)';
+
+  return (
+    <>
+      <span
+        className="absolute inset-x-0 bottom-0 h-[31px] rounded-md border-[1.5px] border-black/[0.11]"
+        style={{
+          opacity: morphed ? 1 : 0,
+          transform: morphed ? 'scale(1)' : 'scale(0.96)',
+          transition: phase === 'morph' ? `opacity 400ms ease-out 150ms, transform 500ms ${EASE_STANDARD} 150ms` : 'none',
+        }}
+      />
+      {Array.from({ length: 5 }, (_, i) => (
+        <span
+          key={i}
+          className="absolute h-4 rounded"
+          style={{
+            left: morphed ? `calc(7.5px + ${i} * (${endWidth} + 6px))` : `${i * 22}%`,
+            width: morphed ? `calc${endWidth}` : '12%',
+            bottom: 7.5,
+            ...rectMotionStyle(phase, i),
+          }}
+        />
+      ))}
+    </>
+  );
+}
+
+const ROUTE_BRANCHES = [
+  { d: 'M92,16 C120,16 124,2 152,2 L198,2', delay: 380 },
+  { d: 'M92,16 L198,16', delay: 420 },
+  { d: 'M92,16 C120,16 124,30 152,30 L198,30', delay: 460 },
+];
+
+function RoutesDiagram({ enterDelay }: { enterDelay: number }) {
+  const phase = useDiagramPhase(enterDelay);
+  const entered = phase !== 'hidden';
+  const morphed = phase === 'morph' || phase === 'final';
+  const animate = phase !== 'final';
+
+  const pathProps = {
+    fill: 'none',
+    strokeLinecap: 'round' as const,
+    vectorEffect: 'non-scaling-stroke',
+    pathLength: 1,
+    strokeDasharray: 1,
+  };
+
+  return (
+    <svg viewBox="0 0 200 32" preserveAspectRatio="none" className="absolute left-0 w-full h-8" style={{ top: 0.5 }}>
+      <path
+        {...pathProps}
+        d="M2,16 L198,16"
+        strokeWidth={2}
+        style={{
+          stroke: 'var(--color-border)',
+          strokeDashoffset: entered ? 0 : 1,
+          transition: animate ? `stroke-dashoffset 550ms ${EASE_STANDARD}` : 'none',
+        }}
+      />
+      <path
+        {...pathProps}
+        d="M2,16 L92,16"
+        strokeWidth={3}
+        style={{
+          stroke: 'var(--color-border-strong)',
+          strokeDashoffset: morphed ? 0 : 1,
+          transition: animate ? 'stroke-dashoffset 400ms cubic-bezier(0.4, 0, 1, 1)' : 'none',
+        }}
+      />
+      {ROUTE_BRANCHES.map(branch => (
+        <path
+          key={branch.d}
+          {...pathProps}
+          d={branch.d}
+          strokeWidth={3}
+          style={{
+            stroke: 'var(--color-border-strong)',
+            strokeDashoffset: morphed ? 0 : 1,
+            transition: animate ? `stroke-dashoffset 500ms cubic-bezier(0, 0, 0.2, 1) ${branch.delay}ms` : 'none',
+          }}
+        />
+      ))}
+    </svg>
   );
 }
 
@@ -1055,9 +1264,10 @@ export default function SimplifiedNavigationPage() {
                 </span>
               }
               label="Navigation steps"
+              diagram={<StepsDiagram enterDelay={60} />}
             />
-            <StatTile value="1" label="Page showing all publish requirements" />
-            <StatTile value="+2" label="More ways to reach any page" />
+            <StatTile value="1" label="Page showing all publish requirements" diagram={<PageDiagram enterDelay={410} />} />
+            <StatTile value="+2" label="More ways to reach any page" diagram={<RoutesDiagram enterDelay={760} />} />
           </StatTiles>
 
           <div style={{ marginTop: 32, display: 'grid', gridTemplateColumns: '1fr', columnGap: 16, rowGap: 24, alignItems: 'start' }}>
