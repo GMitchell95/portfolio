@@ -574,7 +574,7 @@ function ArrowIcon() {
 
 function StatTile({ value, label, diagram }: { value: React.ReactNode; label: string; diagram?: React.ReactNode }) {
   return (
-    <li className="flex flex-col overflow-hidden rounded-2xl p-4 bg-[var(--color-surface-subtle)] border border-black/[0.04]">
+    <li className="flex flex-col overflow-hidden rounded-2xl p-4 bg-[var(--color-white)] bg-gradient-to-b from-violet-400/0 to-violet-400/5 border border-black/[0.06]">
       <div className="tabular-nums tracking-[-0.02em]" style={{ fontSize: 'var(--font-size-stat)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-primary)', lineHeight: 'var(--line-height-stat)' }}>
         {value}
       </div>
@@ -661,9 +661,8 @@ function useDiagramPhase(enterDelay: number): DiagramPhase {
   return reveal === 'static' ? 'final' : phase;
 }
 
-// Shared styles for the rising rectangles in tiles 1 and 2
+// Shared motion styles for the rising rectangles in tiles 1 and 2 (each diagram sets its own colours)
 function rectMotionStyle(phase: DiagramPhase, index: number): React.CSSProperties {
-  const morphed = phase === 'morph' || phase === 'final';
   let transition = 'none';
   if (phase === 'enter') {
     const delay = index * 40;
@@ -677,7 +676,6 @@ function rectMotionStyle(phase: DiagramPhase, index: number): React.CSSPropertie
   return {
     transform: phase === 'hidden' ? 'translateY(64px)' : 'none',
     opacity: phase === 'hidden' ? 0 : 1,
-    backgroundColor: morphed ? 'var(--color-border-strong)' : 'var(--color-border)',
     transition,
   };
 }
@@ -691,12 +689,20 @@ function StepsDiagram({ enterDelay }: { enterDelay: number }) {
   const startWidth = '((100% - 36px) / 7)';
   const endWidth = '((100% - 12px) / 3)';
 
+  // Rectangles stay solid black inside a translucent layer, so merged rectangles never darken
+  // where they overlap. The layer's opacity carries the colour change instead.
   return (
-    <>
+    <div
+      className="absolute inset-0"
+      style={{
+        opacity: morphed ? 0.11 : 0.07,
+        transition: phase === 'morph' ? 'opacity 600ms ease-out' : 'none',
+      }}
+    >
       {STEPS_TARGETS.map((target, i) => (
         <span
           key={i}
-          className="absolute"
+          className="absolute bg-black"
           style={{
             left: morphed ? `calc(${target} * (${endWidth} + 6px))` : `calc(${i} * (${startWidth} + 6px))`,
             width: `calc${morphed ? endWidth : startWidth}`,
@@ -707,7 +713,7 @@ function StepsDiagram({ enterDelay }: { enterDelay: number }) {
           }}
         />
       ))}
-    </>
+    </div>
   );
 }
 
@@ -720,7 +726,7 @@ function PageDiagram({ enterDelay }: { enterDelay: number }) {
   return (
     <>
       <span
-        className="absolute inset-x-0 bottom-0 h-[31px] rounded-md border-[1.5px] border-black/[0.11]"
+        className="absolute inset-x-0 bottom-0 h-[31px] rounded-md border-[1.5px] border-black/[0.08]"
         style={{
           opacity: morphed ? 1 : 0,
           transform: morphed ? 'scale(1)' : 'scale(0.96)',
@@ -730,7 +736,7 @@ function PageDiagram({ enterDelay }: { enterDelay: number }) {
       {Array.from({ length: 5 }, (_, i) => (
         <span
           key={i}
-          className="absolute h-4 rounded"
+          className={`absolute h-4 rounded ${morphed ? 'bg-black/[0.11]' : 'bg-black/[0.07]'}`}
           style={{
             left: morphed ? `calc(7.5px + ${i} * (${endWidth} + 6px))` : `${i * 22}%`,
             width: morphed ? `calc${endWidth}` : '12%',
@@ -764,13 +770,14 @@ function RoutesDiagram({ enterDelay }: { enterDelay: number }) {
   };
 
   return (
-    <svg viewBox="0 0 200 32" preserveAspectRatio="none" className="absolute left-0 w-full h-8" style={{ top: 0.5 }}>
+    // Strokes are solid inside an 11% layer so joining strands don't darken where they overlap
+    <svg viewBox="0 0 200 32" preserveAspectRatio="none" className="absolute left-0 w-full h-8 opacity-[0.11]" style={{ top: 0.5 }}>
       <path
         {...pathProps}
         d="M2,16 L198,16"
         strokeWidth={2}
+        className="stroke-black/[0.64]"
         style={{
-          stroke: 'var(--color-border)',
           strokeDashoffset: entered ? 0 : 1,
           transition: animate ? `stroke-dashoffset 550ms ${EASE_STANDARD}` : 'none',
         }}
@@ -779,8 +786,8 @@ function RoutesDiagram({ enterDelay }: { enterDelay: number }) {
         {...pathProps}
         d="M2,16 L92,16"
         strokeWidth={3}
+        className="stroke-black"
         style={{
-          stroke: 'var(--color-border-strong)',
           strokeDashoffset: morphed ? 0 : 1,
           transition: animate ? 'stroke-dashoffset 400ms cubic-bezier(0.4, 0, 1, 1)' : 'none',
         }}
@@ -791,8 +798,8 @@ function RoutesDiagram({ enterDelay }: { enterDelay: number }) {
           {...pathProps}
           d={branch.d}
           strokeWidth={3}
+          className="stroke-black"
           style={{
-            stroke: 'var(--color-border-strong)',
             strokeDashoffset: morphed ? 0 : 1,
             transition: animate ? `stroke-dashoffset 500ms cubic-bezier(0, 0, 0.2, 1) ${branch.delay}ms` : 'none',
           }}
