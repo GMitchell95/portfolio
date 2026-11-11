@@ -326,7 +326,7 @@ const EARLY_SLIDES: Slide[] = [
     label: 'Iteration 1',
     src: '/images/case-studies/simplified-navigation/iteration-top-nav (grey).png',
     width: 3520, height: 2120,
-    body: 'The starting point — a basic vertical list. Familiar and low-friction, but quickly ran into problems once category lists grew longer than a dozen items.',
+    body: 'The starting point, a basic vertical list. Familiar and low-friction, but quickly ran into problems once category lists grew longer than a dozen items.',
   },
 ];
 
@@ -346,7 +346,7 @@ const REFINED_SLIDES: Slide[] = [
   {
     title: 'Hover-activated side panel',
     label: 'Concept C',
-    body: 'Category list on the left activates a rich panel on hover. This became the chosen direction — good balance between discoverability and control, and easy to extend over time.',
+    body: 'Category list on the left activates a rich panel on hover. This became the chosen direction. Good balance between discoverability and control, and easy to extend over time.',
   },
 ];
 
@@ -356,6 +356,8 @@ const SECTIONS = [
   { id: 'section-refined',          label: 'Refined concept' },
   { id: 'section-additional',       label: 'Overview page' },
   { id: 'section-conclusion',       label: 'Conclusion' },
+  { id: 'section-whats-next',       label: "What's next" },
+  { id: 'section-prototype',        label: 'Interactive prototype' },
 ];
 
 // ── Before/After slider ──────────────────────────────────────────────────────
@@ -884,6 +886,21 @@ export default function SimplifiedNavigationPage() {
     return () => observer.disconnect();
   }, []);
 
+  // Research context highlights: sweep in once each one scrolls into view
+  useEffect(() => {
+    const marks = document.querySelectorAll('.highlight-on-view');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('highlight-brief--animate');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 1 });
+    marks.forEach(m => observer.observe(m));
+    return () => observer.disconnect();
+  }, []);
+
   useEffect(() => {
     const onFullscreenChange = () => {
       const isNowFullscreen = !!document.fullscreenElement;
@@ -996,7 +1013,7 @@ export default function SimplifiedNavigationPage() {
           </div>
           <div className="hero-stagger-el" style={{ display: 'flex', gap: 40, paddingTop: 40, borderTop: '1px solid rgba(228,228,231,0.5)', animationDelay: '280ms' }}>
             {[
-              { label: 'Role', value: 'Product designer' },
+              { label: 'Role', value: 'Senior product designer' },
               { label: 'Timeline', value: '3-4 weeks' },
               { label: 'Date', value: 'February 2026' },
             ].map(item => (
@@ -1012,7 +1029,7 @@ export default function SimplifiedNavigationPage() {
         <section id="section-brief" className="hero-stagger-el" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '39px', animationDelay: '420ms' }}>
           <h2 style={{ fontSize: 'var(--font-size-h2)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 12 }}>The brief</h2>
           <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>
-            The navigation of Keelvar&#39;s sourcing v1 platform overwhelmed users. The existing side navigation used an accordion to reveal pages across 7 different steps. When users created a new event, they lacked a clear starting point and direction for what to do next. Being part of the team working on sourcing v2, which aimed to reimagine the Sourcing Optimizer product, we had 2 tasks:
+            The navigation of Keelvar&#39;s sourcing v1 platform overwhelmed users. The existing side navigation used an accordion to reveal pages across 7 different steps. When users created a new event, they lacked a clear starting point and direction for what to do next. As lead designer on Sourcing v2, a full rewrite of the Sourcing Optimizer product, working with the principal PM and 3 engineers, I had 2 goals:
           </p>
           <ol id="brief-task-list" style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', listStyleType: 'decimal', paddingLeft: '1.5rem', marginTop: 8 }}>
             <li><mark id="brief-mark-1" className="highlight-brief">Simplify the navigation</mark></li>
@@ -1035,10 +1052,10 @@ export default function SimplifiedNavigationPage() {
           <div style={{ marginTop: 24 }}>
             <h3 className="mb-2" style={{ fontSize: 'var(--font-size-h3)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)' }}>Research context</h3>
             <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>
-              This project was part of a full rewrite of Keelvar&#39;s core sourcing app. I paired with the principal PM, who led the customer research. 15 customer interviews took place with key customers to define requirements for the product rewrite. Given the scale of the undertaking and the technical complexity involved, the interviews focused primarily on validating how the new product could function, exploring customer use cases, and securing buy-in from major customers rather than UI specifics.
+              This project was part of a full rewrite of Keelvar&#39;s core sourcing app. I paired with the principal PM, who led the customer research. <mark className="highlight-brief highlight-on-view">15 customer interviews</mark> took place with key customers to define requirements for the product rewrite. Given the scale of the undertaking and the technical complexity involved, the interviews focused primarily on validating how the new product could function, exploring customer use cases, and securing buy-in from major customers rather than UI specifics.
             </p>
             <p style={{ marginTop: 12, fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>
-              For the navigation specifically, over a decade of feedback from our customers and our customer success and professional services teams also informed what needed to change, including a clear and consistent signal to simplify the navigation.
+              For the navigation specifically, <mark className="highlight-brief highlight-on-view">over a decade of feedback</mark> from our customers and our customer success and professional services teams also informed what needed to change, including a clear and consistent signal to simplify the navigation.
             </p>
           </div>
         </section>
@@ -1129,8 +1146,8 @@ export default function SimplifiedNavigationPage() {
             <BeforeAfterSlider
               beforeSrc="/images/case-studies/simplified-navigation/Refined-concept.png"
               afterSrc="/images/case-studies/simplified-navigation/Refined-concept-last.png"
-              beforeAlt="Refined concept — before"
-              afterAlt="Refined concept — after"
+              beforeAlt="Refined concept, before"
+              afterAlt="Refined concept, after"
               aspectRatio="3520/2120"
               onExpand={startIndex => openLightbox([
                 { title: 'Refined concept', body: '', label: 'Before', src: '/images/case-studies/simplified-navigation/Refined-concept.png' },
@@ -1152,7 +1169,7 @@ export default function SimplifiedNavigationPage() {
             <p style={{ marginBottom: 8, fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>The new design gives users 3 different paths to reach the same page, each just as fast or faster than before. The paths range from simple to advanced, so users can navigate in the way that best matches their familiarity with the tool.</p>
             <div style={{ marginBottom: 24, display: 'flex', alignItems: 'center', gap: 8, background: '#FAFAFA', border: '1px solid rgba(0, 0, 0, 0.05)', borderRadius: 8, padding: '8px 12px' }}>
               <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 -960 960 960" fill="currentColor" style={{ color: 'var(--color-muted)', flexShrink: 0 }}><path d="M440-280h80v-240h-80v240Zm68.5-331.5Q520-623 520-640t-11.5-28.5Q497-680 480-680t-28.5 11.5Q440-657 440-640t11.5 28.5Q463-600 480-600t28.5-11.5ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>
-              <p style={{ margin: 0, fontSize: 'var(--font-size-small)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-muted)', lineHeight: 'var(--line-height-body)' }}>Some screens in the videos below contain wireframe placeholders.</p>
+              <p style={{ margin: 0, fontSize: 'var(--font-size-small)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-muted)', lineHeight: 'var(--line-height-body)' }}>Some pages weren&apos;t finalised yet, so they show placeholders.</p>
             </div>
             <p style={{ marginBottom: 12, fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-primary)', lineHeight: 'var(--line-height-body)' }}>1. Navigate using the top-level steps</p>
             <div style={{ background: 'var(--color-surface)', borderRadius: 8, overflow: 'hidden', aspectRatio: '2194 / 1322' }}>
@@ -1173,7 +1190,7 @@ export default function SimplifiedNavigationPage() {
                 label="Navigate using mega menu"
               />
             </div>
-            <p style={{ marginTop: 8, fontSize: 'var(--font-size-small)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>For users who are a little more familiar with the tool, the mega menu offers a much faster route. They can jump straight to subpages without using the top-level steps.</p>
+            <p style={{ marginTop: 8, fontSize: 'var(--font-size-small)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>For users who are a little more familiar with the tool, the mega menu offers a much faster route. They can jump straight to subpages without using the top-level steps. I designed the mega menu as a new custom component, including the hover behaviour and cursor safe zone.</p>
           </div>
           <div style={{ marginTop: 24 }}>
             <p style={{ marginBottom: 12, fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-primary)', lineHeight: 'var(--line-height-body)' }}>3. Navigate using keyboard shortcut</p>
@@ -1235,8 +1252,8 @@ export default function SimplifiedNavigationPage() {
             <BeforeAfterSlider
               beforeSrc="/images/case-studies/simplified-navigation/final-before.png"
               afterSrc="/images/case-studies/simplified-navigation/final-after.png"
-              beforeAlt="Final design — before"
-              afterAlt="Final design — after"
+              beforeAlt="Final design, before"
+              afterAlt="Final design, after"
               aspectRatio="3520/2120"
               initialPos={90}
               orientation="horizontal"
@@ -1275,7 +1292,7 @@ export default function SimplifiedNavigationPage() {
               {
                 icon: 'check' as const,
                 title: 'Simplified event flow',
-                body: 'We consolidated a complex event flow from 7 steps into 3, giving new and less advanced users a much simpler path through the product.',
+                body: 'I consolidated a complex event flow from 7 steps into 3, giving new and less advanced users a much simpler path through the product.',
               },
               {
                 icon: 'check' as const,
@@ -1290,7 +1307,12 @@ export default function SimplifiedNavigationPage() {
               {
                 icon: 'check' as const,
                 title: 'Added keyboard shortcuts',
-                body: 'While redesigning the navigation, we took the opportunity to give power users a faster way to navigate the event. A keyboard shortcut lets users access the mega menu and jump directly to any subpage in 1-2 seconds.',
+                body: 'While redesigning the navigation, I took the opportunity to give power users a faster way to navigate the event. A keyboard shortcut lets users access the mega menu and jump directly to any subpage in 1-2 seconds.',
+              },
+              {
+                icon: 'check' as const,
+                title: 'Positive internal feedback',
+                body: 'Internal reviews with customer success, professional services and our sourcing experts rated it a clear improvement.',
               },
               {
                 icon: 'x' as const,
@@ -1316,7 +1338,36 @@ export default function SimplifiedNavigationPage() {
             ))}
           </div>
 
-          <div className="cs-interactive-prototype" style={{ marginTop: 40 }}>
+        </section>
+
+        {/* WHAT'S NEXT */}
+        <section id="section-whats-next" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '39px' }}>
+          <h2 style={{ fontSize: 'var(--font-size-h2)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 16 }}>What&apos;s next</h2>
+          <ul style={{ margin: 0, paddingLeft: 20, listStyleType: 'disc', display: 'flex', flexDirection: 'column', gap: 4 }}>
+            {[
+              "When I left Keelvar in April 2026, this was being built as a first beta release for a group of customers, building on the lo-fi flow we'd already validated with them.",
+              "The beta was how we planned to test the final designs: Real usage, followed by feedback sessions with those customers.",
+            ].map((item, i) => (
+              <li key={i} style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>{item}</li>
+            ))}
+            <li style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>
+              How I planned to measure success:
+              <ul style={{ margin: '4px 0 0', paddingLeft: 20, listStyleType: 'circle', display: 'flex', flexDirection: 'column', gap: 4 }}>
+                {[
+                  'Which route people use to navigate: Tabs, mega menu or ⌘K',
+                  '⌘K adoption: How many people use it, and how often',
+                  'How many events have their task statuses updated',
+                ].map((text) => (
+                  <li key={text} style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>{text}</li>
+                ))}
+              </ul>
+            </li>
+          </ul>
+        </section>
+
+        {/* INTERACTIVE PROTOTYPE */}
+        <section id="section-prototype" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '39px' }}>
+          <div className="cs-interactive-prototype">
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
                 <h3 style={{ fontSize: 'var(--font-size-h3)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)' }}>Interactive prototype</h3>

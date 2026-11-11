@@ -105,7 +105,7 @@ export default function Home() {
               />
               <div>
                 <div style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-primary)' }}>Glen Mitchell</div>
-                <div style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-muted)' }}>Product designer</div>
+                <div style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-muted)' }}>Senior product designer</div>
               </div>
             </div>
             <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>
@@ -203,12 +203,12 @@ export default function Home() {
             <VideoTile
               src="/videos/home/overview-reel-v2"
               name="UI reel"
-              label="A reel of interface work: an event overview, a sourcing dashboard, scheduling, document settings, Kai generating RFI questions, a dark landing page with an animated timeline, a supplier list, a mobile gym app flow and a bid sheet table"
+              label="A reel of interface work: An event overview, a sourcing dashboard, scheduling, document settings, Kai generating RFI questions, a dark landing page with an animated timeline, a supplier list, a mobile gym app flow and a bid sheet table"
             />
             <VideoTile
               src="/videos/home/notifications-reel-v2"
               name="Notifications tray"
-              label="Notifications tray: a badge counts up, the tray opens, and one notification is marked as read"
+              label="Notifications tray: A badge counts up, the tray opens, and one notification is marked as read"
             />
           </div>
         </section>

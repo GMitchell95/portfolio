@@ -7,7 +7,7 @@ import styles from './TextEditorTile.module.css'
 // ── Constants ────────────────────────────────────────
 const EDITOR_HTML =
   '<p>This tile was built to show interactions for how I would approach a basic text editor. Select any text to see the toolbar appear. ' +
-  'Every interaction here was considered on purpose: where the toolbar lands, how it opens, what happens ' +
+  'Every interaction here was considered on purpose: Where the toolbar lands, how it opens, what happens ' +
   "when you change your mind. Small details, but they're the ones people actually feel. This paragraph " +
   'exists mostly so you have something to select.</p>'
 

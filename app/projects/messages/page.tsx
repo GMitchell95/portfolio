@@ -276,18 +276,18 @@ const GLOBAL_STYLES = `
 
 const OVERVIEW_SLIDES = [
   {
-    title: 'Old messages — bidder view',
+    title: 'Old messages, bidder view',
     body: '',
     src: '/images/case-studies/messages/old-messages-bidder.png',
-    label: 'Old messages — bidder view',
+    label: 'Old messages, bidder view',
     width: 3520,
     height: 2120,
   },
   {
-    title: 'Old messages — compose',
+    title: 'Old messages, compose',
     body: '',
     src: '/images/case-studies/messages/old-messages-compose.png',
-    label: 'Old messages — compose',
+    label: 'Old messages, compose',
     width: 3520,
     height: 2120,
   },
@@ -328,7 +328,7 @@ export default function MessagesPage() {
           }
         }
       }
-      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 10) {
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
         setActiveSection(SECTIONS[SECTIONS.length - 1].id);
         return;
       }
@@ -439,12 +439,12 @@ export default function MessagesPage() {
               Messages
             </h1>
             <p style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)', marginBottom: 40 }}>
-              As part of sourcing v2, we revisited the messages page to improve the overall experience. We introduced conventions from apps like Slack, Messenger and WhatsApp to make the experience feel more familiar.
+              As part of Sourcing v2, I redesigned the messages page to improve the overall experience. I introduced conventions from apps like Slack, Messenger and WhatsApp to make the experience feel more familiar.
             </p>
           </div>
           <div className="hero-stagger-el" style={{ display: 'flex', gap: 40, paddingTop: 40, borderTop: '1px solid rgba(228,228,231,0.5)', animationDelay: '280ms' }}>
             {[
-              { label: 'Role', value: 'Product designer' },
+              { label: 'Role', value: 'Senior product designer' },
               { label: 'Timeline', value: '2-3 weeks' },
               { label: 'Date', value: 'October 2025' },
             ].map(item => (
@@ -465,7 +465,7 @@ export default function MessagesPage() {
           <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
             <div style={{ flex: 1, minWidth: 0 }}>
               <ClickableImage
-                label="Old messages — bidder view"
+                label="Old messages, bidder view"
                 src="/images/case-studies/messages/old-messages-bidder.png"
                 aspectRatio="3520/2120"
                 onClick={() => openLightbox(OVERVIEW_SLIDES, 0)}
@@ -473,7 +473,7 @@ export default function MessagesPage() {
             </div>
             <div style={{ flex: 1, minWidth: 0 }}>
               <ClickableImage
-                label="Old messages — compose"
+                label="Old messages, compose"
                 src="/images/case-studies/messages/old-messages-compose.png"
                 aspectRatio="3520/2120"
                 onClick={() => openLightbox(OVERVIEW_SLIDES, 1)}
@@ -544,7 +544,7 @@ export default function MessagesPage() {
               <ClickableVideo
                 src="/videos/messages/send-message-chat-exists-preview.mp4"
                 lightboxSrc="/videos/messages/send-message-chat-exists-hq.mp4"
-                label="Send message — existing chat"
+                label="Send message, existing chat"
               />
             </div>
           </div>
@@ -561,7 +561,7 @@ export default function MessagesPage() {
               <ClickableVideo
                 src="/videos/messages/send-message-chat-exists-unread-preview.mp4"
                 lightboxSrc="/videos/messages/send-message-chat-exists-unread-hq.mp4"
-                label="Send message — existing unread chat"
+                label="Send message, existing unread chat"
               />
             </div>
           </div>

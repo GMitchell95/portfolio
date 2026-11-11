@@ -339,7 +339,7 @@ export default function ElectricityTrackerPage() {
           }
         }
       }
-      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 10) {
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
         setActiveSection(SECTIONS[SECTIONS.length - 1].id);
         return;
       }

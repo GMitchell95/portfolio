@@ -433,7 +433,7 @@ export default function VinylTile() {
                     ref={el => { imgElRefs.current[idx] = el }}
                     className={`${styles.coverImg} ${imgLoaded[idx] ? styles.coverImgLoaded : ''}`}
                     src={artProxy(album.art)}
-                    alt={`${album.album} — ${album.artist}`}
+                    alt={`${album.album}, ${album.artist}`}
                     onLoad={() => setImgLoaded(prev => { const n = [...prev]; n[idx] = true; return n })}
                     draggable={false}
                   />

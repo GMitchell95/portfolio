@@ -7,10 +7,10 @@ import { Analytics } from '@vercel/analytics/next';
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.glenmitchell.design'),
   title: "Glen Mitchell",
-  description: "Product designer from Ireland, based in Barcelona. 5+ years designing an agentic sourcing and procurement platform at Keelvar.",
+  description: "Senior product designer from Ireland, based in Barcelona. 5+ years designing an agentic sourcing and procurement platform at Keelvar.",
   openGraph: {
     title: "Glen Mitchell",
-    description: "Product designer from Ireland, based in Barcelona. 5+ years designing an agentic sourcing and procurement platform at Keelvar.",
+    description: "Senior product designer from Ireland, based in Barcelona. 5+ years designing an agentic sourcing and procurement platform at Keelvar.",
     url: "https://www.glenmitchell.design/",
     siteName: "Glen Mitchell",
     images: [
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Glen Mitchell",
-    description: "Product designer from Ireland, based in Barcelona. 5+ years designing an agentic sourcing and procurement platform at Keelvar.",
+    description: "Senior product designer from Ireland, based in Barcelona. 5+ years designing an agentic sourcing and procurement platform at Keelvar.",
     images: ["/images/og-image.png"],
   },
 };
