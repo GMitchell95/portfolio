@@ -10,6 +10,7 @@ import TextEditorTile from '@/components/tiles/TextEditorTile'
 import VideoTile from '@/components/tiles/VideoTile'
 import Button from '@/components/ui/Button'
 import SectionHeading from '@/components/ui/SectionHeading'
+import { CONTACT_EMAIL } from '@/lib/contact'
 import { SlotText } from 'slot-text/react'
 import 'slot-text/style.css'
 
@@ -81,7 +82,7 @@ export default function Home() {
               </a>
             </li>
             <li>
-              <a href="mailto:glenmitchell95@gmail.com?subject=I%27m%20reaching%20out%20about%20..." className="nav-link" style={{ fontSize: 'var(--font-size-small)' }}>
+              <a href={`mailto:${CONTACT_EMAIL}?subject=I%27m%20reaching%20out%20about%20...`} className="nav-link" style={{ fontSize: 'var(--font-size-small)' }}>
                 Contact
               </a>
             </li>
@@ -117,7 +118,7 @@ export default function Home() {
                 LinkedIn
               </a>
               <div style={{ width: 1, height: 12, backgroundColor: 'var(--color-border)' }} />
-              <a href="mailto:glenmitchelldesign@gmail.com" className="hero-link hero-link--zinc" style={{ fontSize: 'var(--font-size-small)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-body)' }}>
+              <a href={`mailto:${CONTACT_EMAIL}`} className="hero-link hero-link--zinc" style={{ fontSize: 'var(--font-size-small)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-body)' }}>
                 Email me
               </a>
             </div>
