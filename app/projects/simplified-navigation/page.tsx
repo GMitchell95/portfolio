@@ -90,6 +90,10 @@ const GLOBAL_STYLES = `
     .cs-interactive-prototype {
       display: none;
     }
+    .cs-prototype-section,
+    .cs-nav-link[data-section="section-prototype"] {
+      display: none;
+    }
     .cs-hero-img {
       width: 80vw !important;
       display: block;
@@ -965,6 +969,7 @@ export default function SimplifiedNavigationPage() {
             <button
               key={s.id}
               className={`cs-nav-link${activeSection === s.id ? ' cs-nav-link--active' : ''}`}
+              data-section={s.id}
               onClick={() => scrollToSection(s.id)}
             >
               {s.label}
@@ -1342,7 +1347,7 @@ export default function SimplifiedNavigationPage() {
 
         {/* WHAT'S NEXT */}
         <section id="section-whats-next" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '39px' }}>
-          <h2 style={{ fontSize: 'var(--font-size-h2)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 16 }}>What&apos;s next</h2>
+          <h2 style={{ fontSize: 'var(--font-size-h2)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 12 }}>What&apos;s next</h2>
           <ul style={{ margin: 0, paddingLeft: 20, listStyleType: 'disc', display: 'flex', flexDirection: 'column', gap: 4 }}>
             {[
               "When I left Keelvar in April 2026, this was being built as a first beta release for a group of customers, building on the lo-fi flow we'd already validated with them.",
@@ -1366,11 +1371,11 @@ export default function SimplifiedNavigationPage() {
         </section>
 
         {/* INTERACTIVE PROTOTYPE */}
-        <section id="section-prototype" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '39px' }}>
+        <section id="section-prototype" className="cs-prototype-section" style={{ padding: '40px 0', borderTop: '1px solid rgba(228,228,231,0.5)', scrollMarginTop: '39px' }}>
           <div className="cs-interactive-prototype">
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-                <h3 style={{ fontSize: 'var(--font-size-h3)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)' }}>Interactive prototype</h3>
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <h2 style={{ fontSize: 'var(--font-size-h2)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-heading)', marginBottom: 12 }}>Interactive prototype</h2>
                 <p style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-body)', lineHeight: 'var(--line-height-body)' }}>Click on tabs and subpages in the dropdown menu.</p>
               </div>
               <BorderBeam size="md" colorVariant="ocean" theme="light" strength={0.3}>
